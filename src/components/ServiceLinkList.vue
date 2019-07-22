@@ -11,19 +11,25 @@
             </Divider>
             <Row :gutter="16">
                 <Col span="6" v-for="serviceLink in value">
-                    <Card style="margin-bottom: 16px;">
-                        <div style="text-align:left">
-                            <div>
-                                <img :src="serviceLink.image" style="width: 100%; height: 120px;">
-<!--                                <p>-->
-<!--                                    {{serviceLink.link}}-->
-<!--                                </p>-->
+                    <a :href="serviceLink.link" target="_blank" style="text-decoration: none; color: #2D3755">
+                        <Card style="margin-bottom: 16px;">
+                            <div style="text-align:left;">
+                                <div>
+                                    <img :src="serviceLink.image" style="width: 100%; height: 136px;border-top-left-radius: 4px; border-top-right-radius: 4px">
+                                    <h2 style="position: relative; top: -34px; left: 16px; color: white" v-if="/(\w*\.(?:com|cn|top))/.exec(serviceLink.link) !== null">
+                                        {{
+                                        /(\w*\.(?:com|cn|top))/.exec(serviceLink.link)[0]
+                                        }}
+                                    </h2>
+                                </div>
+                                <div style="position: relative; top: -8px;">
+                                    <p style="padding: 0 16px 2px 16px"><b>{{serviceLink.title}}</b></p>
+                                    <p style="padding: 0 16px 12px 16px; color: #9A9A9C">Due day {{serviceLink.createDate.substring(0, 10)}}</p>
+                                </div>
                             </div>
-                            <br/>
-                            <h3>{{serviceLink.title}}</h3>
-                        </div>
-                    </Card>
-                    <div v-if="option[key] === true" style="position: absolute; top: 22px; left: 30px; z-index: 10">
+                        </Card>
+                    </a>
+                    <div v-if="option[key] === true" style="position: absolute; top: 10px; left: 24px; z-index: 10">
                         <Button type="error" shape="circle" size="small" icon="md-close" ghost
                                 style="margin-right: 6px"
                                 @click="confirm(serviceLink.title, serviceLink.link)"></Button>

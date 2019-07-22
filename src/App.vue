@@ -65,7 +65,7 @@
                       <span style="width: 30px; "><Icon type="logo-googleplus" style="color: #fff"></Icon></span>
                       <span style="width: 210px; text-align: center;padding-right: 60px">GOOGLE</span>
                     </Button>
-                    <br/><br/><br/><br/>
+                    <br/><br/>
                 </div>
             </div>
         </Modal>

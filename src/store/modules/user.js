@@ -53,7 +53,8 @@ const state = {
                 categories: "",
                 note: "",
                 contact: "",
-                phone: ""
+                phone: "",
+                createDate: ""
             }]
         }]
     },
@@ -78,7 +79,7 @@ const state = {
         categories: "",
         contact: "",
         phone: "",
-        note: "",
+        note: ""
     },
     currentServiceLinkInfo: {
         serviceLinkId: "",
