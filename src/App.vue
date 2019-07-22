@@ -16,7 +16,7 @@
                 width="400"
                 :closable="false"
                 :mask-closable="false">
-            <p slot="header">
+            <p slot="header" style="text-align: center">
               <span>Login</span>
             </p>
             <div style="width: 240px;margin-left:auto;margin-right: auto;">
@@ -26,11 +26,13 @@
                     <Icon type="ios-person-outline" slot="prepend"></Icon>
                   </Input>
                 </FormItem>
+                  <br/>
                 <FormItem prop="password" class="formItem">
                   <Input type="password" size="large" placeholder="Password" v-model="loginInfo.password">
                     <Icon type="ios-lock-outline" slot="prepend"></Icon>
                   </Input>
                 </FormItem>
+                  <br/>
                 <FormItem prop="interest" class="formItem">
                   <CheckboxGroup>
                     <Checkbox label="Remember me"></Checkbox>
@@ -39,8 +41,8 @@
                             onMouseOut="this.style.color='#515A61'"
                             onMouseOver="this.style.color='#17b5d2'" @click="viewRegisterModal">Register now</Button>
                   </CheckboxGroup>
-
                 </FormItem>
+                  <br/>
                 <FormItem class="formItem">
                   <Button type="primary" long style="background-color: #17b5d2; border: 0" size="large" @click="login">LOGIN</Button>
                 </FormItem>
