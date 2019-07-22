@@ -3,7 +3,7 @@ import Vue from 'vue'
 export default {
     addServiceLinkToServer (serviceLinkInfo, userId, houseId, token, successCallback, errorCallback) {
         Vue.http.post(
-            'http://127.0.0.1:8001/api/serviceLink/add',
+            'http://boot.serrhub.com/api/serviceLink/add',
             {"userId": userId, "houseId": houseId, "serviceLink": serviceLinkInfo}, {
                 headers: {
                     "Content-Type": "application/json",
@@ -22,7 +22,7 @@ export default {
     },
     removeServiceLinkFromServer(userId, houseId, link, token, successCallback, errorCallback) {
         Vue.http.post(
-            'http://127.0.0.1:8001/api/serviceLink/remove',
+            'http://boot.serrhub.com/api/serviceLink/remove',
             {"userId": userId, "houseId": houseId, "link": link}, {
                 headers: {
                     "Content-Type": "application/json",
@@ -41,7 +41,7 @@ export default {
     },
     updateServiceLinkToServer (serviceLinkInfo, userId, houseId, token, successCallback, errorCallback) {
         Vue.http.post(
-            'http://127.0.0.1:8001/api/serviceLink/update',
+            'http://boot.serrhub.com/api/serviceLink/update',
             {"userId": userId, "houseId": houseId, "serviceLink": serviceLinkInfo}, {
                 headers: {
                     "Content-Type": "application/json",

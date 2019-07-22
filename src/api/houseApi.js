@@ -3,7 +3,7 @@ import Vue from 'vue'
 export default {
     addHouseToServer (houseInfo, userId, token, successCallback, errorCallback) {
         Vue.http.post(
-            'http://127.0.0.1:8001/api/house/add',
+            'http://boot.serrhub.com/api/house/add',
             {"house": houseInfo, "userId": userId}, {
                 headers: {
                     "Content-Type": "application/json",
@@ -22,7 +22,7 @@ export default {
     },
     updateHouseToServer (houseInfo, userId, token, successCallback, errorCallback) {
         Vue.http.post(
-            'http://127.0.0.1:8001/api/house/update',
+            'http://boot.serrhub.com/api/house/update',
             {"house": houseInfo, "userId": userId}, {
                 headers: {
                     "Content-Type": "application/json",
@@ -41,7 +41,7 @@ export default {
     },
     removeHouseFromServer (houseId, userId, token, successCallback, errorCallback) {
         Vue.http.post(
-            'http://127.0.0.1:8001/api/house/remove',
+            'http://boot.serrhub.com/api/house/remove',
             {"houseId": houseId, "userId": userId}, {
                 headers: {
                     "Content-Type": "application/json",

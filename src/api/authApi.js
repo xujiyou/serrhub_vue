@@ -3,7 +3,7 @@ import Vue from 'vue'
 export default {
     login (loginInfo, successCallback, errorCallback) {
         Vue.http.post(
-            'http://127.0.0.1:8001/api/auth/login',
+            'http://boot.serrhub.com/api/auth/login',
             loginInfo,
             {headers: {"Content-Type": "application/json"}}).then(response => {
             console.log(response.data);
@@ -19,7 +19,7 @@ export default {
     },
     register (registerInfo, successCallback, errorCallback) {
         Vue.http.post(
-            'http://127.0.0.1:8001/api/auth/register',
+            'http://boot.serrhub.com/api/auth/register',
             registerInfo,
             {headers: {"Content-Type": "application/json"}}).then(response => {
                 console.log(response.data);
