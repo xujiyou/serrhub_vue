@@ -91,6 +91,7 @@ const state = {
         phone: "",
         note: "",
     },
+    searchServiceLinkResult: []
 };
 
 // getters
@@ -226,6 +227,13 @@ const actions = {
                 "serviceLink": resp.data["serviceLink"]
             });
             closeModel();
+        }, resp => {});
+    },
+    searchServiceLink ({ commit }, param) {
+        serviceLinkApi.searchServiceLinkFromServer(param["type"], param["text"], state.userInfo.userId, state.token, resp => {
+            state.searchServiceLinkResult = resp.data["serviceLinkList"];
+            console.log(state.searchServiceLinkResult);
+            param["callback"]();
         }, resp => {});
     },
 };

@@ -5,26 +5,27 @@
             <Col span="16">
                 <Row>
                     <Col span="18" id="shadow">
-                        <Dropdown style="width: 16%; text-align: center; height: 100%;">
+                        <Dropdown style="width: 20%; text-align: center; height: 100%;" placement="bottom-start" v-on:on-click="switchType">
                             <a href="javascript:void(0)" style="color: #172140;font-size: 16px;">
-                                Categories
+                                {{type}}
                                 <Icon type="ios-arrow-down"></Icon>
                             </a>
                             <DropdownMenu slot="list">
-                                <DropdownItem>驴打滚</DropdownItem>
-                                <DropdownItem>炸酱面</DropdownItem>
-                                <DropdownItem disabled>豆汁儿</DropdownItem>
-                                <DropdownItem>冰糖葫芦</DropdownItem>
-                                <DropdownItem divided>北京烤鸭</DropdownItem>
+                                <DropdownItem name="Categories" :selected="type === 'Categories'">Categories</DropdownItem>
+                                <DropdownItem name="Title" :selected="type === 'Title'">Title</DropdownItem>
+                                <DropdownItem name="Link" :selected="type === 'Link'">Link</DropdownItem>
+                                <DropdownItem name="Contact" :selected="type === 'Contact'">Contact</DropdownItem>
+                                <DropdownItem name="Contact Phone" :selected="type === 'Contact Phone'">Contact Phone</DropdownItem>
+                                <DropdownItem name="Note" :selected="type === 'Note'">Note</DropdownItem>
                             </DropdownMenu>
                         </Dropdown>
 
                         <Divider type="vertical" style="width: 1px; height: 50px;"/>
 
-                        <input placeholder="SEARCH FOR WEBSITE" style="width: 78%; height: 100%;" />
+                        <input placeholder="SEARCH FOR SERVICE" style="width: 74%; height: 100%;" v-model="text"/>
                     </Col>
                     <Col span="6" id="searchButtonCol">
-                        <Button type="info" style="width: 100%;height: 60px;" id="searchButton">
+                        <Button type="info" style="width: 100%;height: 60px;" id="searchButton" @click="search">
                             <b>SEARCH</b>
                         </Button>
                     </Col>
@@ -33,12 +34,76 @@
             </Col>
             <Col span="4">&nbsp;</Col>
         </Row>
+
+        <Modal
+                title="Search Result"
+                v-model="needShowSearchResult"
+                class-name="vertical-center-modal"
+                :styles="{top: '0px'}"
+                width="860">
+            <p slot="header" style="text-align: center">
+                <span>Search Result</span>
+            </p>
+            <div style="">
+                <Row :gutter="16">
+                    <Col span="6" v-for="serviceLink in searchServiceLinkResult">
+                        <a :href="serviceLink.link" target="_blank" style="text-decoration: none; color: #2D3755">
+                            <Card style="margin-bottom: 16px;">
+                                <div style="text-align:left;">
+                                    <div>
+                                        <img :src="serviceLink.image" style="width: 100%; height: 136px;border-top-left-radius: 4px; border-top-right-radius: 4px">
+                                        <h2 style="position: relative; top: -34px; left: 16px; color: white" v-if="/(\w*\.(?:com|cn|top))/.exec(serviceLink.link) !== null">
+                                            {{
+                                            /(\w*\.(?:com|cn|top))/.exec(serviceLink.link)[0]
+                                            }}
+                                        </h2>
+                                    </div>
+                                    <div style="position: relative; top: -8px;">
+                                        <p style="padding: 0 16px 2px 16px"><b>{{serviceLink.title}}</b></p>
+                                        <p style="padding: 0 16px 12px 16px; color: #9A9A9C">Due day {{serviceLink.createDate.substring(0, 10)}}</p>
+                                    </div>
+                                </div>
+                            </Card>
+                        </a>
+                    </Col>
+                </Row>
+            </div>
+        </Modal>
     </div>
 </template>
 
 <script>
+    import { mapState, mapActions } from 'vuex'
+
     export default {
-        name: "Search"
+        name: "Search",
+        data: function () {
+            return {
+                needShowSearchResult: false,
+                type: "Categories",
+                text: ""
+            }
+        },
+        computed: {
+            ... mapState({
+                searchServiceLinkResult: state => state.user.searchServiceLinkResult
+            }),
+        },
+        methods: {
+            switchType: function (value) {
+                this.type = value;
+            },
+            ...mapActions('user', [
+                'searchServiceLink'
+            ]),
+            search: function () {
+                this.searchServiceLink({
+                    "type": this.type,
+                    "text": this.text,
+                    "callback": () => this.needShowSearchResult = true
+                })
+            }
+        }
     }
 </script>
 

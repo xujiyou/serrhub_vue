@@ -58,4 +58,24 @@ export default {
             errorCallback(response)
         });
     },
+    searchServiceLinkFromServer (type, text, userId, token, successCallback, errorCallback) {
+        console.log({"userId": userId, "type": type, "text": text});
+        Vue.http.post(
+            'http://boot.serrhub.com/api/serviceLink/search',
+            {"userId": userId, "type": type, "text": text}, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "serrhub" + token
+                }
+            }).then(response => {
+            if (response.data["code"] === 0) {
+                successCallback(response);
+            } else {
+                alert(response.data["errMsg"])
+            }
+
+        }, response => {
+            errorCallback(response)
+        });
+    },
 }

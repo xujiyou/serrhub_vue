@@ -180,7 +180,7 @@ export default {
     }
     #search {
       position: relative;
-      top: -20px;
+      top: -30px;
     }
     .vertical-center-modal{
       display: flex;

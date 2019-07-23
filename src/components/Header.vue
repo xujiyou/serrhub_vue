@@ -35,7 +35,7 @@
         </div>
 
         <Modal
-                title="Add website"
+                title="Add Service"
                 v-model="needAddWebsite"
                 class-name="vertical-center-modal"
                 :styles="{top: '0px'}"
