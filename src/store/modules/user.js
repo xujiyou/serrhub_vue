@@ -172,9 +172,12 @@ const actions = {
         commit('changeModalToUpdateHouse', newHouseInfo);
     },
     findUserInfo({ commit }) {
+        let that = this;
         userApi.findUserInfoThroughToken(state.token, resp => {
             commit("setUserInfo", resp.data);
-        }, resp => {})
+        }, resp => {
+            actions.viewLoginModal({ commit });
+        })
     },
     addHouse ({ commit }, closeModel) {
         houseApi.addHouseToServer(state.houseInfo, state.userInfo.userId, state.token, resp => {

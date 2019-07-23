@@ -71,7 +71,7 @@
             <div slot="footer" style="text-align: center">
                 <div style="width: 240px;margin-left:auto;margin-right: auto;">
                     <Button type="primary" html-type="submit" long @click="addServiceLink(() => { needAddWebsite = false; $Message.success('Add website success')})"
-                            style="background-color: #17b5d2; border: 0" size="large" >ADD WEBSITE</Button>
+                            style="background-color: #17b5d2; border: 0" size="large" >ADD NEW SERVICE</Button>
                 </div>
             </div>
         </Modal>
