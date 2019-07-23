@@ -182,7 +182,8 @@ const actions = {
     addHouse ({ commit }, closeModel) {
         houseApi.addHouseToServer(state.houseInfo, state.userInfo.userId, state.token, resp => {
             commit("addOneHouse", resp.data["house"]);
-            closeModel();
+            console.log("resp.data:" + resp.data["serviceLinkList"]);
+            closeModel(resp.data["serviceLinkList"]);
         }, resp => {})
     },
     updateHouse ({ commit }, closeModel) {
@@ -201,6 +202,14 @@ const actions = {
         if (currentHouseNameArr.length === 1) {
             commit("setCurrentHouseId", currentHouseNameArr[0]);
         }
+    },
+    addAllServiceLink ({ commit }, serviceLink) {
+        serviceLinkApi.addServiceLinkToServer(serviceLink, state.userInfo.userId, state.currentHouseId, state.token, resp => {
+            commit("addOneServiceLink", {
+                "houseId": state.currentHouseId,
+                "serviceLink": resp.data["serviceLink"]
+            });
+        }, resp => {});
     },
     addServiceLink ({ commit }, closeModel) {
         serviceLinkApi.addServiceLinkToServer(state.serviceLinkInfo, state.userInfo.userId, state.currentHouseId, state.token, resp => {
@@ -260,6 +269,7 @@ const mutations = {
     },
     addOneHouse (state, houseInfo) {
         state.userInfo.houseList.push(houseInfo);
+        state.currentHouseId = houseInfo.houseId;
     },
     updateOneHouse (state, newHouseInfo) {
         // let index = -1;

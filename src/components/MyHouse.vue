@@ -1,12 +1,12 @@
 <template>
     <div id="myHouse">
         <h2>
-            My house list
+            My House
             &nbsp;
             <Button type="dashed" size="small" shape="circle" icon="md-add" @click="needAddHouse = true"></Button>
         </h2>
         <br/>
-        <Collapse simple accordion v-model="currentHouseName" v-on:on-change="seeServiceLike">
+        <Collapse simple accordion :value="currentHouseId" v-on:on-change="seeServiceLike">
             <Panel :name="house.houseId" v-for="house in userInfo.houseList">
                 {{house.houseName}}
                 <p slot="content">
@@ -54,7 +54,7 @@
             </div>
             <div slot="footer" style="text-align: center">
                 <div style="width: 240px;margin-left:auto;margin-right: auto;">
-                    <Button type="primary" html-type="submit" long @click="addHouse(() => { needAddHouse = false; $Message.success('Add house success')})"
+                    <Button type="primary" html-type="submit" long @click="add"
                             style="background-color: #17b5d2; border: 0" size="large" >ADD HOUSE</Button>
                 </div>
             </div>
@@ -91,6 +91,50 @@
                 </div>
             </div>
         </Modal>
+
+        <Modal
+                title="Choose service link"
+                v-model="showChooseService"
+                class-name="vertical-center-modal"
+                :styles="{top: '0px'}"
+                :scrollable="true"
+                ok-text="OK"
+                cancel-text="cancel"
+                @on-ok="makeSureAddAll"
+                width="860">
+            <p slot="header" style="text-align: center">
+                <span>Choose service link</span>
+            </p>
+            <div style="">
+                <Row :gutter="16">
+                    <Col span="6" v-for="serviceLink in cacheServiceLinkList">
+                        <a :href="serviceLink.link" target="_blank" style="text-decoration: none; color: #2D3755">
+                            <Card style="margin-bottom: 16px;">
+                                <div style="text-align:left;">
+                                    <div>
+                                        <img :src="serviceLink.image" style="width: 100%; height: 136px;border-top-left-radius: 4px; border-top-right-radius: 4px">
+                                        <h2 style="position: relative; top: -34px; left: 16px; color: white" v-if="/(\w*\.(?:com|cn|top))/.exec(serviceLink.link) !== null">
+                                            {{
+                                            /(\w*\.(?:com|cn|top))/.exec(serviceLink.link)[0]
+                                            }}
+                                        </h2>
+                                    </div>
+                                    <div style="position: relative; top: -8px;">
+                                        <p style="padding: 0 16px 2px 16px"><b>{{serviceLink.title}}</b></p>
+                                        <p style="padding: 0 16px 12px 16px; color: #9A9A9C">Due day {{serviceLink.createDate.substring(0, 10)}}</p>
+                                    </div>
+                                </div>
+                            </Card>
+                        </a>
+                        <div style="position: absolute; top: 10px; left: 24px; z-index: 10">
+                            <Button type="error" shape="circle" size="small" icon="md-close" ghost
+                                    style="margin-right: 6px"
+                                    @click="removeServiceFromArray(serviceLink)"></Button>
+                        </div>
+                    </Col>
+                </Row>
+            </div>
+        </Modal>
     </div>
 </template>
 
@@ -104,7 +148,8 @@
             return {
                 needAddHouse: false,
                 needUpdateHouse: false,
-                currentHouseName: [""]
+                showChooseService: false,
+                cacheServiceLinkList: []
             }
         },
         computed: {
@@ -112,6 +157,7 @@
                 userInfo: state => state.user.userInfo,
                 houseInfo: state => state.user.houseInfo,
                 currentHouseInfo: state => state.user.currentHouseInfo,
+                currentHouseId: state => state.user.currentHouseId,
             }),
         },
         methods: {
@@ -121,8 +167,20 @@
                 'addHouse',
                 'updateHouse',
                 'removeHouse',
-                'seeServiceLike'
+                'seeServiceLike',
+                'addAllServiceLink'
             ]),
+            add () {
+                this.addHouse((serviceLinkList) => {
+                    console.log("serviceLinkList: " + serviceLinkList);
+                    this.needAddHouse = false;
+                    this.$Message.success('Add house success');
+                    if (serviceLinkList.length !== 0) {
+                        this.cacheServiceLinkList = serviceLinkList;
+                        this.showChooseService = true;
+                    }
+                })
+            },
             confirm () {
                 this.$Modal.confirm({
                     title: 'Are you sure you want to remove ' + this.currentHouseInfo.houseName + ' ?',
@@ -135,6 +193,21 @@
                     okText: 'Remove',
                     cancelText: 'Cancel'
                 });
+            },
+            removeServiceFromArray (serviceLink) {
+                let index = -1;
+                for (let i = 0; i < this.cacheServiceLinkList.length; i++) {
+                    if (serviceLink.link === this.cacheServiceLinkList[i].link) {
+                        index = i;
+                        break;
+                    }
+                }
+                this.cacheServiceLinkList.splice(index, 1);
+            },
+            makeSureAddAll () {
+                for (let i = 0; i < this.cacheServiceLinkList.length; i++) {
+                    this.addAllServiceLink(this.cacheServiceLinkList[i])
+                }
             }
         }
     }
@@ -145,6 +218,7 @@
         margin-top: 20px;
         padding-left: 20px;
         padding-right: 20px;
+        padding-bottom: 160px;
     }
     .vertical-center-modal{
         display: flex;
