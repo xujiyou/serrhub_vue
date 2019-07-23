@@ -40,6 +40,9 @@
                 v-model="needShowSearchResult"
                 class-name="vertical-center-modal"
                 :styles="{top: '0px'}"
+                :scrollable="true"
+                ok-text="OK"
+                cancel-text="cancel"
                 width="860">
             <p slot="header" style="text-align: center">
                 <span>Search Result</span>
@@ -100,7 +103,14 @@
                 this.searchServiceLink({
                     "type": this.type,
                     "text": this.text,
-                    "callback": () => this.needShowSearchResult = true
+                    "callback": () => {
+                        if (this.searchServiceLinkResult.length === 0) {
+                            this.$Message.info('There is no relevant service link');
+                        } else {
+                            this.needShowSearchResult = true
+                        }
+
+                    }
                 })
             }
         }
