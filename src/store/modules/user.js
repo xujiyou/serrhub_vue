@@ -46,16 +46,157 @@ const state = {
             startYear: "",
             note: "",
             serviceLinkList: [{
-                serviceLinkId: "",
-                title: "",
-                image: "",
-                link: "",
-                categories: "",
-                note: "",
-                contact: "",
-                phone: "",
-                createDate: ""
-            }]
+                    serviceLinkId: "",
+                    title: "PG&E",
+                    image: "https://www.pge.com/pge_global/local/images/data/en-us/home/wildfire-veg-management.jpg",
+                    link: "https://pge.com",
+                    categories: "Utilities",
+                    note: "",
+                    contact: "",
+                    phone: "",
+                    createDate: "2019-07-23 15:10"
+                }, {
+                    serviceLinkId: "",
+                    title: "Power",
+                    image: "https://power-electronics.com/wp-content/uploads/2019/05/Ballarat-Energy-Storage-System-DJI_0010.jpg",
+                    link: "https://power-electronics.com",
+                    categories: "Utilities",
+                    note: "",
+                    contact: "",
+                    phone: "",
+                    createDate: "2019-07-23 15:10"
+                }, {
+                    serviceLinkId: "",
+                    title: "Tesla Solar",
+                    image: "https://www.tesla.com/tesla_theme/assets/img/solar/panels/section-hero@2x.jpg?20180104",
+                    link: "https://www.tesla.com/solarpanels",
+                    categories: "Solar",
+                    note: "",
+                    contact: "",
+                    phone: "",
+                    createDate: "2019-07-23 15:10"
+                }, {
+                    serviceLinkId: "",
+                    title: "SunPower",
+                    image: "https://us.sunpower.com/sites/default/files/styles/background_image/public/d7optimize-hp-header-panels-2_0.jpg?itok=mLcGkV0A",
+                    link: "https://us.sunpower.com/",
+                    categories: "Solar",
+                    note: "",
+                    contact: "",
+                    phone: "",
+                    createDate: "2019-07-23 15:10"
+                }, {
+                    serviceLinkId: "",
+                    title: "Solar Energy",
+                    image: "https://solarenergy.com/i/market-bg.jpg",
+                    link: "https://solarenergy.com/",
+                    categories: "Solar",
+                    note: "",
+                    contact: "",
+                    phone: "",
+                    createDate: "2019-07-23 15:10"
+                }, {
+                    serviceLinkId: "",
+                    title: "Bay area Water",
+                    image: "http://bawsca.org/sliderimages/mov.jpg",
+                    link: "http://bawsca.org/",
+                    categories: "Water Supply",
+                    note: "",
+                    contact: "",
+                    phone: "",
+                    createDate: "2019-07-23 15:10"
+                }, {
+                    serviceLinkId: "",
+                    title: "San Jose Water",
+                    image: "https://www.sjwater.com/sites/default/files/styles/tout/public/2019-07/06-2019_SJW_Blog-HistoryOfPipes_Blog.jpg?itok=Ay-kZ4uf",
+                    link: "https://www.sjwater.com/",
+                    categories: "Water Supply",
+                    note: "",
+                    contact: "",
+                    phone: "",
+                    createDate: "2019-07-23 15:10"
+                }, {
+                    serviceLinkId: "",
+                    title: "Alameda County Water",
+                    image: "https://www.futuristarchitecture.com/wp-content/uploads/2018/02/Ring-Rail-Line-1.jpg",
+                    link: "https://www.acwd.org/",
+                    categories: "Water Supply",
+                    note: "",
+                    contact: "",
+                    phone: "",
+                    createDate: "2019-07-23 15:10"
+                }, {
+                    serviceLinkId: "",
+                    title: "California Water Service",
+                    image: "https://www.calwater.com/wp-content/uploads/2019/07/2019-0711-ela-well1-400x200.jpg",
+                    link: "https://www.calwater.com/",
+                    categories: "Water Supply",
+                    note: "",
+                    contact: "",
+                    phone: "",
+                    createDate: "2019-07-23 15:10"
+                }, {
+                    serviceLinkId: "",
+                    title: "Bayservice",
+                    image: "http://www.bayservice.net/data/siteimages/bayarea-bg.jpg",
+                    link: "http://www.bayservice.net/",
+                    categories: "HOA",
+                    note: "",
+                    contact: "",
+                    phone: "",
+                    createDate: "2019-07-23 15:10"
+                }, {
+                    serviceLinkId: "",
+                    title: "HOA service",
+                    image: "https://img.pconline.com.cn/images/upload/upc/tx/housephotolib/1804/13/c0/82516889_1523586577874_690x460.jpg",
+                    link: "https://www.hoaservices.net/default.php",
+                    categories: "HOA",
+                    note: "",
+                    contact: "",
+                    phone: "",
+                    createDate: "2019-07-23 15:10"
+                }, {
+                    serviceLinkId: "",
+                    title: "zillow",
+                    image: "https://s.zillowstatic.com/homepage/static/_Desktop_overlay.jpg",
+                    link: "https://www.zillow.com/",
+                    categories: "Real Estate Website",
+                    note: "",
+                    contact: "",
+                    phone: "",
+                    createDate: "2019-07-23 15:10"
+                }, {
+                    serviceLinkId: "",
+                    title: "redfin",
+                    image: "https://ssl.cdn-redfin.com/v271.4.0/images/homepage/banners/genHomepageDesktopBanner/SunnyVideo_Homepage.jpg",
+                    link: "https://www.redfin.com/",
+                    categories: "Real Estate Website",
+                    note: "",
+                    contact: "",
+                    phone: "",
+                    createDate: "2019-07-23 15:10"
+                }, {
+                    serviceLinkId: "",
+                    title: "Avalon",
+                    image: "https://www.avaloncommunities.com/~/media/Images/Brand%20Photos/Home%20Photos/Avalon_Burbank_Pool_1440x720.jpg?w=1440&h=463",
+                    link: "https://www.avaloncommunities.com/",
+                    categories: "Apartment",
+                    note: "",
+                    contact: "",
+                    phone: "",
+                    createDate: "2019-07-23 15:10"
+                }, {
+                    serviceLinkId: "",
+                    title: "Equity Aprtment(",
+                    image: "https://media.equityapartments.com/image/upload/q_70/f_auto/fl_lossy/v1/Content/home-hero-2",
+                    link: "https://www.equityapartments.com/",
+                    categories: "Apartment",
+                    note: "",
+                    contact: "",
+                    phone: "",
+                    createDate: "2019-07-23 15:10"
+                }
+            ]
         }]
     },
     houseInfo: {
@@ -90,8 +231,7 @@ const state = {
         contact: "",
         phone: "",
         note: "",
-    },
-    searchServiceLinkResult: []
+    }
 };
 
 // getters
@@ -118,6 +258,12 @@ const getters = {
 
 // actions
 const actions = {
+    setNeedLogin ({ commit }, visible) {
+        state.needLogin = visible;
+    },
+    setNeedRegister ({ commit }, visible) {
+        state.needRegister = visible;
+    },
     findTokenFromLocalStorage({ commit }) {
         let storage = window.localStorage;
         state.token = storage.token;
@@ -243,9 +389,7 @@ const actions = {
     },
     searchServiceLink ({ commit }, param) {
         serviceLinkApi.searchServiceLinkFromServer(param["type"], param["text"], state.userInfo.userId, state.token, resp => {
-            state.searchServiceLinkResult = resp.data["serviceLinkList"];
-            console.log(state.searchServiceLinkResult);
-            param["callback"]();
+            param["callback"](resp.data["serviceLinkList"]);
         }, resp => {});
     },
 };

@@ -1,17 +1,33 @@
 <template>
     <div id="header">
         <div id="myInfo">
-            <Button shape="circle" type="text" id="myAccount"
-                    onMouseOut="this.style.color='#515A61'"
-                    onMouseOver="this.style.color='#17b5d2'" >
-                <b>MY ACCOUNT</b>
-            </Button>
-            <Button shape="circle" id="addNewWebsite"
-                    onMouseOut="this.style.backgroundColor='transparent'"
-                    onMouseOver="this.style.backgroundColor='#fff'"
-                    @click="needAddWebsite = true">
-                <b>ADD NEW SERVICE</b>
-            </Button>
+            <div v-if="userInfo.userId === ''">
+                <Button shape="circle" id="loginButton"
+                        onMouseOut="this.style.backgroundColor='transparent'"
+                        onMouseOver="this.style.backgroundColor='#fff'"
+                        @click="viewLoginModal">
+                    <b>&nbsp;&nbsp;&nbsp;LOGIN&nbsp;&nbsp;&nbsp;</b>
+                </Button>
+                <Button shape="circle" id="registerButton"
+                        onMouseOut="this.style.backgroundColor='transparent'"
+                        onMouseOver="this.style.backgroundColor='#fff'"
+                        @click="viewRegisterModal">
+                    <b>&nbsp;&nbsp;REGISTER&nbsp;&nbsp;</b>
+                </Button>
+            </div>
+           <div v-if="userInfo.userId !== ''">
+               <Button shape="circle" type="text" id="myAccount"
+                       onMouseOut="this.style.color='#515A61'"
+                       onMouseOver="this.style.color='#17b5d2'" >
+                   <b>MY ACCOUNT</b>
+               </Button>
+               <Button shape="circle" id="addNewWebsite"
+                       onMouseOut="this.style.backgroundColor='transparent'"
+                       onMouseOver="this.style.backgroundColor='#fff'"
+                       @click="needAddWebsite = true">
+                   <b>ADD NEW SERVICE</b>
+               </Button>
+           </div>
         </div>
         <div id="title">
             <Row>
@@ -90,12 +106,16 @@
         },
         computed: {
             ... mapState({
-                serviceLinkInfo: state => state.user.serviceLinkInfo
+                serviceLinkInfo: state => state.user.serviceLinkInfo,
+                userInfo: state => state.user.userInfo
             }),
         },
         methods: {
             ...mapActions('user', [
-                'addServiceLink'
+                'addServiceLink',
+                'viewLoginModal',
+                'viewRegisterModal',
+                'setNeedLogin'
             ]),
         }
     }
@@ -113,6 +133,22 @@
     #myInfo {
         padding-top: 30px;
         text-align: right;
+    }
+    #loginButton {
+        background-color: transparent;
+        color: #17b5d2;
+        border-color: #17b5d2;
+        border-width: 2px;
+        padding: 10px 16px 10px 16px;
+        margin-right: 10px;
+    }
+    #registerButton {
+        background-color: transparent;
+        color: #17b5d2;
+        border-color: #17b5d2;
+        border-width: 2px;
+        padding: 10px 16px 10px 16px;
+        margin-right: 60px;
     }
     #myAccount {
         border-width: 2px;

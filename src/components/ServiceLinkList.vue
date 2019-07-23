@@ -5,8 +5,8 @@
             <Divider orientation="left" size="small" :dashed="true">
                 <h1>
                     {{key}}
-                    &nbsp;
-                    <Button shape="circle" icon="md-create" @click="showOption(key)"></Button>
+                    <span v-if="currentHouseId !== ''">&nbsp;</span>
+                    <Button v-if="currentHouseId !== ''" shape="circle" icon="md-create" @click="showOption(key)"></Button>
                 </h1>
             </Divider>
             <Row :gutter="16">
@@ -16,9 +16,9 @@
                             <div style="text-align:left;">
                                 <div>
                                     <img :src="serviceLink.image" style="width: 100%; height: 136px;border-top-left-radius: 4px; border-top-right-radius: 4px">
-                                    <h2 style="position: relative; top: -34px; left: 16px; color: white" v-if="/(\w*\.(?:com|cn|top))/.exec(serviceLink.link) !== null">
+                                    <h2 style="position: relative; top: -34px; left: 16px; color: white" v-if="/(\w*\.(?:com|cn|top|org|net))/.exec(serviceLink.link) !== null">
                                         {{
-                                        /(\w*\.(?:com|cn|top))/.exec(serviceLink.link)[0]
+                                        /(\w*\.(?:com|cn|top|org|net))/.exec(serviceLink.link)[0]
                                         }}
                                     </h2>
                                 </div>
@@ -105,7 +105,7 @@
             }),
             ...mapState('user', {
                 currentHouseId: 'currentHouseId',
-                currentServiceLinkInfo: 'currentServiceLinkInfo'
+                currentServiceLinkInfo: 'currentServiceLinkInfo',
             })
         },
         methods: {

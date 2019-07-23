@@ -14,7 +14,7 @@
                 class-name="vertical-center-modal"
                 :styles="{top: '0px'}"
                 width="400"
-                :closable="false"
+                @on-visible-change="changeLoginModelVisible"
                 :mask-closable="false">
             <p slot="header" style="text-align: center">
               <span>Login</span>
@@ -76,7 +76,7 @@
               class-name="vertical-center-modal"
               :styles="{top: '0px'}"
               width="520"
-              :closable="false"
+              @on-visible-change="changeRegisterModelVisible"
               :mask-closable="false">
         <p slot="header">
           <Button size="small" type="text" icon="ios-arrow-back"
@@ -112,14 +112,14 @@
               <Input placeholder="Community name" v-model="registerInfo.communityName"></Input>
             </FormItem>
             <FormItem>
-              <Button type="primary" html-type="submit" long style="background-color: #17b5d2; border: 0" size="large" @click="register">REGISTER</Button>
+              <Button type="primary" html-type="submit" long style="background-color: #17b5d2; border: 0" size="large" @click="register">SIGN UP</Button>
             </FormItem>
           </Form>
         </div>
           <div slot="footer" style="text-align: center">
             <Button size="small" type="text" icon="ios-arrow-back"
                     onMouseOut="this.style.color='#515A61'"
-                    onMouseOver="this.style.color='#17b5d2'" @click="viewLoginModal">Back to login</Button>
+                    onMouseOver="this.style.color='#17b5d2'" @click="viewLoginModal">Go to Login</Button>
           </div>
       </Modal>
     </div>
@@ -158,14 +158,24 @@ export default {
         needLogin: state => state.user.needLogin,
         needRegister: state => state.user.needRegister
     }),
-    methods: mapActions('user', [
-        'findTokenFromLocalStorage',
-        'login',
-        'viewLoginModal',
-        'viewRegisterModal',
-        'register',
-        'findUserInfo'
-    ]),
+    methods: {
+        ...mapActions('user', [
+            'findTokenFromLocalStorage',
+            'login',
+            'viewLoginModal',
+            'viewRegisterModal',
+            'register',
+            'findUserInfo',
+            'setNeedLogin',
+            'setNeedRegister'
+        ]),
+        changeLoginModelVisible (visible) {
+            this.setNeedLogin(visible);
+        },
+        changeRegisterModelVisible (visible) {
+            this.setNeedRegister(visible);
+        },
+    },
 }
 </script>
 

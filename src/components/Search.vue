@@ -84,12 +84,13 @@
             return {
                 needShowSearchResult: false,
                 type: "Categories",
-                text: ""
+                text: "",
+                searchServiceLinkResult: []
             }
         },
         computed: {
             ... mapState({
-                searchServiceLinkResult: state => state.user.searchServiceLinkResult
+                userInfo: state => state.user.userInfo
             }),
         },
         methods: {
@@ -100,18 +101,38 @@
                 'searchServiceLink'
             ]),
             search: function () {
-                this.searchServiceLink({
-                    "type": this.type,
-                    "text": this.text,
-                    "callback": () => {
-                        if (this.searchServiceLinkResult.length === 0) {
-                            this.$Message.info('There is no relevant service link');
-                        } else {
-                            this.needShowSearchResult = true
+                this.searchServiceLinkResult = [];
+                if (this.userInfo.userId === "") {
+                    let serviceLinkList = this.userInfo.houseList[0].serviceLinkList;
+                    for (let i = 0; i < serviceLinkList.length; i++) {
+                        let serviceLink = serviceLinkList[i];
+                        switch (this.type) {
+                            case "Categories" :
+                                if (serviceLink.categories.toLowerCase().indexOf(this.text.toLowerCase()) !== -1) {this.searchServiceLinkResult.push(serviceLink)}
+                                break;
+                            case "Title":
+                                if (serviceLink.title.toLowerCase().indexOf(this.text.toLowerCase()) !== -1) {this.searchServiceLinkResult.push(serviceLink)}
+                                break;
+                            case "Link":
+                                if (serviceLink.link.toLowerCase().indexOf(this.text.toLowerCase()) !== -1) {this.searchServiceLinkResult.push(serviceLink)}
+                                break;
                         }
-
                     }
-                })
+                    this.needShowSearchResult = true
+                } else {
+                    this.searchServiceLink({
+                        "type": this.type,
+                        "text": this.text,
+                        "callback": (result) => {
+                            if (result.length === 0) {
+                                this.$Message.info('There is no relevant service link');
+                            } else {
+                                this.searchServiceLinkResult = result;
+                                this.needShowSearchResult = true
+                            }
+                        }
+                    })
+                }
             }
         }
     }
