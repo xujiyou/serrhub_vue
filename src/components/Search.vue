@@ -144,7 +144,7 @@
     }
     #shadow {
         background-color: #fff;
-        box-shadow: 2px 5px 4px -4px rgba(6,6,6,.0), 2px 4px 4px 2px rgba(6,6,6,.20), 2px 3px 5px 2px rgba(6,6,6,.12);
+        border: #17b5d2 solid 1px;
         border-radius: 8px;
         height: 60px;
     }
@@ -160,7 +160,6 @@
         padding-left: 20px;
     }
     #searchButton {
-        box-shadow: 2px 5px 4px -4px rgba(0,0,0,.2), 2px 4px 4px 2px rgba(0,0,0,.14), 2px 3px 5px 2px rgba(0,0,0,.12);
         border-radius: 8px;
         background-color: #17b5d2;
         font-size: 18px;

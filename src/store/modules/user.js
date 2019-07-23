@@ -20,11 +20,15 @@ const state = {
         phone: "",
         email: "",
         password: "",
+        secondPassword: "",
         houseName: "",
         address: "",
         communityName: ""
     },
     userInfo: {
+        houseList:  [{serviceLinkList: [{categories: ""}]}]
+    },
+    defaultUserInfo: {
         userId: "",
         roles: [],
         username: "",
@@ -258,6 +262,15 @@ const getters = {
 
 // actions
 const actions = {
+    logout ({ commit }) {
+        let storage = window.localStorage;
+        storage.token = "";
+        state.userInfo = state.defaultUserInfo;
+        state.currentHouseId = "";
+    },
+    setDefaultUserInfo ({ commit }) {
+        state.userInfo = state.defaultUserInfo;
+    },
     setNeedLogin ({ commit }, visible) {
         state.needLogin = visible;
     },
@@ -287,8 +300,12 @@ const actions = {
     register ({ commit }) {
         let info = state.registerInfo;
         if (info.firstName === "" || info.lastName === "" || info.phone === "" || info.email === "" ||
-            info.password === "" || info.address === "" || info.communityName === "") {
+            info.password === "") {
             alert("Please complete the necessary information");
+            return;
+        }
+        if (info.password !== info.secondPassword) {
+            alert("Sorry, the password entered twice is inconsistent");
             return;
         }
         authApi.register(state.registerInfo, resp => {

@@ -17,15 +17,22 @@
             </div>
            <div v-if="userInfo.userId !== ''">
                <Button shape="circle" type="text" id="myAccount"
-                       onMouseOut="this.style.color='#515A61'"
-                       onMouseOver="this.style.color='#17b5d2'" >
-                   <b>MY ACCOUNT</b>
+                       onMouseOut="this.style.backgroundColor='transparent'"
+                       onMouseOver="this.style.backgroundColor='#fff'"
+                        @click="showMyAccount = true">
+                   <b>&nbsp;MY ACCOUNT&nbsp;</b>
                </Button>
                <Button shape="circle" id="addNewWebsite"
                        onMouseOut="this.style.backgroundColor='transparent'"
                        onMouseOver="this.style.backgroundColor='#fff'"
                        @click="needAddWebsite = true">
                    <b>ADD NEW SERVICE</b>
+               </Button>
+               <Button shape="circle" type="text" id="logoutButton"
+                       onMouseOut="this.style.backgroundColor='transparent'"
+                       onMouseOver="this.style.backgroundColor='#fff'"
+                       @click="logout">
+                   <b>&nbsp;&nbsp;LOGOUT&nbsp;&nbsp;</b>
                </Button>
            </div>
         </div>
@@ -91,6 +98,36 @@
                 </div>
             </div>
         </Modal>
+        <Modal
+                title="MY ACCOUNT"
+                v-model="showMyAccount"
+                class-name="vertical-center-modal"
+                :styles="{top: '0px'}"
+                ok-text="OK"
+                cancel-text="cancel"
+                width="260">
+            <p slot="header" style="text-align: center">
+                <span>MY ACCOUNT</span>
+            </p>
+            <div style="width: 220px;margin-left:auto;margin-right: auto;">
+                <Card style="margin-bottom: 16px;">
+                    <div style="text-align:left;">
+                        <div>
+                            <img src="https://pic3.zhimg.com/19554be26eaaace6f99476ef9c6e0ed2_xll.jpg" style="width: 100%; height: 136px;border-top-left-radius: 4px; border-top-right-radius: 4px">
+                        </div>
+                        <div style="margin-top: 12px">
+                            <p style="padding: 0 16px 2px 16px"><b>{{userInfo.username}}</b></p>
+                            <p style="padding: 0 16px 2px 16px; color: #9A9A9C">Phone: {{userInfo.phone}}</p>
+                            <p style="padding: 0 16px 12px 16px; color: #9A9A9C">Email: {{userInfo.email}}</p>
+                        </div>
+                    </div>
+                </Card>
+            </div>
+            <div slot="footer" style="text-align: center">
+                <Button type="primary" long style="background-color: #17b5d2; border: 0"
+                        size="large" @click="showMyAccount = false">OK</Button>
+            </div>
+        </Modal>
     </div>
 </template>
 
@@ -102,6 +139,7 @@
         data() {
             return {
                 needAddWebsite: false,
+                showMyAccount: false
             }
         },
         computed: {
@@ -115,7 +153,8 @@
                 'addServiceLink',
                 'viewLoginModal',
                 'viewRegisterModal',
-                'setNeedLogin'
+                'setNeedLogin',
+                'logout'
             ]),
         }
     }
@@ -126,8 +165,7 @@
         height: 300px;
         width: 100%;
         background-size: cover;
-        background-image: url("../assets/chilun.jpg");
-        background-color: #fff;
+        background-image: url("../assets/home.jpg");
         background-repeat: no-repeat;
     }
     #myInfo {
@@ -151,11 +189,22 @@
         margin-right: 60px;
     }
     #myAccount {
+        background-color: transparent;
+        color: #17b5d2;
+        border-color: #17b5d2;
         border-width: 2px;
         padding: 10px 16px 10px 16px;
-        margin-right: 20px;
+        margin-right: 10px;
     }
     #addNewWebsite {
+        background-color: transparent;
+        color: #17b5d2;
+        border-color: #17b5d2;
+        border-width: 2px;
+        padding: 10px 16px 10px 16px;
+        margin-right: 10px;
+    }
+    #logoutButton {
         background-color: transparent;
         color: #17b5d2;
         border-color: #17b5d2;

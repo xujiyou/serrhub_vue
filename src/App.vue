@@ -75,7 +75,7 @@
               v-model="needRegister"
               class-name="vertical-center-modal"
               :styles="{top: '0px'}"
-              width="520"
+              width="480"
               @on-visible-change="changeRegisterModelVisible"
               :mask-closable="false">
         <p slot="header">
@@ -85,36 +85,43 @@
           <span>Register</span>
 
         </p>
-        <div style="width: 360px;margin-left:auto;margin-right: auto;">
-          <Form :label-width="120" :model="registerInfo" ref="formValidate" onsubmit="event.preventDefault()">
-            <FormItem label="First Name" :required="true">
-              <Input placeholder="First Name" v-model="registerInfo.firstName"></Input>
-            </FormItem>
-            <FormItem label="Last Name" :required="true">
-              <Input placeholder="Last Name" v-model="registerInfo.lastName"></Input>
-            </FormItem>
-            <FormItem label="Phone" :required="true">
-              <Input placeholder="Phone" v-model="registerInfo.phone"></Input>
-            </FormItem>
-            <FormItem label="Email" :required="true">
-              <Input placeholder="Email" v-model="registerInfo.email"></Input>
-            </FormItem>
-            <FormItem label="Password" prop="password" :required="true">
-              <Input type="password" placeholder="Password"  v-model="registerInfo.password"></Input>
-            </FormItem>
-            <FormItem label="House name">
-              <Input placeholder="House name" v-model="registerInfo.houseName"></Input>
-            </FormItem>
-            <FormItem label="Address" :required="true">
-              <Input placeholder="Address" v-model="registerInfo.address"></Input>
-            </FormItem>
-            <FormItem label="Community name" :required="true">
-              <Input placeholder="Community name" v-model="registerInfo.communityName"></Input>
-            </FormItem>
-            <FormItem>
-              <Button type="primary" html-type="submit" long style="background-color: #17b5d2; border: 0" size="large" @click="register">SIGN UP</Button>
-            </FormItem>
-          </Form>
+        <div style="width: 440px;margin-left:auto;margin-right: auto;text-align: center">
+            <Form inline>
+                <FormItem :required="true">
+                    <Input placeholder="First Name *" v-model="registerInfo.firstName"></Input>
+                </FormItem>
+                <FormItem :required="true">
+                    <Input placeholder="Last Name *" v-model="registerInfo.lastName"></Input>
+                </FormItem>
+                <FormItem :required="true">
+                    <Input placeholder="Phone *" v-model="registerInfo.phone"></Input>
+                </FormItem>
+                <FormItem :required="true">
+                    <Input placeholder="Email *" v-model="registerInfo.email"></Input>
+                </FormItem>
+                <FormItem prop="password">
+                    <Input type="Password" placeholder="Password *"  v-model="registerInfo.password"></Input>
+                </FormItem>
+                <FormItem prop="password">
+                    <Input type="Password" placeholder="Confirm password *"  v-model="registerInfo.secondPassword"></Input>
+                </FormItem>
+            </Form>
+              <div style="width: 320px; text-align: center">
+                  <Form :label-width="120" :model="registerInfo" onsubmit="event.preventDefault()" label-position="top">
+                      <FormItem>
+                          <Input placeholder="House name" v-model="registerInfo.houseName"></Input>
+                      </FormItem>
+                      <FormItem>
+                          <Input placeholder="Address" v-model="registerInfo.address"></Input>
+                      </FormItem>
+                      <FormItem>
+                          <Input placeholder="Community name" v-model="registerInfo.communityName"></Input>
+                      </FormItem>
+                      <FormItem>
+                          <Button type="primary" html-type="submit" long style="background-color: #17b5d2; border: 0" size="large" @click="register">SIGN UP</Button>
+                      </FormItem>
+                  </Form>
+              </div>
         </div>
           <div slot="footer" style="text-align: center">
             <Button size="small" type="text" icon="ios-arrow-back"
@@ -143,6 +150,7 @@ export default {
         Footer
     },
     mounted: function () {
+        this.setDefaultUserInfo(this);
         this.findTokenFromLocalStorage(this);
         if (this.token === undefined || this.token === "") {
             console.log("需要登录");
@@ -160,6 +168,7 @@ export default {
     }),
     methods: {
         ...mapActions('user', [
+            'setDefaultUserInfo',
             'findTokenFromLocalStorage',
             'login',
             'viewLoginModal',
