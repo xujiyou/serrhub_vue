@@ -9,10 +9,9 @@ export default new Router({
     mode: 'history',
     routes: [
         {
-            path: '/service',
+            path: '/',
             name: 'ServiceLinkList',
             component: ServiceLinkList,
-            alias: '/'
         }
     ]
 })

@@ -432,7 +432,7 @@ const mutations = {
     },
     addOneHouse (state, houseInfo) {
         state.userInfo.houseList.push(houseInfo);
-        router.push("/service?house=" + houseInfo.houseId);
+        router.push("/?house=" + houseInfo.houseId);
         Vue.set(state, 'currentHouseId', houseInfo.houseId);
     },
     updateOneHouse (state, newHouseInfo) {
@@ -456,7 +456,7 @@ const mutations = {
         state.userInfo.houseList.splice(index, 1);
     },
     setCurrentHouseId (state, houseId) {
-        router.push("/service?house=" + houseId);
+        router.push("/?house=" + houseId);
         Vue.set(state, 'currentHouseId', houseId);
         console.log(state.currentHouseId);
     },
