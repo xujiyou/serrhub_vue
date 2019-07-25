@@ -22,12 +22,12 @@
                         @click="showMyAccount = true">
                    <b>&nbsp;MY ACCOUNT&nbsp;</b>
                </Button>
-               <Button shape="circle" id="addNewWebsite"
-                       onMouseOut="this.style.backgroundColor='transparent'"
-                       onMouseOver="this.style.backgroundColor='#fff'"
-                       @click="needAddWebsite = true">
-                   <b>ADD NEW SERVICE</b>
-               </Button>
+<!--               <Button shape="circle" id="addNewWebsite"-->
+<!--                       onMouseOut="this.style.backgroundColor='transparent'"-->
+<!--                       onMouseOver="this.style.backgroundColor='#fff'"-->
+<!--                       @click="needAddWebsite = true">-->
+<!--                   <b>ADD NEW SERVICE</b>-->
+<!--               </Button>-->
                <Button shape="circle" type="text" id="logoutButton"
                        onMouseOut="this.style.backgroundColor='transparent'"
                        onMouseOver="this.style.backgroundColor='#fff'"
@@ -57,47 +57,7 @@
             </Row>
         </div>
 
-        <Modal
-                title="Add Service"
-                v-model="needAddWebsite"
-                class-name="vertical-center-modal"
-                :styles="{top: '0px'}"
-                width="520">
-            <p slot="header" style="text-align: center">
-                <span>Add website</span>
-            </p>
-            <div style="width: 360px;margin-left:auto;margin-right: auto;">
-                <Form :label-width="120" ref="formValidate" onsubmit="event.preventDefault()" :model="serviceLinkInfo" >
-                    <FormItem label="Title" :required="true">
-                        <Input placeholder="Title" v-model="serviceLinkInfo.title"></Input>
-                    </FormItem>
-                    <FormItem label="Image" :required="true">
-                        <Input placeholder="Image" v-model="serviceLinkInfo.image"></Input>
-                    </FormItem>
-                    <FormItem label="Link" :required="true">
-                        <Input placeholder="Link" v-model="serviceLinkInfo.link"></Input>
-                    </FormItem>
-                    <FormItem label="Categories" :required="true">
-                        <Input placeholder="Categories" v-model="serviceLinkInfo.categories"></Input>
-                    </FormItem>
-                    <FormItem label="contact" :required="true">
-                        <Input placeholder="contact" v-model="serviceLinkInfo.contact"></Input>
-                    </FormItem>
-                    <FormItem label="Phone" :required="true">
-                        <Input placeholder="Phone" v-model="serviceLinkInfo.phone"></Input>
-                    </FormItem>
-                    <FormItem label="Note" :required="true">
-                        <Input placeholder="Note"v-model="serviceLinkInfo.note" ></Input>
-                    </FormItem>
-                </Form>
-            </div>
-            <div slot="footer" style="text-align: center">
-                <div style="width: 240px;margin-left:auto;margin-right: auto;">
-                    <Button type="primary" html-type="submit" long @click="addServiceLink(() => { needAddWebsite = false; $Message.success('Add website success')})"
-                            style="background-color: #17b5d2; border: 0" size="large" >ADD NEW SERVICE</Button>
-                </div>
-            </div>
-        </Modal>
+
         <Modal
                 title="MY ACCOUNT"
                 v-model="showMyAccount"
@@ -138,7 +98,6 @@
         name: "Header",
         data() {
             return {
-                needAddWebsite: false,
                 showMyAccount: false
             }
         },

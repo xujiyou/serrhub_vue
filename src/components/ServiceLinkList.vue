@@ -1,44 +1,54 @@
 <template>
     <div id="serviceLinkList">
         <div>
+            <div style="float: right">
+                <Button :icon="expand ? 'md-funnel' : 'md-expand'" class="pack"
+                        onMouseOut="this.style.borderColor='#D3D6DB'; this.style.color='#D3D6DB'"
+                        onMouseOver="this.style.borderColor='#17b5d2'; this.style.color='#17b5d2'"
+                @click="expand = !expand"></Button>
+            </div>
             <div v-for="(value, key) in houseMap[currentHouseId]">
-            <Divider orientation="left" size="small" :dashed="true">
-                <h1>
-                    {{key}}
-                    <span v-if="currentHouseId !== ''">&nbsp;</span>
-                    <Button v-if="currentHouseId !== ''" shape="circle" icon="md-create" @click="showOption(key)"></Button>
-                </h1>
-            </Divider>
-            <Row :gutter="16">
-                <Col span="6" v-for="serviceLink in value">
-                    <a :href="serviceLink.link" target="_blank" style="text-decoration: none; color: #2D3755">
-                        <Card style="margin-bottom: 16px;">
-                            <div style="text-align:left;">
-                                <div>
-                                    <img :src="serviceLink.image" style="width: 100%; height: 136px;border-top-left-radius: 4px; border-top-right-radius: 4px">
-                                    <h2 style="position: relative; top: -34px; left: 16px; color: white" v-if="/(\w*\.(?:com|cn|top|org|net))/.exec(serviceLink.link) !== null">
-                                        {{
-                                        /(\w*\.(?:com|cn|top|org|net))/.exec(serviceLink.link)[0]
-                                        }}
-                                    </h2>
-                                </div>
-                                <div style="position: relative; top: -8px;">
-                                    <p style="padding: 0 16px 2px 16px"><b>{{serviceLink.title}}</b></p>
-                                    <p style="padding: 0 16px 12px 16px; color: #9A9A9C">Due day {{serviceLink.createDate.substring(0, 10)}}</p>
-                                </div>
+                <Divider orientation="left" size="small" :dashed="true">
+                    <h1>
+                        {{key}}
+                        <Button v-if="currentHouseId !== ''" type="dashed" size="small" shape="circle" icon="md-create"
+                                style="margin-left: 2px"
+                                @click="showOption(key)"></Button>
+                    </h1>
+                </Divider>
+
+                <div v-if="expand">
+                    <Row :gutter="16">
+                        <Col span="6" v-for="serviceLink in value">
+                            <a :href="serviceLink.link" target="_blank" style="text-decoration: none; color: #2D3755">
+                                <Card style="margin-bottom: 16px;">
+                                    <div style="text-align:left;">
+                                        <div>
+                                            <img :src="serviceLink.image" style="width: 100%; height: 136px;border-top-left-radius: 4px; border-top-right-radius: 4px; object-fit: cover;" >
+                                            <h2 class="url" v-if="/(\w*\.(?:com|cn|top|org|net))/.exec(serviceLink.link) !== null">
+                                                {{
+                                                /(\w*\.(?:com|cn|top|org|net))/.exec(serviceLink.link)[0]
+                                                }}
+                                            </h2>
+                                        </div>
+                                        <div style="position: relative; top: -8px;">
+                                            <p style="padding: 0 16px 2px 16px"><b>{{serviceLink.title}}</b></p>
+                                            <p style="padding: 0 16px 12px 16px; color: #9A9A9C">Due day {{serviceLink.createDate.substring(0, 10)}}</p>
+                                        </div>
+                                    </div>
+                                </Card>
+                            </a>
+                            <div v-if="option[key] === true" style="position: absolute; top: 10px; left: 24px; z-index: 10">
+                                <Button type="error" shape="circle" size="small" icon="md-close" ghost
+                                        style="margin-right: 6px"
+                                        @click="confirm(serviceLink.title, serviceLink.link)"></Button>
+                                <Button type="info" shape="circle" size="small" icon="md-create" ghost
+                                        @click="viewUpdateServiceLinkModel(serviceLink);needUpdateServiceLink = true"></Button>
                             </div>
-                        </Card>
-                    </a>
-                    <div v-if="option[key] === true" style="position: absolute; top: 10px; left: 24px; z-index: 10">
-                        <Button type="error" shape="circle" size="small" icon="md-close" ghost
-                                style="margin-right: 6px"
-                                @click="confirm(serviceLink.title, serviceLink.link)"></Button>
-                        <Button type="info" shape="circle" size="small" icon="md-create" ghost
-                                @click="viewUpdateServiceLinkModel(serviceLink);needUpdateServiceLink = true"></Button>
-                    </div>
-                </Col>
-            </Row>
-        </div>
+                        </Col>
+                    </Row>
+                </div>
+            </div>
         </div>
         <Modal
                 title="Update service"
@@ -76,7 +86,7 @@
             </div>
             <div slot="footer" style="text-align: center">
                 <div style="width: 240px;margin-left:auto;margin-right: auto;">
-                    <Button type="primary" html-type="submit" long @click="updateServiceLink(() => { needUpdateServiceLink = false; $Message.success('Update house success')})"
+                    <Button type="primary" long @click="updateServiceLink(() => { needUpdateServiceLink = false; $Message.success('Update house success')})"
                             style="background-color: #17b5d2; border: 0" size="large" >UPDATE SERVICE</Button>
                 </div>
             </div>
@@ -93,11 +103,12 @@
         data: function() {
             return {
                 option: {},
-                needUpdateServiceLink: false
+                needUpdateServiceLink: false,
+                expand: true
             }
         },
         mounted: function () {
-            console.log(this.houseMap)
+            console.log(this.$route.query.house)
         },
         computed: {
             ...mapGetters('user', {
@@ -147,5 +158,17 @@
         display: flex;
         align-items: center;
         justify-content: center;
+    }
+    .url {
+        margin: 0;
+        position: relative; top: -34px; left: 0;
+        color: white;
+        width: 100%;
+        height: 34px;
+        background-color: rgba(44,62,80, 0.5);
+        padding: 6px 16px 6px 16px;
+    }
+    .pack {
+
     }
 </style>

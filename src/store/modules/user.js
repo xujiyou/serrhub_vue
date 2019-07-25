@@ -3,6 +3,7 @@ import userApi from '../../api/userApi'
 import houseApi from '../../api/houseApi'
 import serviceLinkApi from '../../api/serviceLinkApi'
 import Vue from 'vue'
+import router from '../../router/index'
 
 // initial state
 const state = {
@@ -292,7 +293,7 @@ const actions = {
             state.needLogin = false;
             let storage = window.localStorage;
             storage.token = state.token;
-            commit("setUserInfo", resp.data["userInfo"]);
+            commit("setUserInfo", {"userInfo": resp.data["userInfo"], "oldHouseId": ""});
         }, resp => {
            // alert("");
         })
@@ -314,13 +315,7 @@ const actions = {
 
             state.loginInfo.phoneOrEmail = state.registerInfo.phone;
             state.loginInfo.password = state.registerInfo.password;
-            authApi.login(state.loginInfo, resp => {
-                state.token = resp.data["token"];
-                state.needLogin = false;
-                let storage = window.localStorage;
-                storage.token = state.token;
-                commit("setUserInfo", resp.data["userInfo"]);
-            }, resp => {})
+            actions.login({commit});
         }, resp => {
            alert("Sorry, registration failed, please try again later.")
         })
@@ -334,10 +329,10 @@ const actions = {
     viewUpdateHouseModel({ commit }, newHouseInfo) {
         commit('changeModalToUpdateHouse', newHouseInfo);
     },
-    findUserInfo({ commit }) {
-        let that = this;
+    findUserInfo({ commit }, oldHouseId) {
+        console.log("oldHouseId: " + oldHouseId);
         userApi.findUserInfoThroughToken(state.token, resp => {
-            commit("setUserInfo", resp.data);
+            commit("setUserInfo", {"userInfo": resp.data, "oldHouseId": oldHouseId});
         }, resp => {
             actions.viewLoginModal({ commit });
         })
@@ -363,7 +358,8 @@ const actions = {
     },
     seeServiceLike ({ commit }, currentHouseNameArr) {
         if (currentHouseNameArr.length === 1) {
-            commit("setCurrentHouseId", currentHouseNameArr[0]);
+            let houseId = currentHouseNameArr[0];
+            commit("setCurrentHouseId", houseId);
         }
     },
     addAllServiceLink ({ commit }, serviceLink) {
@@ -424,13 +420,20 @@ const mutations = {
     changeModalToUpdateHouse(state, newHouseInfo) {
         Vue.set(state,'currentHouseInfo', newHouseInfo);
     },
-    setUserInfo (state, userInfo) {
+    setUserInfo (state, param) {
+        let userInfo = param["userInfo"];
+        let oldHouseId = param["oldHouseId"];
         Vue.set(state,'userInfo', userInfo);
-        Vue.set(state, 'currentHouseId', userInfo["houseList"][0]["houseId"])
+        if (oldHouseId === "") {
+            Vue.set(state, 'currentHouseId', userInfo["houseList"][0]["houseId"])
+        } else {
+            Vue.set(state, 'currentHouseId', oldHouseId)
+        }
     },
     addOneHouse (state, houseInfo) {
         state.userInfo.houseList.push(houseInfo);
-        state.currentHouseId = houseInfo.houseId;
+        router.push("/service?house=" + houseInfo.houseId);
+        Vue.set(state, 'currentHouseId', houseInfo.houseId);
     },
     updateOneHouse (state, newHouseInfo) {
         // let index = -1;
@@ -453,6 +456,7 @@ const mutations = {
         state.userInfo.houseList.splice(index, 1);
     },
     setCurrentHouseId (state, houseId) {
+        router.push("/service?house=" + houseId);
         Vue.set(state, 'currentHouseId', houseId);
         console.log(state.currentHouseId);
     },

@@ -4,13 +4,15 @@
         <div v-if="userInfo.userId !== ''">
             <h2>
                 My House
-                &nbsp;
-                <Button type="dashed" size="small" shape="circle" icon="md-add" @click="needAddHouse = true"></Button>
+                <Button type="dashed" size="small" shape="circle" icon="md-add"
+                        style="margin-left: 2px"
+                        @click="needAddHouse = true"></Button>
             </h2>
             <br/>
             <Collapse simple accordion :value="currentHouseId" v-on:on-change="seeServiceLike">
                 <Panel :name="house.houseId" v-for="house in userInfo.houseList">
-                    {{house.houseName}}
+                    <span v-if="currentHouseId === house.houseId"><b style="color: #2c3e50">{{house.houseName}}</b></span>
+                    <span v-if="currentHouseId !== house.houseId">{{house.houseName}}</span>
                     <p slot="content">
                         <br/>
                         <b>Address:</b> {{house.address}}
@@ -18,14 +20,19 @@
                         <b>Community name:</b> {{house.communityName}}
                         <br/><br/>
                         <Button type="error" shape="circle" size="small" icon="md-close" ghost @click="viewUpdateHouseModel(house);confirm()"></Button>
-                        &nbsp;&nbsp;
-                        <Button shape="circle" id="addNewWebsite"
+                        <Button shape="circle" id="updateHouse"
                                 @click="viewUpdateHouseModel(house); needUpdateHouse = true"
-                                onMouseOut="this.style.backgroundColor='transparent'"
-                                onMouseOver="this.style.backgroundColor='#f5f5f5'">
+                                onMouseOut="this.style.borderColor='#2c3e50'; this.style.color='#2c3e50'"
+                                onMouseOver="this.style.borderColor='#17b5d2'; this.style.color='#17b5d2'">
                             <b>UPDATE</b>
                         </Button>
-
+                        <br/>
+                        <Button shape="circle" id="addNewWebsite"
+                                @click="needAddWebsite = true"
+                                onMouseOut="this.style.borderColor='#2c3e50'; this.style.color='#2c3e50'"
+                                onMouseOver="this.style.borderColor='#17b5d2'; this.style.color='#17b5d2'">
+                            <b>ADD NEW SERVICE</b>
+                        </Button>
                     </p>
                 </Panel>
             </Collapse>
@@ -50,13 +57,13 @@
                             <Input placeholder="Community name" v-model="houseInfo.communityName"></Input>
                         </FormItem>
                         <FormItem label="Note" :required="true">
-                            <Input placeholder="Note"v-model="houseInfo.note" ></Input>
+                            <Input placeholder="Note" v-model="houseInfo.note" ></Input>
                         </FormItem>
                     </Form>
                 </div>
                 <div slot="footer" style="text-align: center">
                     <div style="width: 240px;margin-left:auto;margin-right: auto;">
-                        <Button type="primary" html-type="submit" long @click="add"
+                        <Button type="primary" long @click="add"
                                 style="background-color: #17b5d2; border: 0" size="large" >ADD HOUSE</Button>
                     </div>
                 </div>
@@ -82,13 +89,13 @@
                             <Input placeholder="Community name" v-model="currentHouseInfo.communityName"></Input>
                         </FormItem>
                         <FormItem label="Note" :required="true">
-                            <Input placeholder="Note"v-model="currentHouseInfo.note" ></Input>
+                            <Input placeholder="Note" v-model="currentHouseInfo.note" ></Input>
                         </FormItem>
                     </Form>
                 </div>
                 <div slot="footer" style="text-align: center">
                     <div style="width: 240px;margin-left:auto;margin-right: auto;">
-                        <Button type="primary" html-type="submit" long @click="updateHouse(() => { needUpdateHouse = false; $Message.success('Update house success')})"
+                        <Button type="primary" long @click="updateHouse(() => { needUpdateHouse = false; $Message.success('Update house success')})"
                                 style="background-color: #17b5d2; border: 0" size="large" >UPDATE HOUSE</Button>
                     </div>
                 </div>
@@ -137,6 +144,48 @@
                     </Row>
                 </div>
             </Modal>
+
+            <Modal
+                    title="Add Service"
+                    v-model="needAddWebsite"
+                    class-name="vertical-center-modal"
+                    :styles="{top: '0px'}"
+                    width="520">
+                <p slot="header" style="text-align: center">
+                    <span>Add website</span>
+                </p>
+                <div style="width: 360px;margin-left:auto;margin-right: auto;">
+                    <Form :label-width="120" ref="formValidate" onsubmit="event.preventDefault()" :model="serviceLinkInfo" >
+                        <FormItem label="Title" :required="true">
+                            <Input placeholder="Title" v-model="serviceLinkInfo.title"></Input>
+                        </FormItem>
+                        <FormItem label="Image" :required="true">
+                            <Input placeholder="Image" v-model="serviceLinkInfo.image"></Input>
+                        </FormItem>
+                        <FormItem label="Link" :required="true">
+                            <Input placeholder="Link" v-model="serviceLinkInfo.link"></Input>
+                        </FormItem>
+                        <FormItem label="Categories" :required="true">
+                            <Input placeholder="Categories" v-model="serviceLinkInfo.categories"></Input>
+                        </FormItem>
+                        <FormItem label="contact" :required="true">
+                            <Input placeholder="contact" v-model="serviceLinkInfo.contact"></Input>
+                        </FormItem>
+                        <FormItem label="Phone" :required="true">
+                            <Input placeholder="Phone" v-model="serviceLinkInfo.phone"></Input>
+                        </FormItem>
+                        <FormItem label="Note" :required="true">
+                            <Input placeholder="Note"v-model="serviceLinkInfo.note" ></Input>
+                        </FormItem>
+                    </Form>
+                </div>
+                <div slot="footer" style="text-align: center">
+                    <div style="width: 240px;margin-left:auto;margin-right: auto;">
+                        <Button type="primary" html-type="submit" long @click="addServiceLink(() => { needAddWebsite = false; $Message.success('Add website success')})"
+                                style="background-color: #17b5d2; border: 0" size="large" >ADD NEW SERVICE</Button>
+                    </div>
+                </div>
+            </Modal>
         </div>
 
     </div>
@@ -153,6 +202,7 @@
                 needAddHouse: false,
                 needUpdateHouse: false,
                 showChooseService: false,
+                needAddWebsite: false,
                 cacheServiceLinkList: []
             }
         },
@@ -162,6 +212,7 @@
                 houseInfo: state => state.user.houseInfo,
                 currentHouseInfo: state => state.user.currentHouseInfo,
                 currentHouseId: state => state.user.currentHouseId,
+                serviceLinkInfo: state => state.user.serviceLinkInfo,
             }),
         },
         methods: {
@@ -172,7 +223,8 @@
                 'updateHouse',
                 'removeHouse',
                 'seeServiceLike',
-                'addAllServiceLink'
+                'addAllServiceLink',
+                'addServiceLink',
             ]),
             add () {
                 this.addHouse((serviceLinkList) => {
@@ -229,12 +281,21 @@
         align-items: center;
         justify-content: center;
     }
+    #updateHouse {
+        background-color: transparent;
+        color: #2c3e50;
+        border-color: #2c3e50;
+        border-width: 1px;
+        margin-left: 8px;
+        padding: 2px 10px 2px 10px;
+    }
     #addNewWebsite {
         background-color: transparent;
-        color: #17b5d2;
-        border-color: #17b5d2;
+        color: #2c3e50;
+        border-color: #2c3e50;
         border-width: 1px;
-        padding: 2px 8px 2px 8px;
+        margin-top: 8px;
+        padding: 4px 10px 4px 10px;
     }
     .ivu-btn-primary {
         background-color: red;

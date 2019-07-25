@@ -4,7 +4,8 @@
         <Search id="search"></Search>
         <Row>
             <Col span="4"><MyHouse></MyHouse></Col>
-            <Col span="16"><ServiceLinkList></ServiceLinkList></Col>
+            <Col span="16"><router-view></router-view></Col>
+<!--            <Col span="16"><ServiceLinkList></ServiceLinkList></Col>-->
         </Row>
         <Footer id="footerDiv"></Footer>
 
@@ -37,7 +38,6 @@
                   <CheckboxGroup>
                     <Checkbox label="Remember me"></Checkbox>
                     <Button size="small" type="text" style="float: right; margin-top: 4px"
-                            html-type="submit"
                             onMouseOut="this.style.color='#515A61'"
                             onMouseOver="this.style.color='#17b5d2'" @click="viewRegisterModal">Register now</Button>
                   </CheckboxGroup>
@@ -100,10 +100,10 @@
                     <Input placeholder="Email *" v-model="registerInfo.email"></Input>
                 </FormItem>
                 <FormItem prop="password">
-                    <Input type="Password" placeholder="Password *"  v-model="registerInfo.password"></Input>
+                    <Input type="password" placeholder="Password *"  v-model="registerInfo.password"></Input>
                 </FormItem>
                 <FormItem prop="password">
-                    <Input type="Password" placeholder="Confirm password *"  v-model="registerInfo.secondPassword"></Input>
+                    <Input type="password" placeholder="Confirm password *"  v-model="registerInfo.secondPassword"></Input>
                 </FormItem>
             </Form>
               <div style="width: 320px; text-align: center">
@@ -156,7 +156,11 @@ export default {
             console.log("需要登录");
             this.viewLoginModal(this)
         } else {
-            this.findUserInfo(this);
+            if (this.$route.query.house === undefined || this.$route.query.house === "") {
+                this.findUserInfo("");
+            } else {
+                this.findUserInfo(this.$route.query.house);
+            }
         }
     },
     computed: mapState({
@@ -190,11 +194,11 @@ export default {
 
 <style>
     #app {
-      font-family: 'Avenir', Helvetica, Arial, sans-serif;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      color: #2c3e50;
-      min-width: 1300px;
+        font-family: 'Avenir', Helvetica, Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        color: #2c3e50;
+        min-width: 1300px;
         background-color: white;
     }
     #search {
