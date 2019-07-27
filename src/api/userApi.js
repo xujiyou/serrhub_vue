@@ -4,9 +4,8 @@ export default {
     findUserInfoThroughToken (token, successCallback, errorCallback) {
         let formData = new FormData();
         formData.append('token', token);
-        Vue.http.post(
-            'http://boot.serrhub.com/api/user/info',
-            formData, {
+        Vue.http.get(
+            'http://boot.serrhub.com/api/user/info?token=' + token, {
                 headers: {
                     "Content-Type": "application/x-www-form-urlencoded",
                     "Authorization": "serrhub" + token

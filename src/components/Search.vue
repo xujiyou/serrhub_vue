@@ -147,6 +147,7 @@
         border: #17b5d2 solid 1px;
         border-radius: 8px;
         height: 60px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08)
     }
     input {
         border-radius: 8px;
@@ -163,5 +164,6 @@
         border-radius: 8px;
         background-color: #17b5d2;
         font-size: 18px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08)
     }
 </style>

@@ -72,15 +72,28 @@
             <div style="width: 220px;margin-left:auto;margin-right: auto;">
                 <Card style="margin-bottom: 16px;">
                     <div style="text-align:left;">
-                        <div>
-                            <img src="https://pic3.zhimg.com/19554be26eaaace6f99476ef9c6e0ed2_xll.jpg" style="width: 100%; height: 136px;border-top-left-radius: 4px; border-top-right-radius: 4px">
-                        </div>
+                        <Upload action="http://boot.serrhub.com/api/user/updateAvatar"
+                                :headers="{'Authorization': 'serrhub' + token}"
+                                :data="{'userId': userInfo.userId}"
+                                :show-upload-list="false"
+                                name="file"
+                                :on-success="uploadSuccess">
+                            <div>
+                                <img :src='imageSrc' style="width: 100%; height: 136px;border-top-left-radius: 4px; border-top-right-radius: 4px">
+                            </div>
+                        </Upload>
                         <div style="margin-top: 12px">
                             <p style="padding: 0 16px 2px 16px"><b>{{userInfo.username}}</b></p>
                             <p style="padding: 0 16px 2px 16px; color: #9A9A9C">Phone: {{userInfo.phone}}</p>
                             <p style="padding: 0 16px 12px 16px; color: #9A9A9C">Email: {{userInfo.email}}</p>
                         </div>
                     </div>
+
+<!--                    <div style="position: absolute; top: 8px; left: 8px; z-index: 10">-->
+<!--                        -->
+<!--                        <Button type="info" shape="circle" size="small" icon="md-create" ghost-->
+<!--                                @click=""></Button>-->
+<!--                    </div>-->
                 </Card>
             </div>
             <div slot="footer" style="text-align: center">
@@ -98,13 +111,23 @@
         name: "Header",
         data() {
             return {
-                showMyAccount: false
+                showMyAccount: false,
+                imageSrc: '',
+            }
+        },
+        mounted () {
+            let image = this.userInfo.profileImage
+            if (image === undefined || image === null || image === "") {
+                this.imageSrc = 'https://pic3.zhimg.com/19554be26eaaace6f99476ef9c6e0ed2_xll.jpg';
+            } else {
+                this.imageSrc = image;
             }
         },
         computed: {
             ... mapState({
                 serviceLinkInfo: state => state.user.serviceLinkInfo,
-                userInfo: state => state.user.userInfo
+                userInfo: state => state.user.userInfo,
+                token: state => state.user.token
             }),
         },
         methods: {
@@ -115,6 +138,11 @@
                 'setNeedLogin',
                 'logout'
             ]),
+            uploadSuccess (response, file, fileList) {
+                this.userInfo.profileImage = response;
+                this.imageSrc = response;
+                console.log(response)
+            }
         }
     }
 </script>

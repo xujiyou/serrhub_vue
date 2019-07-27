@@ -85,7 +85,7 @@
           <span>Register</span>
 
         </p>
-        <div style="width: 440px;margin-left:auto;margin-right: auto;text-align: center">
+        <div style="width: 440px;margin: auto;text-align: center">
             <Form inline>
                 <FormItem :required="true">
                     <Input placeholder="First Name *" v-model="registerInfo.firstName"></Input>
@@ -93,36 +93,53 @@
                 <FormItem :required="true">
                     <Input placeholder="Last Name *" v-model="registerInfo.lastName"></Input>
                 </FormItem>
-                <FormItem :required="true">
-                    <Input placeholder="Phone *" v-model="registerInfo.phone"></Input>
-                </FormItem>
-                <FormItem :required="true">
-                    <Input placeholder="Email *" v-model="registerInfo.email"></Input>
-                </FormItem>
-                <FormItem prop="password">
-                    <Input type="password" placeholder="Password *"  v-model="registerInfo.password"></Input>
-                </FormItem>
-                <FormItem prop="password">
-                    <Input type="password" placeholder="Confirm password *"  v-model="registerInfo.secondPassword"></Input>
-                </FormItem>
             </Form>
-              <div style="width: 320px; text-align: center">
-                  <Form :label-width="120" :model="registerInfo" onsubmit="event.preventDefault()" label-position="top">
-                      <FormItem>
-                          <Input placeholder="House name" v-model="registerInfo.houseName"></Input>
+            <div style="width: 362px; text-align: center">
+                  <Form onsubmit="event.preventDefault()" :label-width="68">
+                      <FormItem :required="true">
+                          <Input placeholder="Phone *" v-model="registerInfo.phone"></Input>
+                      </FormItem>
+                      <FormItem :required="true">
+                          <Input placeholder="Email *" v-model="registerInfo.email"></Input>
+                      </FormItem>
+                      <FormItem prop="password">
+                          <Input type="password" placeholder="Password *"  v-model="registerInfo.password"></Input>
+                      </FormItem>
+                      <FormItem prop="password">
+                          <Input type="password" placeholder="Confirm password *"  v-model="registerInfo.secondPassword"></Input>
+                      </FormItem>
+                      <Divider orientation="left" size="small" :dashed="true" style="margin-left: 68px; padding-right: 68px; margin-bottom: 20px">
+                          <Button type="text" size="small"
+                                  style="margin-left: 2px"
+                                  onMouseOut="this.style.color='#2c3e50'"
+                                  onMouseOver="this.style.color='#17b5d2'"
+                                  @click="showExcessOption = !showExcessOption">
+                              more option
+                              <Icon :type="showExcessOption ? 'ios-arrow-down' : 'ios-arrow-forward'" />
+                          </Button>
+                      </Divider>
+                      <div v-if="showExcessOption">
+                          <FormItem>
+                              <Input placeholder="House name" v-model="registerInfo.houseName"></Input>
+                          </FormItem>
+                          <FormItem>
+                              <Input placeholder="Address" v-model="registerInfo.address"></Input>
+                          </FormItem>
+                          <FormItem>
+                              <Input placeholder="Community name" v-model="registerInfo.communityName"></Input>
+                          </FormItem>
+                      </div>
+                      <FormItem style="color: darkgray">
+                          <Checkbox v-model="agree" style="line-height: 1.3" v-bind:class="{checkboxError: isError}" @on-change="isError = false">
+                              &nbsp;&nbsp;By clicking on "Sign up", you agree to the Serrhub Terms & Conditions and Privacy Policy
+                          </Checkbox>
                       </FormItem>
                       <FormItem>
-                          <Input placeholder="Address" v-model="registerInfo.address"></Input>
-                      </FormItem>
-                      <FormItem>
-                          <Input placeholder="Community name" v-model="registerInfo.communityName"></Input>
-                      </FormItem>
-                      <FormItem>
-                          <Button type="primary" html-type="submit" long style="background-color: #17b5d2; border: 0" size="large" @click="register">SIGN UP</Button>
+                          <Button type="primary" html-type="submit" long style="background-color: #17b5d2; border: 0" size="large" @click="wantRegister">SIGN UP</Button>
                       </FormItem>
                   </Form>
               </div>
-        </div>
+          </div>
           <div slot="footer" style="text-align: center">
             <Button size="small" type="text" icon="ios-arrow-back"
                     onMouseOut="this.style.color='#515A61'"
@@ -142,6 +159,13 @@ import { mapState, mapActions } from 'vuex'
 
 export default {
     name: 'app',
+    data () {
+      return {
+          "showExcessOption": false,
+          "agree": false,
+          "isError": false
+      }
+    },
     components: {
         Header,
         Search,
@@ -182,6 +206,13 @@ export default {
             'setNeedLogin',
             'setNeedRegister'
         ]),
+        wantRegister () {
+            if (this.agree) {
+                this.register();
+            } else {
+                this.isError = true
+            }
+        },
         changeLoginModelVisible (visible) {
             this.setNeedLogin(visible);
         },
@@ -237,5 +268,7 @@ export default {
         right: 0;
         background-color: white;
     }
-
+    .checkboxError {
+        color: red;
+    }
 </style>

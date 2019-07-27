@@ -2,14 +2,19 @@
     <div id="myHouse">
         &nbsp;
         <div v-if="userInfo.userId !== ''">
-            <h2>
+            <p v-if="userInfo.houseList.length === 0" style="line-height: 1.4">
+                Sorry, you haven't added the house yet. Please
+                <Button type="text" style="color: #17b5d2" @click="needAddHouse = true"><b>add it</b></Button>
+                .
+            </p>
+            <h2 v-if="userInfo.houseList.length !== 0">
                 My House
                 <Button type="dashed" size="small" shape="circle" icon="md-add"
                         style="margin-left: 2px"
                         @click="needAddHouse = true"></Button>
             </h2>
             <br/>
-            <Collapse simple accordion :value="currentHouseId" v-on:on-change="seeServiceLike">
+            <Collapse simple accordion :value="currentHouseId" v-on:on-change="seeServiceLike" v-if="userInfo.houseList.length !== 0">
                 <Panel :name="house.houseId" v-for="house in userInfo.houseList">
                     <span v-if="currentHouseId === house.houseId"><b style="color: #2c3e50">{{house.houseName}}</b></span>
                     <span v-if="currentHouseId !== house.houseId">{{house.houseName}}</span>
