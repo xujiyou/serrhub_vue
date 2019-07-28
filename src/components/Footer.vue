@@ -1,8 +1,10 @@
 <template>
     <div id="footer">
+        <!-- 底部边框，距离底部按钮20个像素-->
         <Divider style="margin: 0 0 20px 0"></Divider>
         <Row>
             <Col span="4">&nbsp;&nbsp;</Col>
+            <!-- 底部各个按钮，横向居中显示 -->
             <Col span="16" style="text-align: center">
                 <Button size="small" type="text"
                         onMouseOut="this.style.color='#515A61'"
@@ -39,11 +41,9 @@
 </script>
 
 <style scoped>
-#footer {
-    border-top: 1px solid #d8d8d8;
-}
-Button {
-    margin-right: 20px;
-    margin-left: 20px;
-}
+    /*按钮间隔*/
+    Button {
+        margin-right: 20px;
+        margin-left: 20px;
+    }
 </style>

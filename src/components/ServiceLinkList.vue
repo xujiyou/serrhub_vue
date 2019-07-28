@@ -1,26 +1,31 @@
 <template>
     <div id="serviceLinkList">
         <div>
+            <!-- 如果服务链接为空，给出提示 -->
             <div v-if="JSON.stringify(houseMap[currentHouseId]) === '{}'">
                 Sorry, you haven't added the service link yet. Please
-                <Button type="text" style="color: #17b5d2" @click="needAddWebsite = true"><b>add a service link</b></Button>
+                <Button type="text" style="color: #17b5d2" @click="needAddService = true"><b>add a service link</b></Button>
                 .
             </div>
             <div style="float: right" v-if="JSON.stringify(houseMap[currentHouseId]) !== '{}'">
-                <Button :icon="expand ? 'md-funnel' : 'md-expand'" class="pack"
+                <!-- 折叠按钮 -->
+                <Button :icon="expand ? 'md-funnel' : 'md-expand'"
                         onMouseOut="this.style.borderColor='#D3D6DB'; this.style.color='#D3D6DB'"
                         onMouseOver="this.style.borderColor='#17b5d2'; this.style.color='#17b5d2'"
                 @click="expand = !expand"></Button>
             </div>
             <div v-for="(value, key) in houseMap[currentHouseId]">
                 <Divider orientation="left" size="small" :dashed="true">
+                    <!-- 展示类别 -->
                     <h1>
                         {{key}}
+                        <!-- 是否展示服务的操作按钮 -->
                         <Button v-if="currentHouseId !== ''" type="dashed" size="small" shape="circle" icon="md-create"
                                 style="margin-left: 2px"
                                 @click="showOption(key)"></Button>
                     </h1>
                 </Divider>
+                <!-- 是否折叠 -->
                 <div v-if="expand">
                     <Row :gutter="16">
                         <Col span="6" v-for="serviceLink in value">
@@ -28,7 +33,9 @@
                                 <Card style="margin-bottom: 16px;">
                                     <div style="text-align:left;">
                                         <div>
+                                            <!-- 服务图片 -->
                                             <img :src="serviceLink.image" style="width: 100%; height: 136px;border-top-left-radius: 4px; border-top-right-radius: 4px; object-fit: cover;" >
+                                            <!-- 服务链接 -->
                                             <h2 class="url" v-if="/(\w*\.(?:com|cn|top|org|net))/.exec(serviceLink.link) !== null">
                                                 {{
                                                 /(\w*\.(?:com|cn|top|org|net))/.exec(serviceLink.link)[0]
@@ -36,24 +43,29 @@
                                             </h2>
                                         </div>
                                         <div style="position: relative; top: -8px;">
+                                            <!-- 服务标题 -->
                                             <p style="padding: 0 16px 2px 16px"><b>{{serviceLink.title}}</b></p>
+                                            <!-- 创建日期 -->
                                             <p style="padding: 0 16px 12px 16px; color: #9A9A9C">Due day {{serviceLink.createDate.substring(0, 10)}}</p>
                                         </div>
                                     </div>
                                 </Card>
                             </a>
+                            <!-- 两个服务操作按钮 -->
                             <div v-if="option[key] === true" style="position: absolute; top: 10px; left: 24px; z-index: 10">
                                 <Button type="error" shape="circle" size="small" icon="md-close" ghost
                                         style="margin-right: 6px"
                                         @click="confirm(serviceLink.title, serviceLink.link)"></Button>
                                 <Button type="info" shape="circle" size="small" icon="md-create" ghost
-                                        @click="viewUpdateServiceLinkModel(serviceLink);needUpdateServiceLink = true"></Button>
+                                        @click="setCurrentServiceLink(serviceLink);needUpdateServiceLink = true"></Button>
                             </div>
                         </Col>
                     </Row>
                 </div>
             </div>
         </div>
+
+        <!-- 更新服务信息 -->
         <Modal
                 title="Update service"
                 v-model="needUpdateServiceLink"
@@ -95,9 +107,11 @@
                 </div>
             </div>
         </Modal>
+
+        <!-- 添加服务按钮，代码同Header中的添加服务按钮，只有在服务为空时才会有机会弹出这个modal -->
         <Modal
                 title="Add Service"
-                v-model="needAddWebsite"
+                v-model="needAddService"
                 class-name="vertical-center-modal"
                 :styles="{top: '0px'}"
                 width="520">
@@ -128,7 +142,7 @@
             </div>
             <div slot="footer" style="text-align: center">
                 <div style="width: 240px;margin-left:auto;margin-right: auto;">
-                    <Button type="primary" html-type="submit" long @click="addServiceLink(() => { needAddWebsite = false; $Message.success('Add website success')})"
+                    <Button type="primary" html-type="submit" long @click="addServiceLink(() => { needAddService = false; $Message.success('Add website success')})"
                             style="background-color: #17b5d2; border: 0" size="large" >ADD NEW SERVICE</Button>
                 </div>
             </div>
@@ -144,46 +158,46 @@
         name: "ServiceLinkList",
         data: function() {
             return {
-                option: {},
-                needUpdateServiceLink: false,
-                expand: true,
-                needAddWebsite: false,
+                option: {}, //是否展示各个分类的服务的修改删除按钮
+                needUpdateServiceLink: false, //是否展示修改modal的按钮
+                expand: true, //是否折叠
+                needAddService: false, //展示添加服务的modal
             }
-        },
-        mounted: function () {
-            console.log(this.$route.query.house)
         },
         computed: {
             ...mapGetters('user', {
-                houseMap: 'houseMap',
+                houseMap: 'houseMap', //组装的房屋-服务数据结构
             }),
             ...mapState('user', {
-                currentHouseId: 'currentHouseId',
-                currentServiceLinkInfo: 'currentServiceLinkInfo',
-                serviceLinkInfo: 'serviceLinkInfo',
+                currentHouseId: 'currentHouseId', //当前房屋ID，用于展示不同房屋的链接
+                currentServiceLinkInfo: 'currentServiceLinkInfo', //当前要修改的服务的信息
+                serviceLinkInfo: 'serviceLinkInfo', //要添加的服务的信息
             })
         },
         methods: {
             ...mapActions('user', [
-                'removeServiceLink',
-                'viewUpdateServiceLinkModel',
-                'updateServiceLink',
-                'addServiceLink',
+                'removeServiceLink', //删除服务
+                'setCurrentServiceLink',  //展示修改服务的modal
+                'updateServiceLink', //修改服务
+                'addServiceLink', //添加服务
             ]),
+            //是否展示修改，删除服务的按钮
             showOption: function(key) {
                 Vue.set(this.option,key,!this.option[key]);
-                console.log(this.option[key])
             },
+            //询问是否删除服务
             confirm (title, link) {
                 this.$Modal.confirm({
                     title: 'Are you sure you want to remove ' + title + ' ?',
                     onOk: () => {
+                        //删除服务
                         this.removeServiceLink({
                             "closeModel": () => this.$Message.success('Remove Success'),
                             "link": link
                         });
                     },
                     onCancel: () => {
+                        //取消删除
                         this.$Message.info('Cancel remove');
                     },
                     okText: 'Remove',
@@ -195,15 +209,18 @@
 </script>
 
 <style scoped>
+    /*距离顶部20px，距离底部160px，避免被底部遮挡*/
     #serviceLinkList {
         padding-top: 20px;
         padding-bottom: 160px;
     }
+    /*modal框竖向居中*/
     .vertical-center-modal{
         display: flex;
         align-items: center;
         justify-content: center;
     }
+    /*网址链接样式*/
     .url {
         margin: 0;
         position: relative; top: -34px; left: 0;
@@ -212,8 +229,5 @@
         height: 34px;
         background-color: rgba(44,62,80, 0.5);
         padding: 6px 16px 6px 16px;
-    }
-    .pack {
-
     }
 </style>

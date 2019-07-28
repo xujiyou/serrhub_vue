@@ -2,6 +2,7 @@
     <div id="myHouse">
         &nbsp;
         <div v-if="userInfo.userId !== ''">
+            <!-- 如果房屋为空，给出提示 -->
             <p v-if="userInfo.houseList.length === 0" style="line-height: 1.4">
                 Sorry, you haven't added the house yet. Please
                 <Button type="text" style="color: #17b5d2" @click="needAddHouse = true"><b>add it</b></Button>
@@ -33,7 +34,7 @@
                         </Button>
                         <br/>
                         <Button shape="circle" id="addNewWebsite"
-                                @click="needAddWebsite = true"
+                                @click="needAddService = true"
                                 onMouseOut="this.style.borderColor='#2c3e50'; this.style.color='#2c3e50'"
                                 onMouseOver="this.style.borderColor='#17b5d2'; this.style.color='#17b5d2'">
                             <b>ADD NEW SERVICE</b>
@@ -195,31 +196,31 @@
 
 
 <script>
-    import Vue from 'vue'
     import { mapState, mapActions } from 'vuex'
 
     export default {
         name: "MyHouse",
         data: () => {
             return {
-                needAddHouse: false,
-                needUpdateHouse: false,
-                showChooseService: false,
-                needAddWebsite: false,
-                cacheServiceLinkList: [],
-                loadingAddService: false,
+                needAddHouse: false, //是否显示添加房屋的modal
+                needUpdateHouse: false, //是否显示更新房屋的modal
+                showChooseService: false, //是否展示待添加的服务modal
+                needAddService: false, //是都展示添加服务的modal
+                cacheServiceLinkList: [], //待添加的服务列表
+                loadingAddService: false, //是都在等待添加服务
             }
         },
         computed: {
             ... mapState({
-                userInfo: state => state.user.userInfo,
-                houseInfo: state => state.user.houseInfo,
-                currentHouseInfo: state => state.user.currentHouseInfo,
-                currentHouseId: state => state.user.currentHouseId,
-                serviceLinkInfo: state => state.user.serviceLinkInfo,
+                userInfo: state => state.user.userInfo, //用户信息
+                houseInfo: state => state.user.houseInfo, //新添加房屋的信息
+                currentHouseInfo: state => state.user.currentHouseInfo, //当前房屋的信息
+                currentHouseId: state => state.user.currentHouseId, //当前房屋的ID
+                serviceLinkInfo: state => state.user.serviceLinkInfo, //新添加的服务信息
             }),
         },
         watch: {
+            //自动填充address，待完善
             'houseInfo.address': function () {
                 console.log('https://maps.googleapis.com/maps/api/place/autocomplete/json?input=' + this.houseInfo.address + '&key=AIzaSyAD842rTaNELNyAyHC9ssB0c7n56gSyA1k')
                 // Vue.http.get(
@@ -232,47 +233,51 @@
         },
         methods: {
             ...mapActions('user', [
-                'viewAddHouseModel',
-                'viewUpdateHouseModel',
-                'addHouse',
-                'updateHouse',
-                'removeHouse',
-                'seeServiceLike',
-                'addAllServiceLink',
-                'addServiceLink',
+                'viewUpdateHouseModel', //显示更新房屋的modal
+                'addHouse', //添加房屋
+                'updateHouse', //更新房屋信息
+                'removeHouse', //删除房屋
+                'addAllServiceLink', //添加小区内的所有的服务链接
+                'addServiceLink', //添加服务链接
+                'seeServiceLike', //查看当前房屋的服务链接列表
             ]),
             wantAddHouse () {
                 this.addHouse((serviceLinkList) => {
-                    console.log("serviceLinkList: " + serviceLinkList);
                     this.needAddHouse = false;
-                    this.$Message.success('Add house success');
+                    this.$Message.success('Add house success'); //提示添加房屋成功
                     if (serviceLinkList.length !== 0) {
+                        //如果小区的服务链接不是空，让用户选择是否添加
                         this.cacheServiceLinkList = serviceLinkList;
                         this.showChooseService = true;
                     }
                 })
             },
+            //添加服务，由于添加服务很耗时，所以将按钮置为等待，添加成功后将按钮置为正常，下次再添加时，按钮还是正常的
             wantAddService () {
                 this.loadingAddService = true;
                 this.addServiceLink(() => {
                    this.needAddWebsite = false;
                    this.loadingAddService = false;
-                   this.$Message.success('Add website success')
+                   this.$Message.success('Add website success') //提示添加服务成功
                 });
             },
+            //询问是否确定删除房屋
             confirm () {
                 this.$Modal.confirm({
                     title: 'Are you sure you want to remove ' + this.currentHouseInfo.houseName + ' ?',
                     onOk: () => {
+                        //删除房屋，删除完成后，提示删除成功
                         this.removeHouse(() => this.$Message.success('Remove Success'));
                     },
                     onCancel: () => {
+                        //提示取消删除
                         this.$Message.info('Cancel remove');
                     },
                     okText: 'Remove',
                     cancelText: 'Cancel'
                 });
             },
+            //在添加房屋后，服务端会给出本小区房屋的服务链接列表，如果其中有不想要的，可以去掉
             removeServiceFromArray (serviceLink) {
                 let index = -1;
                 for (let i = 0; i < this.cacheServiceLinkList.length; i++) {
@@ -283,6 +288,7 @@
                 }
                 this.cacheServiceLinkList.splice(index, 1);
             },
+            //在添加房屋后，服务端会给出本小区房屋的服务链接列表，可以确定添加想要的服务链接
             makeSureAddAll () {
                 for (let i = 0; i < this.cacheServiceLinkList.length; i++) {
                     this.addAllServiceLink(this.cacheServiceLinkList[i])
@@ -293,17 +299,22 @@
 </script>
 
 <style scoped>
+    /*边距*/
     #myHouse {
         margin-top: 20px;
-        padding-left: 20px;
-        padding-right: 20px;
+        padding-left: 12px;
+        padding-right: 12px;
         padding-bottom: 160px;
     }
+
+    /*modal竖向居中*/
     .vertical-center-modal{
         display: flex;
         align-items: center;
         justify-content: center;
     }
+
+    /*更新房屋信息按钮的样式*/
     #updateHouse {
         background-color: transparent;
         color: #2c3e50;
@@ -312,6 +323,8 @@
         margin-left: 8px;
         padding: 2px 10px 2px 10px;
     }
+
+    /*添加服务信息按钮的样式*/
     #addNewWebsite {
         background-color: transparent;
         color: #2c3e50;
@@ -319,8 +332,5 @@
         border-width: 1px;
         margin-top: 8px;
         padding: 4px 10px 4px 10px;
-    }
-    .ivu-btn-primary {
-        background-color: red;
     }
 </style>

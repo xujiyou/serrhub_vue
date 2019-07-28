@@ -5,6 +5,7 @@
             <Col span="16">
                 <Row>
                     <Col span="18" id="shadow">
+                        <!--类型选择-->
                         <Dropdown style="width: 20%; text-align: center; height: 100%;" placement="bottom-start" v-on:on-click="switchType">
                             <a href="javascript:void(0)" style="color: #172140;font-size: 16px;">
                                 {{type}}
@@ -19,12 +20,13 @@
                                 <DropdownItem name="Note" :selected="type === 'Note'">Note</DropdownItem>
                             </DropdownMenu>
                         </Dropdown>
-
+                        <!--分割线-->
                         <Divider type="vertical" style="width: 1px; height: 50px;"/>
-
+                        <!--搜索框-->
                         <input placeholder="SEARCH FOR SERVICE" style="width: 74%; height: 100%;" v-model="text"/>
                     </Col>
                     <Col span="6" id="searchButtonCol">
+                        <!--搜索按钮-->
                         <Button type="info" style="width: 100%;height: 60px;" id="searchButton" @click="search">
                             <b>SEARCH</b>
                         </Button>
@@ -82,27 +84,30 @@
         name: "Search",
         data: function () {
             return {
-                needShowSearchResult: false,
-                type: "Categories",
-                text: "",
-                searchServiceLinkResult: []
+                needShowSearchResult: false, //是否展示搜索结果，搜索完再展示
+                type: "Categories", //当前搜索类型
+                text: "", //要搜索的内容
+                searchServiceLinkResult: [] //搜索结果列表
             }
         },
         computed: {
             ... mapState({
-                userInfo: state => state.user.userInfo
+                userInfo: state => state.user.userInfo //用户信息
             }),
         },
         methods: {
+            ...mapActions('user', [
+                'searchServiceLink' //开始搜索
+            ]),
+            //切换搜索类型
             switchType: function (value) {
                 this.type = value;
             },
-            ...mapActions('user', [
-                'searchServiceLink'
-            ]),
             search: function () {
+                //先将结果置为空数组，避免展示上次搜索的结果
                 this.searchServiceLinkResult = [];
                 if (this.userInfo.userId === "") {
+                    //如果是未登录状态，从公共数据中搜索
                     let serviceLinkList = this.userInfo.houseList[0].serviceLinkList;
                     for (let i = 0; i < serviceLinkList.length; i++) {
                         let serviceLink = serviceLinkList[i];
@@ -120,6 +125,7 @@
                     }
                     this.needShowSearchResult = true
                 } else {
+                    //如果是登录状态，从服务端搜索
                     this.searchServiceLink({
                         "type": this.type,
                         "text": this.text,
@@ -139,9 +145,12 @@
 </script>
 
 <style scoped>
+    /*设置搜索框最小宽度*/
     #search{
         min-width: 1300px;
     }
+
+    /*横条样式*/
     #shadow {
         background-color: #fff;
         border: #17b5d2 solid 1px;
@@ -149,6 +158,8 @@
         height: 60px;
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08)
     }
+
+    /*搜索框样式*/
     input {
         border-radius: 8px;
         background-color: #fff;
@@ -157,9 +168,13 @@
         font-size: 16px;
         padding-left: 10px;
     }
+
+    /*搜索按钮距离左侧搜索框20个像素*/
     #searchButtonCol {
         padding-left: 20px;
     }
+
+    /*搜索按钮样式*/
     #searchButton {
         border-radius: 8px;
         background-color: #17b5d2;

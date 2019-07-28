@@ -1,6 +1,7 @@
 <template>
     <div id="header">
-        <div id="myInfo">
+        <div id="buttonGroup">
+            <!-- userId为空字符串说明未登录，显示未登录的两个按钮 -->
             <div v-if="userInfo.userId === ''">
                 <Button shape="circle" id="loginButton"
                         onMouseOut="this.style.backgroundColor='transparent'"
@@ -15,27 +16,23 @@
                     <b>&nbsp;&nbsp;REGISTER&nbsp;&nbsp;</b>
                 </Button>
             </div>
-           <div v-if="userInfo.userId !== ''">
+            <!-- 若已登录，显示已登录的两个按钮 -->
+            <div v-if="userInfo.userId !== ''">
                <Button shape="circle" type="text" id="myAccount"
                        onMouseOut="this.style.backgroundColor='transparent'"
                        onMouseOver="this.style.backgroundColor='#fff'"
                         @click="showMyAccount = true">
                    <b>&nbsp;MY ACCOUNT&nbsp;</b>
                </Button>
-<!--               <Button shape="circle" id="addNewWebsite"-->
-<!--                       onMouseOut="this.style.backgroundColor='transparent'"-->
-<!--                       onMouseOver="this.style.backgroundColor='#fff'"-->
-<!--                       @click="needAddWebsite = true">-->
-<!--                   <b>ADD NEW SERVICE</b>-->
-<!--               </Button>-->
                <Button shape="circle" type="text" id="logoutButton"
                        onMouseOut="this.style.backgroundColor='transparent'"
                        onMouseOver="this.style.backgroundColor='#fff'"
                        @click="logout">
                    <b>&nbsp;&nbsp;LOGOUT&nbsp;&nbsp;</b>
                </Button>
-           </div>
+            </div>
         </div>
+        <!-- 标题 -->
         <div id="title">
             <Row>
                 <Col span="4">&nbsp;</Col>
@@ -47,6 +44,7 @@
                 <Col span="4">&nbsp;</Col>
             </Row>
         </div>
+        <!-- 副标题 -->
         <div id="subTitle">
             <Row>
                 <Col span="4">&nbsp;</Col>
@@ -71,6 +69,7 @@
             </p>
             <div style="width: 220px;margin-left:auto;margin-right: auto;">
                 <Card style="margin-bottom: 16px;">
+                    <!-- 点击头像上传图片 -->
                     <div style="text-align:left;">
                         <Upload action="http://boot.serrhub.com/api/user/updateAvatar"
                                 :headers="{'Authorization': 'serrhub' + token}"
@@ -88,12 +87,6 @@
                             <p style="padding: 0 16px 12px 16px; color: #9A9A9C">Email: {{userInfo.email}}</p>
                         </div>
                     </div>
-
-<!--                    <div style="position: absolute; top: 8px; left: 8px; z-index: 10">-->
-<!--                        -->
-<!--                        <Button type="info" shape="circle" size="small" icon="md-create" ghost-->
-<!--                                @click=""></Button>-->
-<!--                    </div>-->
                 </Card>
             </div>
             <div slot="footer" style="text-align: center">
@@ -111,24 +104,23 @@
         name: "Header",
         data() {
             return {
-                showMyAccount: false,
+                showMyAccount: false, //是否展示我的账户信息
             }
         },
         computed: {
             ... mapState({
-                serviceLinkInfo: state => state.user.serviceLinkInfo,
-                userInfo: state => state.user.userInfo,
+                userInfo: state => state.user.userInfo, //用户信息
                 token: state => state.user.token
             }),
         },
         methods: {
             ...mapActions('user', [
-                'addServiceLink',
-                'viewLoginModal',
-                'viewRegisterModal',
-                'setNeedLogin',
-                'logout'
+                'addServiceLink', //添加服务
+                'viewLoginModal', //显示登录modal
+                'viewRegisterModal', //显示注册modal
+                'logout' //注销
             ]),
+            //更新头像成功执行，替换用户的头像
             uploadSuccess (response, file, fileList) {
                 this.userInfo.profileImage = response;
             }
@@ -137,6 +129,7 @@
 </script>
 
 <style scoped>
+    /*设置Header高度，宽度，背景*/
     #header {
         height: 300px;
         width: 100%;
@@ -144,10 +137,14 @@
         background-image: url("../assets/home.jpg");
         background-repeat: no-repeat;
     }
-    #myInfo {
+
+    /*按钮距离顶部30个像素，在页面右边*/
+    #buttonGroup {
         padding-top: 30px;
         text-align: right;
     }
+
+    /*login按钮样式*/
     #loginButton {
         background-color: transparent;
         color: #17b5d2;
@@ -156,6 +153,8 @@
         padding: 10px 16px 10px 16px;
         margin-right: 10px;
     }
+
+    /*register按钮样式*/
     #registerButton {
         background-color: transparent;
         color: #17b5d2;
@@ -164,6 +163,8 @@
         padding: 10px 16px 10px 16px;
         margin-right: 60px;
     }
+
+    /*myAccount按钮样式*/
     #myAccount {
         background-color: transparent;
         color: #17b5d2;
@@ -172,14 +173,8 @@
         padding: 10px 16px 10px 16px;
         margin-right: 10px;
     }
-    #addNewWebsite {
-        background-color: transparent;
-        color: #17b5d2;
-        border-color: #17b5d2;
-        border-width: 2px;
-        padding: 10px 16px 10px 16px;
-        margin-right: 10px;
-    }
+
+    /*登出按钮样式*/
     #logoutButton {
         background-color: transparent;
         color: #17b5d2;
@@ -188,13 +183,19 @@
         padding: 10px 16px 10px 16px;
         margin-right: 60px;
     }
+
+    /*标题距离顶部30个像素*/
     #title {
         margin-top: 30px;
     }
+
+    /*一级标题样式*/
     h1{
         font-size: 40px;
         line-height: 120%;
     }
+
+    /*二级标题样式*/
     h2 {
         margin-top: 10px;
         color: #9A9A9C;
