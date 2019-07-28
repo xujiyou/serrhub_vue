@@ -68,7 +68,7 @@
                 </div>
                 <div slot="footer" style="text-align: center">
                     <div style="width: 240px;margin-left:auto;margin-right: auto;">
-                        <Button type="primary" long @click="add"
+                        <Button type="primary" long @click="wantAddHouse"
                                 style="background-color: #17b5d2; border: 0" size="large" >ADD HOUSE</Button>
                     </div>
                 </div>
@@ -164,9 +164,6 @@
                         <FormItem label="Title" :required="true">
                             <Input placeholder="Title" v-model="serviceLinkInfo.title"></Input>
                         </FormItem>
-                        <FormItem label="Image" :required="true">
-                            <Input placeholder="Image" v-model="serviceLinkInfo.image"></Input>
-                        </FormItem>
                         <FormItem label="Link" :required="true">
                             <Input placeholder="Link" v-model="serviceLinkInfo.link"></Input>
                         </FormItem>
@@ -186,7 +183,7 @@
                 </div>
                 <div slot="footer" style="text-align: center">
                     <div style="width: 240px;margin-left:auto;margin-right: auto;">
-                        <Button type="primary" html-type="submit" long @click="addServiceLink(() => { needAddWebsite = false; $Message.success('Add website success')})"
+                        <Button type="primary" html-type="submit" long @click="wantAddService" :loading="loadingAddService"
                                 style="background-color: #17b5d2; border: 0" size="large" >ADD NEW SERVICE</Button>
                     </div>
                 </div>
@@ -209,7 +206,8 @@
                 needUpdateHouse: false,
                 showChooseService: false,
                 needAddWebsite: false,
-                cacheServiceLinkList: []
+                cacheServiceLinkList: [],
+                loadingAddService: false,
             }
         },
         computed: {
@@ -243,7 +241,7 @@
                 'addAllServiceLink',
                 'addServiceLink',
             ]),
-            add () {
+            wantAddHouse () {
                 this.addHouse((serviceLinkList) => {
                     console.log("serviceLinkList: " + serviceLinkList);
                     this.needAddHouse = false;
@@ -253,6 +251,14 @@
                         this.showChooseService = true;
                     }
                 })
+            },
+            wantAddService () {
+                this.loadingAddService = true;
+                this.addServiceLink(() => {
+                   this.needAddWebsite = false;
+                   this.loadingAddService = false;
+                   this.$Message.success('Add website success')
+                });
             },
             confirm () {
                 this.$Modal.confirm({

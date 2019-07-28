@@ -109,9 +109,6 @@
                     <FormItem label="Title" :required="true">
                         <Input placeholder="Title" v-model="serviceLinkInfo.title"></Input>
                     </FormItem>
-                    <FormItem label="Image" :required="true">
-                        <Input placeholder="Image" v-model="serviceLinkInfo.image"></Input>
-                    </FormItem>
                     <FormItem label="Link" :required="true">
                         <Input placeholder="Link" v-model="serviceLinkInfo.link"></Input>
                     </FormItem>
