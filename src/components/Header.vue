@@ -116,7 +116,8 @@
             }
         },
         mounted () {
-            let image = this.userInfo.profileImage
+            let image = this.userInfo.profileImage;
+            console.log(image);
             if (image === undefined || image === null || image === "") {
                 this.imageSrc = 'https://pic3.zhimg.com/19554be26eaaace6f99476ef9c6e0ed2_xll.jpg';
             } else {
