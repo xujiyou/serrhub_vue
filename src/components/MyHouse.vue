@@ -223,12 +223,13 @@
         },
         watch: {
             'houseInfo.address': function () {
-                Vue.http.get(
-                    'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=' + this.houseInfo.address + '&key=AIzaSyAD842rTaNELNyAyHC9ssB0c7n56gSyA1k')
-                    .then(response => {
-                        console.log(response)
-
-                }, response => {});
+                console.log('https://maps.googleapis.com/maps/api/place/autocomplete/json?input=' + this.houseInfo.address + '&key=AIzaSyAD842rTaNELNyAyHC9ssB0c7n56gSyA1k')
+                // Vue.http.get(
+                //     'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=' + this.houseInfo.address + '&key=AIzaSyAD842rTaNELNyAyHC9ssB0c7n56gSyA1k')
+                //     .then(response => {
+                //         console.log(response)
+                //
+                // }, response => {});
             }
         },
         methods: {

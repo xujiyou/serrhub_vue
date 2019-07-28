@@ -79,7 +79,7 @@
                                 name="file"
                                 :on-success="uploadSuccess">
                             <div>
-                                <img :src='imageSrc' style="width: 100%; height: 136px;border-top-left-radius: 4px; border-top-right-radius: 4px">
+                                <img :src='userInfo.profileImage' style="width: 100%; height: 136px;border-top-left-radius: 4px; border-top-right-radius: 4px">
                             </div>
                         </Upload>
                         <div style="margin-top: 12px">
@@ -112,16 +112,6 @@
         data() {
             return {
                 showMyAccount: false,
-                imageSrc: '',
-            }
-        },
-        mounted () {
-            let image = this.userInfo.profileImage;
-            console.log(image);
-            if (image === undefined || image === null || image === "") {
-                this.imageSrc = 'https://pic3.zhimg.com/19554be26eaaace6f99476ef9c6e0ed2_xll.jpg';
-            } else {
-                this.imageSrc = image;
             }
         },
         computed: {
@@ -141,8 +131,6 @@
             ]),
             uploadSuccess (response, file, fileList) {
                 this.userInfo.profileImage = response;
-                this.imageSrc = response;
-                console.log(response)
             }
         }
     }
