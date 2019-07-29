@@ -115,7 +115,6 @@
         },
         methods: {
             ...mapActions('user', [
-                'addServiceLink', //添加服务
                 'viewLoginModal', //显示登录modal
                 'viewRegisterModal', //显示注册modal
                 'logout' //注销

@@ -1,29 +1,49 @@
 # serrhub_web
 
-## Project setup
-```
-npm install
-```
+项目代码全部在`src`中，编译后的文件全部在`dist`中，Nginx 的静态文件指向`dist/index.html`即可。
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+第三方依赖全部在`node_modules`中，`package.json`记录了项目的依赖，及项目的配置
 
-### Compiles and minifies for production
-```
-npm run build
-```
+`public`目录存放了项目入口文件`index.html`，和项目图标
 
-### Run your tests
-```
-npm run test
-```
+项目一键重启脚本：
+    
+    sh restart.sh
+    
+## 代码结构
 
-### Lints and fixes files
-```
-npm run lint
-```
+src目录下的代码结构：
+    
+    main.js：主要用来加载一些三方库和渲染App.vue，三方库包括HTTP库，状态库，路由库，样式库。
+    App.vue：定义页面的骨架，提供登录注册功能，另外还负责数据初始化功能
+    components/Header.vue：页面顶部，包含一张背景图，大小标题，四个操作按钮，功能有注销，查看个人信息，更换头像
+    components/Search.vue：搜索框，定义了搜索框的样式，主要功能就是搜索，可以按类型来搜索
+    components/MyHouse.vue：以列表的形式展示房屋，另外提供了新增房屋，修改房屋信息，删除房屋，为房屋增加服务的功能，另外，在增加房屋后，还可以选择本小区的服务
+    components/ServiceLinkList.vue：以列表形式展示服务，可以根据房屋的不同来展示不同的服务列表，还提供了修改服务，删除服务的功能，服务列表可折叠
+    components/Footer.vue：页面底部，放了几个按钮
+    router/index.js：路由配置
+    store/index.js：应用状态相关
+    store/modules/user.js：共享的状态代码，很重要
+    assets/home.jpg：顶部背景图
+    api/authApi.js：登录注册API
+    api/houseApi.js：房屋的增删改API
+    api/serviceLinkApi.js：服务链接的增删改和搜索API
+    api/userApi.js：获取用户信息API
+    
+## 未登录页面设计
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+1. 在第一次刚进入页面时，会弹出登录modal，用户可以切换到注册model，当然也可以选择不登录注册，而是选择关闭modal
+2. 登录modal，可以选择使用手机号或邮箱进行登录
+3. 注册modal，六项必填信息，点击`more option`按钮显示或折叠选填信息，点击复选框同意协议，如果未同意协议注册，协议文字就会变红色，点击同意变成默认颜色
+4. 未登录界面，此时，顶部会显示一个登录按钮和一个注册按钮，搜索框可以对公共的一些服务链接进行搜索，搜索成功可以弹出一个modal，展示搜索出的服务，未搜到内容会给出提示，服务列表部分会显示一些默认的服务链接
+5. 登录后，缓存会记录token，所以第二次进入页面不必再进行登录
+
+## 已登录页面设计
+
+1. 首先，顶部，有两个按钮，MY ACCOUNT 和 LOGOUT，用来显示个人信息和注销，注销可以直接返回到未登录界面，展示个人信息是用的一个modal，点击用户头像可以上传头像
+2. 搜索框，可以对我已保存的服务链接进行搜索，可以按类别搜索，搜索成功会弹出一个modal展示搜索到的服务，未搜索到结果会有提示
+3. 左侧房屋列表，当用户没有房屋时，会给出一段文字提示添加房屋。如果有房屋列表，点击选择时，会在url中记录houseId，方便下次刷新后还是看到该房屋的服务链接。并且点击房屋后，会加粗标记该房屋。
+房屋列表顶部有个按钮可以添加房屋，每个房屋内，都可以进行房屋的修改删除，为房屋添加服务链接。另外在添加房屋后，如果已经有用户添加该小区的房屋了，会把服务连接展示出来供用户选择是否添加到自己的房屋中。
+为房屋添加服务时，因为会有爬虫对连接进行爬取，并将HTML转换为图片，这很耗时，不过会显示一个等待按钮提示用户等待。
+4. 右侧服务链接列表，当用户的当前房屋没有服务连接时，会给出一段文字提示添加服务。右上方有个按钮可以对服务列表进行折叠。点击服务分类旁边的按钮可以显示服务的修改删除按钮。
+对服务的分类进行修改时，也可以实时改变其位置

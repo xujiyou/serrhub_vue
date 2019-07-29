@@ -1,6 +1,6 @@
 import Vue from 'vue'
-import VueResource from 'vue-resource' //http请求库
 import App from './App.vue'
+import VueResource from 'vue-resource' //http请求库
 import store from './store/index' //状态库
 import router from './router' //路由
 

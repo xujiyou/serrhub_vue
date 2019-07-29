@@ -258,7 +258,6 @@ const getters = {
             }
             map[house.houseId] = linkMap;
         }
-        console.log(map);
         return map;
     },
 };
@@ -344,7 +343,6 @@ const actions = {
     },
     //进入网页时执行，获取用户信息
     findUserInfo({ commit }, oldHouseId) {
-        console.log("oldHouseId: " + oldHouseId);
         userApi.findUserInfoThroughToken(state.token, resp => {
             commit("setUserInfo", {"userInfo": resp.data, "oldHouseId": oldHouseId});
         }, resp => {
@@ -503,7 +501,6 @@ const mutations = {
                 currentHouse = house
             }
         }
-        console.log(serviceLink);
         currentHouse.serviceLinkList.push(serviceLink)
     },
     //删除服务链接

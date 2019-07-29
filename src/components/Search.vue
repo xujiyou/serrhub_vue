@@ -123,7 +123,11 @@
                                 break;
                         }
                     }
-                    this.needShowSearchResult = true
+                    if (this.searchServiceLinkResult.length === 0) {
+                        this.$Message.info('There is no relevant service link');
+                    } else {
+                        this.needShowSearchResult = true
+                    }
                 } else {
                     //如果是登录状态，从服务端搜索
                     this.searchServiceLink({
