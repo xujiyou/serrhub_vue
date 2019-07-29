@@ -145,8 +145,12 @@
                           <FormItem>
                               <Input placeholder="House name" v-model="registerInfo.houseName"></Input>
                           </FormItem>
-                          <FormItem>
-                              <Input placeholder="Address" v-model="registerInfo.address"></Input>
+                          <FormItem style="text-align: left">
+                              <AutoComplete
+                                      v-model="registerInfo.address"
+                                      :data="addressList"
+                                      @on-search="handleSearch"
+                                      placeholder="Address"></AutoComplete>
                           </FormItem>
                           <FormItem>
                               <Input placeholder="Community name" v-model="registerInfo.communityName"></Input>
@@ -223,7 +227,8 @@ export default {
         registerInfo: state => state.user.registerInfo, //注册信息
         loginInfo: state => state.user.loginInfo, //登录信息
         needLogin: state => state.user.needLogin,
-        needRegister: state => state.user.needRegister
+        needRegister: state => state.user.needRegister,
+        addressList: state => state.user.addressList,
     }),
     methods: {
         ...mapActions('user', [
@@ -235,8 +240,14 @@ export default {
             'register', //注册
             'findUserInfo', //获取用户信息
             'setNeedLogin',//设置登录Modal的显示和隐藏
-            'setNeedRegister' //设置注册Modal的显示和隐藏
+            'setNeedRegister', //设置注册Modal的显示和隐藏
+            'analysisAddress'
         ]),
+        handleSearch (value) {
+            if (value !== "" && this.addressList.indexOf(value) === -1) {
+                this.analysisAddress(value);
+            }
+        },
         //必须勾选同意协议，不然就将文字设置为红色以提示
         wantRegister () {
             if (this.agree) {

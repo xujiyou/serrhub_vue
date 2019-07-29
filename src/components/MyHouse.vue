@@ -56,8 +56,13 @@
                         <FormItem label="House name" :required="true">
                             <Input placeholder="House name" v-model="houseInfo.houseName"></Input>
                         </FormItem>
+
                         <FormItem label="Address" :required="true">
-                            <Input placeholder="Address" v-model="houseInfo.address"></Input>
+                            <AutoComplete
+                                    v-model="houseInfo.address"
+                                    :data="addressList"
+                                    @on-search="handleSearch"
+                                    placeholder="Address"></AutoComplete>
                         </FormItem>
                         <FormItem label="Community name" :required="true">
                             <Input placeholder="Community name" v-model="houseInfo.communityName"></Input>
@@ -153,7 +158,7 @@
 
             <Modal
                     title="Add Service"
-                    v-model="needAddWebsite"
+                    v-model="needAddService"
                     class-name="vertical-center-modal"
                     :styles="{top: '0px'}"
                     width="520">
@@ -210,6 +215,7 @@
                 loadingAddService: false, //是都在等待添加服务
             }
         },
+
         computed: {
             ... mapState({
                 userInfo: state => state.user.userInfo, //用户信息
@@ -217,19 +223,8 @@
                 currentHouseInfo: state => state.user.currentHouseInfo, //当前房屋的信息
                 currentHouseId: state => state.user.currentHouseId, //当前房屋的ID
                 serviceLinkInfo: state => state.user.serviceLinkInfo, //新添加的服务信息
+                addressList: state => state.user.addressList,
             }),
-        },
-        watch: {
-            //自动填充address，待完善
-            'houseInfo.address': function () {
-                console.log('https://maps.googleapis.com/maps/api/place/autocomplete/json?input=' + this.houseInfo.address + '&key=AIzaSyAD842rTaNELNyAyHC9ssB0c7n56gSyA1k')
-                // Vue.http.get(
-                //     'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=' + this.houseInfo.address + '&key=AIzaSyAD842rTaNELNyAyHC9ssB0c7n56gSyA1k')
-                //     .then(response => {
-                //         console.log(response)
-                //
-                // }, response => {});
-            }
         },
         methods: {
             ...mapActions('user', [
@@ -240,7 +235,13 @@
                 'addAllServiceLink', //添加小区内的所有的服务链接
                 'addServiceLink', //添加服务链接
                 'seeServiceLike', //查看当前房屋的服务链接列表
+                'analysisAddress'
             ]),
+            handleSearch (value) {
+                if (value !== "" && this.addressList.indexOf(value) === -1) {
+                    this.analysisAddress(value);
+                }
+            },
             wantAddHouse () {
                 this.addHouse((serviceLinkList) => {
                     this.needAddHouse = false;
@@ -256,7 +257,7 @@
             wantAddService () {
                 this.loadingAddService = true;
                 this.addServiceLink(() => {
-                   this.needAddWebsite = false;
+                   this.needAddService = false;
                    this.loadingAddService = false;
                    this.$Message.success('Add website success') //提示添加服务成功
                 });

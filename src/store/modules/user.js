@@ -1,6 +1,7 @@
 import authApi from '../../api/authApi'
 import userApi from '../../api/userApi'
 import houseApi from '../../api/houseApi'
+import addressApi from '../../api/addressApi'
 import serviceLinkApi from '../../api/serviceLinkApi'
 import Vue from 'vue'
 import router from '../../router/index'
@@ -237,7 +238,8 @@ const state = {
         contact: "",
         phone: "",
         note: "",
-    }
+    },
+    addressList: []
 };
 
 // getters
@@ -438,6 +440,17 @@ const actions = {
             param["callback"](resp.data["serviceLinkList"]);
         }, resp => {});
     },
+    analysisAddress ({ commit }, text) {
+        addressApi.analysisAddress(text, resp => {
+            let list = [];
+            let predictions = resp.data["predictions"];
+            for (let i = 0; i < predictions.length; i++) {
+                list.push(predictions[i]["description"]);
+            }
+            Vue.set(state, 'addressList', list);
+            console.log(state.addressList)
+        }, resp => {})
+    }
 };
 
 // mutations
