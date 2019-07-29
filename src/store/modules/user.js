@@ -439,6 +439,7 @@ const actions = {
             param["callback"](resp.data["serviceLinkList"]);
         }, resp => {});
     },
+    //解析address
     analysisAddress ({ commit }, text) {
         addressApi.analysisAddress(text, resp => {
             let list = [];
@@ -447,7 +448,6 @@ const actions = {
                 list.push(predictions[i]["description"]);
             }
             Vue.set(state, 'addressList', list);
-            console.log(state.addressList)
         }, resp => {})
     }
 };

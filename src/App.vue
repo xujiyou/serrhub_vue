@@ -241,8 +241,9 @@ export default {
             'findUserInfo', //获取用户信息
             'setNeedLogin',//设置登录Modal的显示和隐藏
             'setNeedRegister', //设置注册Modal的显示和隐藏
-            'analysisAddress'
+            'analysisAddress' //地址解析
         ]),
+        //处理地址解析
         handleSearch (value) {
             if (value !== "" && this.addressList.indexOf(value) === -1) {
                 this.analysisAddress(value);
