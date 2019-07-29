@@ -4,7 +4,7 @@ export default {
     //添加服务API
     addServiceLinkToServer (serviceLinkInfo, userId, houseId, token, successCallback, errorCallback) {
         Vue.http.post(
-                'http://boot.serrhub.com/api/serviceLink/add',
+                'https://boot.serrhub.com/api/serviceLink/add',
                 {
                     "userId": userId,
                     "houseId": houseId,
@@ -30,7 +30,7 @@ export default {
     //删除服务API
     removeServiceLinkFromServer(userId, houseId, link, token, successCallback, errorCallback) {
         Vue.http.post(
-                'http://boot.serrhub.com/api/serviceLink/remove',
+                'https://boot.serrhub.com/api/serviceLink/remove',
                 {
                     "userId": userId,
                     "houseId": houseId,
@@ -56,7 +56,7 @@ export default {
     //更新服务API
     updateServiceLinkToServer (serviceLinkInfo, userId, houseId, token, successCallback, errorCallback) {
         Vue.http.post(
-                'http://boot.serrhub.com/api/serviceLink/update',
+                'https://boot.serrhub.com/api/serviceLink/update',
                 {
                     "userId": userId,
                     "houseId": houseId,
@@ -82,7 +82,7 @@ export default {
     //搜索服务API
     searchServiceLinkFromServer (type, text, userId, token, successCallback, errorCallback) {
         Vue.http.post(
-                'http://boot.serrhub.com/api/serviceLink/search',
+                'https://boot.serrhub.com/api/serviceLink/search',
                 {
                     "userId": userId,
                     "type": type,

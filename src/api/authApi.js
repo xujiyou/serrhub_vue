@@ -4,7 +4,7 @@ export default {
     //登录API
     login (loginInfo, successCallback, errorCallback) {
         Vue.http.post(
-                'http://boot.serrhub.com/api/auth/login',
+                'https://boot.serrhub.com/api/auth/login',
                 loginInfo,
                 {headers: {"Content-Type": "application/json"}}
             ).then(response => {
@@ -22,7 +22,7 @@ export default {
     //注册API
     register (registerInfo, successCallback, errorCallback) {
         Vue.http.post(
-                'http://boot.serrhub.com/api/auth/register',
+                'https://boot.serrhub.com/api/auth/register',
                 registerInfo,
                 {headers: {"Content-Type": "application/json"}}
             ).then(response => {

@@ -4,7 +4,7 @@ export default {
     //获取用户信息API
     findUserInfoThroughToken (token, successCallback, errorCallback) {
         Vue.http.get(
-                'http://boot.serrhub.com/api/user/info?token=' + token,
+                'https://boot.serrhub.com/api/user/info?token=' + token,
                 {
                     headers: {
                         "Content-Type": "application/x-www-form-urlencoded",

@@ -71,7 +71,7 @@
                 <Card style="margin-bottom: 16px;">
                     <!-- 点击头像上传图片 -->
                     <div style="text-align:left;">
-                        <Upload action="http://boot.serrhub.com/api/user/updateAvatar"
+                        <Upload action="https://boot.serrhub.com/api/user/updateAvatar"
                                 :headers="{'Authorization': 'serrhub' + token}"
                                 :data="{'userId': userInfo.userId}"
                                 :show-upload-list="false"

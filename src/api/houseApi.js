@@ -4,7 +4,7 @@ export default {
     //添加房屋API
     addHouseToServer (houseInfo, userId, token, successCallback, errorCallback) {
         Vue.http.post(
-                'http://boot.serrhub.com/api/house/add',
+                'https://boot.serrhub.com/api/house/add',
                 {
                     "house": houseInfo,
                     "userId": userId
@@ -29,7 +29,7 @@ export default {
     //更新房屋API
     updateHouseToServer (houseInfo, userId, token, successCallback, errorCallback) {
         Vue.http.post(
-                'http://boot.serrhub.com/api/house/update',
+                'https://boot.serrhub.com/api/house/update',
                 {
                     "house": houseInfo,
                     "userId": userId
@@ -53,7 +53,7 @@ export default {
     //删除房屋API
     removeHouseFromServer (houseId, userId, token, successCallback, errorCallback) {
         Vue.http.post(
-                'http://boot.serrhub.com/api/house/remove',
+                'https://boot.serrhub.com/api/house/remove',
                 {
                     "houseId": houseId,
                     "userId": userId
