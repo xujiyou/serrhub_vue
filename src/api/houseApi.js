@@ -15,10 +15,11 @@ export default {
                     }
                 }
             ).then(response => {
-                if (response.data["code"] === 0) {
+                let code = response.data["code"];
+                if (code === 0) {
                     successCallback(response);
                 } else {
-                    alert(response.data["errMsg"])
+                    alert(response.data["errMsg"]);
                 }
             }, response => {
                 errorCallback(response)
@@ -63,10 +64,11 @@ export default {
                     }
                 }
             ).then(response => {
-                if (response.data["code"] === 0) {
+                let code = response.data["code"];
+                if (code === 0) {
                     successCallback(response);
                 } else {
-                    alert(response.data["errMsg"])
+                    alert(response.data["errMsg"]);
                 }
             }, response => {
                 errorCallback(response)

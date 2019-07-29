@@ -251,7 +251,7 @@ export default {
         //必须勾选同意协议，不然就将文字设置为红色以提示
         wantRegister () {
             if (this.agree) {
-                this.register();
+                this.register(() => this.$Message.success('Register Success'));
             } else {
                 this.isError = true
             }

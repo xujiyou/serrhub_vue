@@ -8,8 +8,8 @@ export default {
                 loginInfo,
                 {headers: {"Content-Type": "application/json"}}
             ).then(response => {
-                console.log(response.data);
-                if (response.data["code"] === 0) {
+                let code = response.data["code"];
+                if (code === 0) {
                     successCallback(response);
                 } else {
                     alert(response.data["errMsg"]);
@@ -26,11 +26,12 @@ export default {
                 registerInfo,
                 {headers: {"Content-Type": "application/json"}}
             ).then(response => {
-                console.log(response.data);
-                if (response.data["code"] !== 0) {
+                let code = response.data["code"];
+                if (code === 0) {
+                    successCallback(response);
+                } else {
                     alert(response.data["errMsg"]);
                 }
-                successCallback(response)
             }, response => {
                 errorCallback(response)
             }

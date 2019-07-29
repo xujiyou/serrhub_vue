@@ -313,7 +313,7 @@ const actions = {
         })
     },
     //注册
-    register ({ commit }) {
+    register ({ commit }, closeModal) {
         //检查必要信息
         let info = state.registerInfo;
         if (info.firstName === "" || info.lastName === "" || info.phone === "" || info.email === "" ||
@@ -326,12 +326,11 @@ const actions = {
             return;
         }
         authApi.register(state.registerInfo, resp => {
-            state.userInfo = resp.data["userInfo"];
-            state.needRegister = false; //隐藏注册modal
             //设置信息，进行登录
             state.loginInfo.phoneOrEmail = state.registerInfo.phone;
             state.loginInfo.password = state.registerInfo.password;
-            actions.login({commit});
+            closeModal();
+            actions.viewLoginModal({commit})
         }, resp => {
            alert("Sorry, registration failed, please try again later.")
         })

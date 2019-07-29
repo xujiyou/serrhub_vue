@@ -8,25 +8,19 @@
             <Col span="16" style="text-align: center">
                 <Button size="small" type="text"
                         onMouseOut="this.style.color='#515A61'"
-                        onMouseOver="this.style.color='#17b5d2'">© applauncher Help</Button>
+                        onMouseOver="this.style.color='#17b5d2'">© Serrhub Help</Button>
                 <Button size="small" type="text"
                         onMouseOut="this.style.color='#515A61'"
-                        onMouseOver="this.style.color='#17b5d2'">safety</Button>
+                        onMouseOver="this.style.color='#17b5d2'">Provacy & Term</Button>
                 <Button size="small" type="text"
                         onMouseOut="this.style.color='#515A61'"
-                        onMouseOver="this.style.color='#17b5d2'">privacy</Button>
+                        onMouseOver="this.style.color='#17b5d2'">About</Button>
                 <Button size="small" type="text"
                         onMouseOut="this.style.color='#515A61'"
-                        onMouseOver="this.style.color='#17b5d2'">feedback</Button>
+                        onMouseOver="this.style.color='#17b5d2'">Contact</Button>
                 <Button size="small" type="text"
                         onMouseOut="this.style.color='#515A61'"
-                        onMouseOver="this.style.color='#17b5d2'">terms</Button>
-                <Button size="small" type="text"
-                        onMouseOut="this.style.color='#515A61'"
-                        onMouseOver="this.style.color='#17b5d2'">about</Button>
-                <Button size="small" type="text"
-                        onMouseOut="this.style.color='#515A61'"
-                        onMouseOver="this.style.color='#17b5d2'">mobile</Button>
+                        onMouseOver="this.style.color='#17b5d2'">Mobile</Button>
             </Col>
             <Col span="4">&nbsp;&nbsp;</Col>
         </Row>
