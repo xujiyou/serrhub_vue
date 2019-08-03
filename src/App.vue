@@ -257,6 +257,9 @@ export default {
         let storage = window.localStorage;
         this.loginInfo.phoneOrEmail = storage.phoneOrEmail || "";
         this.loginInfo.password = storage.password || "";
+        if (this.loginInfo.phoneOrEmail !== "" && this.loginInfo.password !== "") {
+            this.rememberMe = true;
+        }
     },
     computed: mapState({
         token: state => state.user.token,
