@@ -76,7 +76,7 @@
             </div>
             <!-- Modal底部，暂未实现 -->
             <div slot="footer" style=" text-align: center">
-                <div style="width: 240px;margin-left:auto;margin-right: auto;">
+                <div style="width: 260px;margin-left:auto;margin-right: auto;">
                     <br/>
                     <Button  size="large" long type="primary" style="border: 0;text-align: left; background-color: #2D4585">
                       <span style="width: 30px; "><Icon type="logo-facebook" style="color: #fff"></Icon></span>
