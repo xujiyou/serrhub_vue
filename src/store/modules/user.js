@@ -333,7 +333,17 @@ const actions = {
             state.loginInfo.phoneOrEmail = state.registerInfo.phone;
             state.loginInfo.password = state.registerInfo.password;
             param["closeModal"]();
-            actions.viewLoginModal({commit})
+            actions.viewLoginModal({commit});
+
+            state.registerInfo.firstName = "";
+            state.registerInfo.lastName = "";
+            state.registerInfo.phone = "";
+            state.registerInfo.email = "";
+            state.registerInfo.password = "";
+            state.registerInfo.secondPassword = "";
+            state.registerInfo.houseName = "";
+            state.registerInfo.address = "";
+            state.registerInfo.communityName = "";
         }, resp => {
             param["phoneExistError"]();
         }, resp => {
@@ -371,6 +381,10 @@ const actions = {
         houseApi.addHouseToServer(state.houseInfo, state.userInfo.userId, state.token, resp => {
             commit("addOneHouse", resp.data["house"]); //添加一个房屋信息
             closeModel(resp.data["serviceLinkList"]); //关闭添加房屋modal，并让用户选择添加服务
+            state.houseInfo.houseName = "";
+            state.houseInfo.address = "";
+            state.houseInfo.communityName = "";
+            state.houseInfo.note = "";
         }, resp => {})
     },
     //更新房屋信息
@@ -415,6 +429,12 @@ const actions = {
                 "serviceLink": resp.data["serviceLink"]
             });
             param["closeModel"]();
+            state.serviceLinkInfo.title = "";
+            state.serviceLinkInfo.link = "";
+            state.serviceLinkInfo.categories = "";
+            state.serviceLinkInfo.contact = "";
+            state.serviceLinkInfo.phone = "";
+            state.serviceLinkInfo.note = "";
         }, resp => {
             param["linkErrorCallBack"]();
         }, resp => {});
