@@ -142,9 +142,12 @@
                                     <div style="text-align:left;">
                                         <div>
                                             <img :src="serviceLink.image" style="width: 100%; height: 136px;border-top-left-radius: 4px; border-top-right-radius: 4px">
-                                            <h2 style="position: relative; top: -34px; left: 16px; color: white" v-if="/(\w*\.(?:com|cn|top))/.exec(serviceLink.link) !== null">
+                                            <h2 class="url" v-if="/(\w*\.(?:com|cn|top|org|net))/.exec(serviceLink.link) === null">
+                                                Service Link
+                                            </h2>
+                                            <h2 class="url" v-if="/(\w*\.(?:com|cn|top|org|net))/.exec(serviceLink.link) !== null">
                                                 {{
-                                                /(\w*\.(?:com|cn|top))/.exec(serviceLink.link)[0]
+                                                /(\w*\.(?:com|cn|top|org|net))/.exec(serviceLink.link)[0]
                                                 }}
                                             </h2>
                                         </div>
@@ -265,6 +268,7 @@
                 this.checkAddHouseError = false;
                 if (this.houseInfo.houseName === "" || this.houseInfo.address === "" || this.houseInfo.communityName === "") {
                     this.checkAddHouseError = true;
+                    this.$Message.error('Please fill in the necessary information.');
                     return;
                 }
                 this.addHouse((serviceLinkList) => {
@@ -281,6 +285,7 @@
                 this.checkUpdateHouseError = false;
                 if (this.currentHouseInfo.houseName === "" || this.currentHouseInfo.address === "" || this.currentHouseInfo.communityName === "") {
                     this.checkUpdateHouseError = true;
+                    this.$Message.error('Please fill in the necessary information.');
                     return;
                 }
                 this.updateHouse(() => {
@@ -294,6 +299,7 @@
                 this.checkLinkError = false;
                 if (this.serviceLinkInfo.title === "" || this.serviceLinkInfo.link === "" || this.serviceLinkInfo.categories === "") {
                     this.checkAddServiceError = true;
+                    this.$Message.error('Please fill in the necessary information.');
                     return;
                 }
 
@@ -382,5 +388,15 @@
         border-width: 1px;
         margin-top: 8px;
         padding: 4px 10px 4px 10px;
+    }
+
+    .url {
+        margin: 0;
+        position: relative; top: -34px; left: 0;
+        color: white;
+        width: 100%;
+        height: 34px;
+        background-color: rgba(44,62,80, 0.5);
+        padding: 6px 16px 6px 16px;
     }
 </style>

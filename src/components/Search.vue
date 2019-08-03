@@ -57,9 +57,12 @@
                                 <div style="text-align:left;">
                                     <div>
                                         <img :src="serviceLink.image" style="width: 100%; height: 136px;border-top-left-radius: 4px; border-top-right-radius: 4px">
-                                        <h2 style="position: relative; top: -34px; left: 16px; color: white" v-if="/(\w*\.(?:com|cn|top))/.exec(serviceLink.link) !== null">
+                                        <h2 class="url" v-if="/(\w*\.(?:com|cn|top|org|net))/.exec(serviceLink.link) === null">
+                                            Service Link
+                                        </h2>
+                                        <h2 class="url" v-if="/(\w*\.(?:com|cn|top|org|net))/.exec(serviceLink.link) !== null">
                                             {{
-                                            /(\w*\.(?:com|cn|top))/.exec(serviceLink.link)[0]
+                                            /(\w*\.(?:com|cn|top|org|net))/.exec(serviceLink.link)[0]
                                             }}
                                         </h2>
                                     </div>
@@ -184,5 +187,15 @@
         background-color: #17b5d2;
         font-size: 18px;
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08)
+    }
+
+    .url {
+        margin: 0;
+        position: relative; top: -34px; left: 0;
+        color: white;
+        width: 100%;
+        height: 34px;
+        background-color: rgba(44,62,80, 0.5);
+        padding: 6px 16px 6px 16px;
     }
 </style>

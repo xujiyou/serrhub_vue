@@ -316,7 +316,7 @@ const actions = {
         })
     },
     //注册
-    register ({ commit }, closeModal) {
+    register ({ commit }, param) {
         //检查必要信息
         let info = state.registerInfo;
         if (info.firstName === "" || info.lastName === "" || info.phone === "" || info.email === "" ||
@@ -332,18 +332,23 @@ const actions = {
             //设置信息，进行登录
             state.loginInfo.phoneOrEmail = state.registerInfo.phone;
             state.loginInfo.password = state.registerInfo.password;
-            closeModal();
+            param["closeModal"]();
             actions.viewLoginModal({commit})
         }, resp => {
-           alert("Sorry, registration failed, please try again later.")
+            param["phoneExistError"]();
+        }, resp => {
+            param["emailExistError"]();
+        }, resp => {
+            alert("Sorry, registration failed, please try again later.")
         })
     },
     //注销，将缓存中的token设为空，将用户信息设为默认，将当前房屋ID设为空字串
-    logout ({ commit }) {
+    logout ({ commit }, closeModel) {
         let storage = window.localStorage;
         storage.token = "";
         state.userInfo = state.defaultUserInfo;
         state.currentHouseId = "";
+        closeModel();
     },
     //进入网页时执行，获取用户信息
     findUserInfo({ commit }, oldHouseId) {
@@ -482,7 +487,9 @@ const mutations = {
         let oldHouseId = param["oldHouseId"];
         Vue.set(state,'userInfo', userInfo);
         if (oldHouseId === "") {
-            Vue.set(state, 'currentHouseId', userInfo["houseList"][0]["houseId"])
+            if (userInfo["houseList"].length !== 0) {
+                Vue.set(state, 'currentHouseId', userInfo["houseList"][0]["houseId"])
+            }
         } else {
             Vue.set(state, 'currentHouseId', oldHouseId)
         }

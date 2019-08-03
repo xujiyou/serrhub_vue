@@ -20,7 +20,7 @@ export default {
         );
     },
     //注册API
-    register (registerInfo, successCallback, errorCallback) {
+    register (registerInfo, successCallback, phoneExist, emailExist, errorCallback) {
         Vue.http.post(
                 'https://boot.serrhub.com/api/auth/register',
                 registerInfo,
@@ -29,8 +29,10 @@ export default {
                 let code = response.data["code"];
                 if (code === 0) {
                     successCallback(response);
-                } else {
-                    alert(response.data["errMsg"]);
+                } else if (code === 1) {
+                    phoneExist();
+                } else if (code === 2) {
+                    emailExist();
                 }
             }, response => {
                 errorCallback(response)

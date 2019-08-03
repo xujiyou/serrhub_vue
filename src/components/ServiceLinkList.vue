@@ -42,6 +42,9 @@
                                             <!-- 服务图片 -->
                                             <img :src="serviceLink.image" style="width: 100%; height: 136px;border-top-left-radius: 4px; border-top-right-radius: 4px; object-fit: cover;" >
                                             <!-- 服务链接 -->
+                                            <h2 class="url" v-if="/(\w*\.(?:com|cn|top|org|net))/.exec(serviceLink.link) === null">
+                                                Service Link
+                                            </h2>
                                             <h2 class="url" v-if="/(\w*\.(?:com|cn|top|org|net))/.exec(serviceLink.link) !== null">
                                                 {{
                                                 /(\w*\.(?:com|cn|top|org|net))/.exec(serviceLink.link)[0]

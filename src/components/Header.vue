@@ -27,7 +27,7 @@
                <Button shape="circle" type="text" id="logoutButton"
                        onMouseOut="this.style.backgroundColor='transparent'"
                        onMouseOver="this.style.backgroundColor='#fff'"
-                       @click="logout">
+                       @click="wantLogout">
                    <b>&nbsp;&nbsp;LOGOUT&nbsp;&nbsp;</b>
                </Button>
             </div>
@@ -74,9 +74,10 @@
                         <Upload action="https://boot.serrhub.com/api/user/updateAvatar"
                                 :headers="{'Authorization': 'serrhub' + token}"
                                 :data="{'userId': userInfo.userId}"
-                                :show-upload-list="false"
+                                :show-upload-list="showUploadList"
                                 name="file"
-                                :on-success="uploadSuccess">
+                                :on-success="uploadSuccess"
+                                style="cursor:pointer;">
                             <div>
                                 <img :src='userInfo.profileImage' style="width: 100%; height: 136px;border-top-left-radius: 4px; border-top-right-radius: 4px">
                             </div>
@@ -105,6 +106,7 @@
         data() {
             return {
                 showMyAccount: false, //是否展示我的账户信息
+                showUploadList: true
             }
         },
         computed: {
@@ -122,6 +124,13 @@
             //更新头像成功执行，替换用户的头像
             uploadSuccess (response, file, fileList) {
                 this.userInfo.profileImage = response;
+                this.showUploadList = false;
+                this.$Message.success('Upload avatar success.')
+            },
+            wantLogout () {
+                this.logout(() => {
+                    this.$Message.info('Logout success.')
+                })
             }
         }
     }

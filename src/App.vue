@@ -28,7 +28,7 @@
             </p>
             <!-- 表单 -->
             <div style="width: 260px;margin-left:auto;margin-right: auto;">
-                <div >
+                <div style="padding-bottom: 16px">
                     <b>Login with your email or phone number.</b>
                 </div>
               <Form>
@@ -41,7 +41,6 @@
                   <div v-if="formatError" style="color: red">
                       Please fill in the correct email or mobile number.
                   </div>
-                  <br/>
                   <!-- Phone or email -->
                 <FormItem prop="Phone or email" class="formItem">
                   <Input type="text" size="large" placeholder="Phone or email" v-model="loginInfo.phoneOrEmail">
@@ -132,11 +131,17 @@
                       <div v-if="registerPhoneFormatError" style="color: red; text-align: left; padding-left: 70px; padding-bottom: 10px;">
                           Please fill in the correct mobile number.
                       </div>
+                      <div v-if="registerPhoneExistError" style="color: red; text-align: left; padding-left: 70px; padding-bottom: 10px;">
+                          Phone exists, please use another phone.
+                      </div>
                       <FormItem :required="true">
                           <Input placeholder="Phone *" v-model="registerInfo.phone"></Input>
                       </FormItem>
                       <div v-if="registerEmailFormatError" style="color: red; text-align: left; padding-left: 70px; padding-bottom: 10px;">
                           Please fill in the correct email.
+                      </div>
+                      <div v-if="registerEmailExistError" style="color: red; text-align: left; padding-left: 70px; padding-bottom: 10px;">
+                          Email exists, please use another email address.
                       </div>
                       <FormItem :required="true">
                           <Input placeholder="Email *" v-model="registerInfo.email"></Input>
@@ -217,6 +222,8 @@ export default {
             "rememberMe": false,
             "registerPhoneFormatError": false,
             "registerEmailFormatError": false,
+            "registerPhoneExistError": false,
+            "registerEmailExistError": false,
             "showExcessOption": false, //注册时，是否显示额外的选项
             "agree": false, //是否同意用户协议
             "isError": false //用户协议是否是红色的
@@ -284,11 +291,18 @@ export default {
             this.formatError = false;
             if (!this.telephoneCheck(this.loginInfo.phoneOrEmail) && !this.emailCheck(this.loginInfo.phoneOrEmail)) {
                 this.formatError = true;
+                this.$Message.error('Please fill in the correct email or mobile number.');
                 return;
             }
             this.login({
-                "checkInput": () => this.checkError = true,
-                "loginError": () => this.loginError = true,
+                "checkInput": () => {
+                    this.checkError = true;
+                    this.$Message.error('Please complete the necessary information.')
+                },
+                "loginError": () => {
+                    this.loginError = true;
+                    this.$Message.error('Username or password is incorrect, please check it.')
+                },
                 "loginSuccess": () => {
                     if (this.rememberMe === true) {
                         let storage = window.localStorage;
@@ -303,24 +317,41 @@ export default {
         wantRegister () {
             this.registerPhoneFormatError = false;
             this.registerEmailFormatError = false;
+            this.registerPhoneExistError = false;
+            this.registerEmailExistError = false;
             if (!this.telephoneCheck(this.registerInfo.phone)) {
                 this.registerPhoneFormatError = true;
+                this.$Message.error('Please fill in the correct mobile number.');
                 return;
             }
             if (!this.emailCheck(this.registerInfo.email)) {
                 this.registerEmailFormatError = true;
+                this.$Message.error('Please fill in the correct email.');
                 return;
             }
             if (this.agree) {
-                this.register(() => this.$Message.success('Register Success'));
+                this.register({
+                    "closeModal": () => this.$Message.success('Register Success'),
+                    "phoneExistError": () => {
+                        this.registerPhoneExistError = true;
+                        this.$Message.error('Phone exists, please use another phone');
+                    },
+                    "emailExistError": () => {
+                        this.registerEmailExistError = true;
+                        this.$Message.error('Email exists, please use another email address');
+                    }
+                });
             } else {
+                this.$Message.error('you need to agree the Serrhub Terms & Conditions and Privacy Policy');
                 this.isError = true
             }
         },
         telephoneCheck (str) {
-            let matchStr = /^(((1(\s|))|)\([1-9]{3}\)(\s|-|)[1-9]{3}(\s|-|)[1-9]{4})$/;
-            let matchStr2 = /^(((1(\s)|)|)[1-9]{3}(\s|-|)[1-9]{3}(\s|-|)[1-9]{4})$/;
-            return (str.match(matchStr) != null||str.match(matchStr2)!=null);
+
+            return true;
+            // let matchStr = /^(((1(\s|))|)\([1-9]{3}\)(\s|-|)[1-9]{3}(\s|-|)[1-9]{4})$/;
+            // let matchStr2 = /^(((1(\s)|)|)[1-9]{3}(\s|-|)[1-9]{3}(\s|-|)[1-9]{4})$/;
+            // return (str.match(matchStr) != null||str.match(matchStr2)!=null);
         },
         emailCheck (str) {
             let reg = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
