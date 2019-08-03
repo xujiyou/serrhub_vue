@@ -67,7 +67,7 @@
                         <FormItem label="Community name" :required="true">
                             <Input placeholder="Community name" v-model="houseInfo.communityName"></Input>
                         </FormItem>
-                        <FormItem label="Note" :required="true">
+                        <FormItem label="Note">
                             <Input placeholder="Note" v-model="houseInfo.note" ></Input>
                         </FormItem>
                     </Form>
@@ -99,7 +99,7 @@
                         <FormItem label="Community name" :required="true">
                             <Input placeholder="Community name" v-model="currentHouseInfo.communityName"></Input>
                         </FormItem>
-                        <FormItem label="Note" :required="true">
+                        <FormItem label="Note">
                             <Input placeholder="Note" v-model="currentHouseInfo.note" ></Input>
                         </FormItem>
                     </Form>
@@ -176,13 +176,13 @@
                         <FormItem label="Categories" :required="true">
                             <Input placeholder="Categories" v-model="serviceLinkInfo.categories"></Input>
                         </FormItem>
-                        <FormItem label="contact" :required="true">
+                        <FormItem label="contact">
                             <Input placeholder="contact" v-model="serviceLinkInfo.contact"></Input>
                         </FormItem>
-                        <FormItem label="Phone" :required="true">
+                        <FormItem label="Phone">
                             <Input placeholder="Phone" v-model="serviceLinkInfo.phone"></Input>
                         </FormItem>
-                        <FormItem label="Note" :required="true">
+                        <FormItem label="Note">
                             <Input placeholder="Note"v-model="serviceLinkInfo.note" ></Input>
                         </FormItem>
                     </Form>
