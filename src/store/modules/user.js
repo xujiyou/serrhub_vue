@@ -295,10 +295,10 @@ const actions = {
         commit('changeModalToRegister');
     },
     //登录
-    login ({ commit }) {
+    login ({ commit }, param) {
         //必要信息不能为空
         if (state.loginInfo.phoneOrEmail === "" || state.loginInfo.password === "") {
-            alert("Please complete the necessary information");
+            param["checkInput"]();
             return;
         }
         authApi.login(state.loginInfo, resp => {
@@ -308,8 +308,11 @@ const actions = {
             storage.token = state.token;
             state.needLogin = false;
             commit("setUserInfo", {"userInfo": resp.data["userInfo"], "oldHouseId": ""});
+            param["loginSuccess"]();
         }, resp => {
-           // alert("");
+            if (resp.status === 403) {
+                param["loginError"]();
+            }
         })
     },
     //注册

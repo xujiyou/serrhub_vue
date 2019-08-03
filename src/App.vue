@@ -29,6 +29,16 @@
             <!-- 表单 -->
             <div style="width: 240px;margin-left:auto;margin-right: auto;">
               <Form>
+                  <div v-if="loginError" style="color: red">
+                      Username or password is incorrect, please check it.
+                  </div>
+                  <div v-if="checkError" style="color: red">
+                      Please complete the necessary information.
+                  </div>
+                  <div v-if="formatError" style="color: red">
+                      Please fill in the correct email or mobile number.
+                  </div>
+                  <br/>
                   <!-- Phone or email -->
                 <FormItem prop="Phone or email" class="formItem">
                   <Input type="text" size="large" placeholder="Phone or email" v-model="loginInfo.phoneOrEmail">
@@ -47,7 +57,7 @@
                 <FormItem prop="interest" class="formItem">
                   <CheckboxGroup>
                       <!-- Remember me -->
-                    <Checkbox label="Remember me"></Checkbox>
+                    <Checkbox label="Remember me" v-model="rememberMe"></Checkbox>
                       <!-- 按钮，用于从登录modal切换到注册modal，向左浮动-->
                     <Button size="small" type="text" style="float: right; margin-top: 4px"
                             onMouseOut="this.style.color='#515A61'"
@@ -57,7 +67,7 @@
                   <br/>
                   <!-- 登录按钮，登录时执行login方法 -->
                 <FormItem class="formItem">
-                  <Button type="primary" long style="background-color: #17b5d2; border: 0" size="large" @click="login">LOGIN</Button>
+                  <Button type="primary" long style="background-color: #17b5d2; border: 0" size="large" @click="wantLogin">LOGIN</Button>
                 </FormItem>
 
               </Form>
@@ -116,9 +126,15 @@
             <!-- 362和68是精心调的，用于和上面的行对其 -->
             <div style="width: 362px; text-align: center">
                   <Form :label-width="68">
+                      <div v-if="registerPhoneFormatError" style="color: red; text-align: left; padding-left: 70px; padding-bottom: 10px;">
+                          Please fill in the correct mobile number.
+                      </div>
                       <FormItem :required="true">
                           <Input placeholder="Phone *" v-model="registerInfo.phone"></Input>
                       </FormItem>
+                      <div v-if="registerEmailFormatError" style="color: red; text-align: left; padding-left: 70px; padding-bottom: 10px;"">
+                          Please fill in the correct email.
+                      </div>
                       <FormItem :required="true">
                           <Input placeholder="Email *" v-model="registerInfo.email"></Input>
                       </FormItem>
@@ -136,7 +152,7 @@
                                   onMouseOut="this.style.color='#2c3e50'"
                                   onMouseOver="this.style.color='#17b5d2'"
                                   @click="showExcessOption = !showExcessOption">
-                              more option
+                              Add my home now
                               <Icon :type="showExcessOption ? 'ios-arrow-down' : 'ios-arrow-forward'" />
                           </Button>
                       </Divider>
@@ -192,9 +208,15 @@ export default {
     name: 'app',
     data () {
         return {
-          "showExcessOption": false, //注册时，是否显示额外的选项
-          "agree": false, //是否同意用户协议
-          "isError": false //用户协议是否是红色的
+            "checkError": false,
+            "loginError": false,
+            "formatError": false,
+            "rememberMe": false,
+            "registerPhoneFormatError": false,
+            "registerEmailFormatError": false,
+            "showExcessOption": false, //注册时，是否显示额外的选项
+            "agree": false, //是否同意用户协议
+            "isError": false //用户协议是否是红色的
         }
     },
     components: {
@@ -221,6 +243,10 @@ export default {
                 this.findUserInfo(this.$route.query.house);
             }
         }
+
+        let storage = window.localStorage;
+        this.loginInfo.phoneOrEmail = storage.phoneOrEmail || "";
+        this.loginInfo.password = storage.password || "";
     },
     computed: mapState({
         token: state => state.user.token,
@@ -249,13 +275,53 @@ export default {
                 this.analysisAddress(value);
             }
         },
+        wantLogin () {
+            this.loginError = false;
+            this.checkError = false;
+            this.formatError = false;
+            if (!this.telephoneCheck(this.loginInfo.phoneOrEmail) && !this.emailCheck(this.loginInfo.phoneOrEmail)) {
+                this.formatError = true;
+                return;
+            }
+            this.login({
+                "checkInput": () => this.checkError = true,
+                "loginError": () => this.loginError = true,
+                "loginSuccess": () => {
+                    if (this.rememberMe === true) {
+                        let storage = window.localStorage;
+                        storage.phoneOrEmail = this.loginInfo.phoneOrEmail;
+                        storage.password = this.loginInfo.password;
+                    }
+                    this.$Message.success('Login Success')
+                }
+            })
+        },
         //必须勾选同意协议，不然就将文字设置为红色以提示
         wantRegister () {
+            this.registerPhoneFormatError = false;
+            this.registerEmailFormatError = false;
+            if (!this.telephoneCheck(this.registerInfo.phone)) {
+                this.registerPhoneFormatError = true;
+                return;
+            }
+            if (!this.emailCheck(this.registerInfo.email)) {
+                this.registerEmailFormatError = true;
+                return;
+            }
             if (this.agree) {
                 this.register(() => this.$Message.success('Register Success'));
             } else {
                 this.isError = true
             }
+        },
+        telephoneCheck (str) {
+            let matchStr = /^(((1(\s|))|)\([1-9]{3}\)(\s|-|)[1-9]{3}(\s|-|)[1-9]{4})$/;
+            let matchStr2 = /^(((1(\s)|)|)[1-9]{3}(\s|-|)[1-9]{3}(\s|-|)[1-9]{4})$/;
+            return (str.match(matchStr) != null||str.match(matchStr2)!=null);
+        },
+        emailCheck (str) {
+            let reg = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
+            return str.match(reg) != null
         },
         //由于 computed 中的属性没有setter方法，所以这里手写个两个setter方法，在modal消失时触发
         changeLoginModelVisible (visible) {
