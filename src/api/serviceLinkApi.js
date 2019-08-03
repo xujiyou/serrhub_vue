@@ -2,7 +2,7 @@ import Vue from 'vue'
 
 export default {
     //添加服务API
-    addServiceLinkToServer (serviceLinkInfo, userId, houseId, token, successCallback, errorCallback) {
+    addServiceLinkToServer (serviceLinkInfo, userId, houseId, token, successCallback, saveErrorCallback, errorCallback) {
         Vue.http.post(
                 'https://boot.serrhub.com/api/serviceLink/add',
                 {
@@ -18,8 +18,8 @@ export default {
             ).then(response => {
                 if (response.data["code"] === 0) {
                     successCallback(response);
-                } else {
-                    alert(response.data["errMsg"])
+                } else if (response.data["code"] === 4) {
+                    saveErrorCallback(response);
                 }
 
             }, response => {
@@ -54,7 +54,7 @@ export default {
         );
     },
     //更新服务API
-    updateServiceLinkToServer (serviceLinkInfo, userId, houseId, token, successCallback, errorCallback) {
+    updateServiceLinkToServer (serviceLinkInfo, userId, houseId, token, successCallback, saveErrorCallback, errorCallback) {
         Vue.http.post(
                 'https://boot.serrhub.com/api/serviceLink/update',
                 {
@@ -70,8 +70,8 @@ export default {
             ).then(response => {
                 if (response.data["code"] === 0) {
                     successCallback(response);
-                } else {
-                    alert(response.data["errMsg"])
+                } else if (response.data["code"] === 4) {
+                    saveErrorCallback(response);
                 }
 
             }, response => {

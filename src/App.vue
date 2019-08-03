@@ -27,7 +27,10 @@
               <span>Login</span>
             </p>
             <!-- 表单 -->
-            <div style="width: 240px;margin-left:auto;margin-right: auto;">
+            <div style="width: 260px;margin-left:auto;margin-right: auto;">
+                <div >
+                    <b>Login with your email or phone number.</b>
+                </div>
               <Form>
                   <div v-if="loginError" style="color: red">
                       Username or password is incorrect, please check it.
@@ -132,7 +135,7 @@
                       <FormItem :required="true">
                           <Input placeholder="Phone *" v-model="registerInfo.phone"></Input>
                       </FormItem>
-                      <div v-if="registerEmailFormatError" style="color: red; text-align: left; padding-left: 70px; padding-bottom: 10px;"">
+                      <div v-if="registerEmailFormatError" style="color: red; text-align: left; padding-left: 70px; padding-bottom: 10px;">
                           Please fill in the correct email.
                       </div>
                       <FormItem :required="true">
@@ -231,7 +234,7 @@ export default {
         this.findTokenFromLocalStorage(this); //从缓存中获取token
         if (this.token === undefined || this.token === "") {
             //如果缓存中没有token，就弹出登录modal
-            this.viewLoginModal(this)
+            //this.viewLoginModal(this)
         } else {
             //如果缓存中有token，直接根据token去服务端获取用户信息
             let house = this.$route.query.house;

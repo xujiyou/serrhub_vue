@@ -21,15 +21,15 @@
                 @click="expand = !expand"></Button>
             </div>
             <div v-for="(value, key) in houseMap[currentHouseId]">
-                <Divider orientation="left" size="small" :dashed="true">
+                <Divider orientation="left" size="small" :dashed="true" style="padding-bottom: 8px; padding-top: 6px">
                     <!-- 展示类别 -->
-                    <h1>
+                    <h2>
                         {{key}}
                         <!-- 是否展示服务的操作按钮 -->
                         <Button v-if="currentHouseId !== ''" type="dashed" size="small" shape="circle" icon="md-create"
                                 style="margin-left: 2px"
                                 @click="showOption(key)"></Button>
-                    </h1>
+                    </h2>
                 </Divider>
                 <!-- 是否折叠 -->
                 <div v-if="expand">
@@ -82,6 +82,9 @@
                 <span>Update service</span>
             </p>
             <div style="width: 360px;margin-left:auto;margin-right: auto;">
+                <div v-if="checkUpdateServiceError" style="color: red;padding-left: 120px; padding-bottom: 10px;">
+                    Please fill in the necessary information.
+                </div>
                 <Form :label-width="120" ref="formValidate" onsubmit="event.preventDefault()" :model="currentServiceLinkInfo" >
                     <FormItem label="Title" :required="true">
                         <Input placeholder="Title" v-model="currentServiceLinkInfo.title"></Input>
@@ -89,6 +92,9 @@
                     <FormItem label="Image" :required="true">
                         <Input placeholder="Image" v-model="currentServiceLinkInfo.image"></Input>
                     </FormItem>
+                    <div v-if="checkUpdateLinkError" style="color: red;padding-left: 120px; padding-bottom: 10px;">
+                        Link not accessible.
+                    </div>
                     <FormItem label="Link" :required="true">
                         <Input placeholder="Link" v-model="currentServiceLinkInfo.link"></Input>
                     </FormItem>
@@ -108,7 +114,7 @@
             </div>
             <div slot="footer" style="text-align: center">
                 <div style="width: 240px;margin-left:auto;margin-right: auto;">
-                    <Button type="primary" long @click="updateServiceLink(() => { needUpdateServiceLink = false; $Message.success('Update house success')})"
+                    <Button type="primary" long @click="wantUpdateServiceLink" :loading="loadingUpdateService"
                             style="background-color: #17b5d2; border: 0" size="large" >UPDATE SERVICE</Button>
                 </div>
             </div>
@@ -125,10 +131,16 @@
                 <span>Add website</span>
             </p>
             <div style="width: 360px;margin-left:auto;margin-right: auto;">
+                <div v-if="checkAddServiceError" style="color: red;padding-left: 120px; padding-bottom: 10px;">
+                    Please fill in the necessary information.
+                </div>
                 <Form :label-width="120" ref="formValidate" onsubmit="event.preventDefault()" :model="serviceLinkInfo" >
                     <FormItem label="Title" :required="true">
                         <Input placeholder="Title" v-model="serviceLinkInfo.title"></Input>
                     </FormItem>
+                    <div v-if="checkLinkError" style="color: red;padding-left: 120px; padding-bottom: 10px;">
+                        Link not accessible.
+                    </div>
                     <FormItem label="Link" :required="true">
                         <Input placeholder="Link" v-model="serviceLinkInfo.link"></Input>
                     </FormItem>
@@ -148,7 +160,7 @@
             </div>
             <div slot="footer" style="text-align: center">
                 <div style="width: 240px;margin-left:auto;margin-right: auto;">
-                    <Button type="primary" html-type="submit" long @click="addServiceLink(() => { needAddService = false; $Message.success('Add website success')})"
+                    <Button type="primary" html-type="submit" long @click="wantAddService" :loading="loadingAddService"
                             style="background-color: #17b5d2; border: 0" size="large" >ADD NEW SERVICE</Button>
                 </div>
             </div>
@@ -171,6 +183,12 @@
                 needUpdateServiceLink: false, //是否展示修改modal的按钮
                 expand: true, //是否折叠
                 needAddService: false, //展示添加服务的modal
+                loadingAddService: false,
+                loadingUpdateService: false,
+                checkAddServiceError: false,
+                checkLinkError: false,
+                checkUpdateServiceError: false,
+                checkUpdateLinkError: false
             }
         },
         computed: {
@@ -193,6 +211,50 @@
             //是否展示修改，删除服务的按钮
             showOption: function(key) {
                 Vue.set(this.option,key,!this.option[key]);
+            },
+            //添加服务，由于添加服务很耗时，所以将按钮置为等待，添加成功后将按钮置为正常，下次再添加时，按钮还是正常的
+            wantAddService () {
+                this.checkAddServiceError = false;
+                this.checkLinkError = false;
+                if (this.serviceLinkInfo.title === "" || this.serviceLinkInfo.link === "" || this.serviceLinkInfo.categories === "") {
+                    this.checkAddServiceError = true;
+                    return;
+                }
+
+                this.loadingAddService = true;
+                this.addServiceLink({
+                    "closeModel": () => {
+                        this.needAddService = false;
+                        this.loadingAddService = false;
+                        this.$Message.success('Add website success.') //提示添加服务成功
+                    },
+                    "linkErrorCallBack": () => {
+                        this.checkLinkError = true;
+                        this.loadingAddService = false;
+                        this.$Message.error('Link not accessible.')
+                    }
+                });
+            },
+            wantUpdateServiceLink () {
+                this.checkUpdateServiceError = false;
+                this.checkUpdateLinkError = false;
+                if (this.currentServiceLinkInfo.title === "" || this.currentServiceLinkInfo.link === "" || this.currentServiceLinkInfo.categories === "") {
+                    this.checkUpdateServiceError = true;
+                    return;
+                }
+                this.loadingUpdateService = true;
+                this.updateServiceLink({
+                    "closeModel": () => {
+                        this.needUpdateServiceLink = false;
+                        this.loadingUpdateService = false;
+                        this.$Message.success('Update house success')
+                    },
+                    "linkErrorCallBack": () => {
+                        this.checkUpdateLinkError = true;
+                        this.loadingUpdateService = false;
+                        this.$Message.error('Link not accessible.')
+                    }
+                })
             },
             //询问是否删除服务
             confirm (title, link) {
@@ -238,5 +300,8 @@
         height: 34px;
         background-color: rgba(44,62,80, 0.5);
         padding: 6px 16px 6px 16px;
+    }
+    .ivu-divider-horizontal.ivu-divider-with-text-left:before {
+        width: 1%;
     }
 </style>

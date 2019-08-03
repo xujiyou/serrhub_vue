@@ -403,13 +403,15 @@ const actions = {
         }, resp => {});
     },
     //添加服务链接
-    addServiceLink ({ commit }, closeModel) {
+    addServiceLink ({ commit }, param) {
         serviceLinkApi.addServiceLinkToServer(state.serviceLinkInfo, state.userInfo.userId, state.currentHouseId, state.token, resp => {
             commit("addOneServiceLink", {
                 "houseId": state.currentHouseId,
                 "serviceLink": resp.data["serviceLink"]
             });
-            closeModel();
+            param["closeModel"]();
+        }, resp => {
+            param["linkErrorCallBack"]();
         }, resp => {});
     },
     //删除服务链接
@@ -427,13 +429,15 @@ const actions = {
         Vue.set(state,'currentServiceLinkInfo', serviceLinkInfo);
     },
     //更新服务链接信息
-    updateServiceLink ({ commit }, closeModel) {
+    updateServiceLink ({ commit }, param) {
         serviceLinkApi.updateServiceLinkToServer(state.currentServiceLinkInfo, state.userInfo.userId, state.currentHouseId, state.token, resp => {
             commit("updateOneServiceLink", {
                 "houseId": state.currentHouseId,
                 "serviceLink": resp.data["serviceLink"]
             });
-            closeModel();
+            param["closeModel"]();
+        }, resp => {
+            param["linkErrorCallBack"]();
         }, resp => {});
     },
     //搜索服务
@@ -445,6 +449,7 @@ const actions = {
     //解析address
     analysisAddress ({ commit }, text) {
         addressApi.analysisAddress(text, resp => {
+            console.log(resp.data);
             let list = [];
             let predictions = resp.data["predictions"];
             for (let i = 0; i < predictions.length; i++) {

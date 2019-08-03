@@ -8,12 +8,12 @@
                 <Button type="text" style="color: #17b5d2" @click="needAddHouse = true"><b>add it</b></Button>
                 .
             </p>
-            <h2 v-if="userInfo.houseList.length !== 0">
+            <h3 v-if="userInfo.houseList.length !== 0">
                 My House
                 <Button type="dashed" size="small" shape="circle" icon="md-add"
                         style="margin-left: 2px"
                         @click="needAddHouse = true"></Button>
-            </h2>
+            </h3>
             <br/>
             <Collapse simple accordion :value="currentHouseId" v-on:on-change="seeServiceLike" v-if="userInfo.houseList.length !== 0">
                 <Panel :name="house.houseId" v-for="house in userInfo.houseList">
@@ -52,11 +52,13 @@
                     <span>Add house</span>
                 </p>
                 <div style="width: 360px;margin-left:auto;margin-right: auto;">
+                    <div v-if="checkAddHouseError" style="color: red;padding-left: 120px; padding-bottom: 10px;">
+                        Please fill in the necessary information.
+                    </div>
                     <Form :label-width="120" ref="formValidate" onsubmit="event.preventDefault()" :model="houseInfo" >
                         <FormItem label="House name" :required="true">
                             <Input placeholder="House name" v-model="houseInfo.houseName"></Input>
                         </FormItem>
-
                         <FormItem label="Address" :required="true">
                             <AutoComplete
                                     v-model="houseInfo.address"
@@ -89,12 +91,19 @@
                     <span>Update house</span>
                 </p>
                 <div style="width: 360px;margin-left:auto;margin-right: auto;">
+                    <div v-if="checkUpdateHouseError" style="color: red;padding-left: 120px; padding-bottom: 10px;">
+                        Please fill in the necessary information.
+                    </div>
                     <Form :label-width="120" ref="formValidate" onsubmit="event.preventDefault()" :model="currentHouseInfo" >
                         <FormItem label="House name" :required="true">
                             <Input placeholder="House name" v-model="currentHouseInfo.houseName"></Input>
                         </FormItem>
-                        <FormItem label="Address" :required="true">
-                            <Input placeholder="Address" v-model="currentHouseInfo.address"></Input>
+                        <FormItem label="Address" style="text-align: left" :required="true">
+                            <AutoComplete
+                                    v-model="currentHouseInfo.address"
+                                    :data="addressList"
+                                    @on-search="handleSearch"
+                                    placeholder="Address"></AutoComplete>
                         </FormItem>
                         <FormItem label="Community name" :required="true">
                             <Input placeholder="Community name" v-model="currentHouseInfo.communityName"></Input>
@@ -106,7 +115,7 @@
                 </div>
                 <div slot="footer" style="text-align: center">
                     <div style="width: 240px;margin-left:auto;margin-right: auto;">
-                        <Button type="primary" long @click="updateHouse(() => { needUpdateHouse = false; $Message.success('Update house success')})"
+                        <Button type="primary" long @click="wantUpdateHouse"
                                 style="background-color: #17b5d2; border: 0" size="large" >UPDATE HOUSE</Button>
                     </div>
                 </div>
@@ -166,10 +175,16 @@
                     <span>Add website</span>
                 </p>
                 <div style="width: 360px;margin-left:auto;margin-right: auto;">
+                    <div v-if="checkAddServiceError" style="color: red;padding-left: 120px; padding-bottom: 10px;">
+                        Please fill in the necessary information.
+                    </div>
                     <Form :label-width="120" ref="formValidate" onsubmit="event.preventDefault()" :model="serviceLinkInfo" >
                         <FormItem label="Title" :required="true">
                             <Input placeholder="Title" v-model="serviceLinkInfo.title"></Input>
                         </FormItem>
+                        <div v-if="checkLinkError" style="color: red;padding-left: 120px; padding-bottom: 10px;">
+                            Link not accessible.
+                        </div>
                         <FormItem label="Link" :required="true">
                             <Input placeholder="Link" v-model="serviceLinkInfo.link"></Input>
                         </FormItem>
@@ -213,9 +228,12 @@
                 needAddService: false, //是都展示添加服务的modal
                 cacheServiceLinkList: [], //待添加的服务列表
                 loadingAddService: false, //是都在等待添加服务
+                checkAddHouseError: false,
+                checkUpdateHouseError: false,
+                checkAddServiceError: false,
+                checkLinkError: false
             }
         },
-
         computed: {
             ... mapState({
                 userInfo: state => state.user.userInfo, //用户信息
@@ -237,12 +255,18 @@
                 'seeServiceLike', //查看当前房屋的服务链接列表
                 'analysisAddress'
             ]),
+            //处理地址解析
             handleSearch (value) {
                 if (value !== "" && this.addressList.indexOf(value) === -1) {
                     this.analysisAddress(value);
                 }
             },
             wantAddHouse () {
+                this.checkAddHouseError = false;
+                if (this.houseInfo.houseName === "" || this.houseInfo.address === "" || this.houseInfo.communityName === "") {
+                    this.checkAddHouseError = true;
+                    return;
+                }
                 this.addHouse((serviceLinkList) => {
                     this.needAddHouse = false;
                     this.$Message.success('Add house success'); //提示添加房屋成功
@@ -253,13 +277,38 @@
                     }
                 })
             },
+            wantUpdateHouse () {
+                this.checkUpdateHouseError = false;
+                if (this.currentHouseInfo.houseName === "" || this.currentHouseInfo.address === "" || this.currentHouseInfo.communityName === "") {
+                    this.checkUpdateHouseError = true;
+                    return;
+                }
+                this.updateHouse(() => {
+                    this.needUpdateHouse = false;
+                    this.$Message.success('Update house success')
+                })
+            },
             //添加服务，由于添加服务很耗时，所以将按钮置为等待，添加成功后将按钮置为正常，下次再添加时，按钮还是正常的
             wantAddService () {
+                this.checkAddServiceError = false;
+                this.checkLinkError = false;
+                if (this.serviceLinkInfo.title === "" || this.serviceLinkInfo.link === "" || this.serviceLinkInfo.categories === "") {
+                    this.checkAddServiceError = true;
+                    return;
+                }
+
                 this.loadingAddService = true;
-                this.addServiceLink(() => {
-                   this.needAddService = false;
-                   this.loadingAddService = false;
-                   this.$Message.success('Add website success') //提示添加服务成功
+                this.addServiceLink({
+                    "closeModel": () => {
+                        this.needAddService = false;
+                        this.loadingAddService = false;
+                        this.$Message.success('Add website success.') //提示添加服务成功
+                    },
+                    "linkErrorCallBack": () => {
+                        this.checkLinkError = true;
+                        this.loadingAddService = false;
+                        this.$Message.error('Link not accessible.')
+                    }
                 });
             },
             //询问是否确定删除房屋
