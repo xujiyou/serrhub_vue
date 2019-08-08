@@ -68,7 +68,7 @@
                                     </div>
                                     <div style="position: relative; top: -8px;">
                                         <p style="padding: 0 16px 2px 16px"><b>{{serviceLink.title}}</b></p>
-                                        <p style="padding: 0 16px 12px 16px; color: #9A9A9C">Due day {{serviceLink.createDate.substring(0, 10)}}</p>
+                                        <p style="padding: 0 16px 12px 16px; color: #9A9A9C">Added on {{serviceLink.createDate.substring(0, 10)}}</p>
                                     </div>
                                 </div>
                             </Card>
