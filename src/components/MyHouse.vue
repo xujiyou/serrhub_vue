@@ -66,7 +66,7 @@
                                     @on-search="handleSearch"
                                     placeholder="Address"></AutoComplete>
                         </FormItem>
-                        <FormItem label="Community name" :required="true">
+                        <FormItem label="Community name">
                             <Input placeholder="Community name" v-model="houseInfo.communityName"></Input>
                         </FormItem>
                         <FormItem label="Note">
@@ -105,7 +105,7 @@
                                     @on-search="handleSearch"
                                     placeholder="Address"></AutoComplete>
                         </FormItem>
-                        <FormItem label="Community name" :required="true">
+                        <FormItem label="Community name">
                             <Input placeholder="Community name" v-model="currentHouseInfo.communityName"></Input>
                         </FormItem>
                         <FormItem label="Note">
@@ -266,7 +266,7 @@
             },
             wantAddHouse () {
                 this.checkAddHouseError = false;
-                if (this.houseInfo.houseName === "" || this.houseInfo.address === "" || this.houseInfo.communityName === "") {
+                if (this.houseInfo.houseName === "" || this.houseInfo.address === "") {
                     this.checkAddHouseError = true;
                     this.$Message.error('Please fill in the necessary information.');
                     return;
@@ -283,7 +283,7 @@
             },
             wantUpdateHouse () {
                 this.checkUpdateHouseError = false;
-                if (this.currentHouseInfo.houseName === "" || this.currentHouseInfo.address === "" || this.currentHouseInfo.communityName === "") {
+                if (this.currentHouseInfo.houseName === "" || this.currentHouseInfo.address === "") {
                     this.checkUpdateHouseError = true;
                     this.$Message.error('Please fill in the necessary information.');
                     return;
