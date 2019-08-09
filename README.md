@@ -1,5 +1,7 @@
 # serrhub_web
 
+Design doc: https://docs.google.com/document/d/1O3VnYHZ1JRzJE3R2dW0ZR3Ep2kPvWPBAjD3mZBlS2lY/edit#heading=h.d7rdgwpims4z
+
 项目代码全部在`src`中，编译后的文件全部在`dist`中，Nginx 的静态文件指向`dist/index.html`即可。
 
 第三方依赖全部在`node_modules`中，`package.json`记录了项目的依赖，及项目的配置
