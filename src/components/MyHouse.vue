@@ -8,7 +8,7 @@
                 <Button type="text" style="color: #17b5d2" @click="needAddHouse = true"><b>add it</b></Button>
                 .
             </p>
-            <h3 v-if="userInfo.houseList.length !== 0">
+            <h3 v-if="userInfo.houseList.length !== 0" style="padding-left: 16px">
                 My House
                 <Button type="dashed" size="small" shape="circle" icon="md-add"
                         style="margin-left: 2px"
@@ -25,20 +25,32 @@
                         <br/>
                         <b>Community name:</b> {{house.communityName}}
                         <br/><br/>
-                        <Button type="error" shape="circle" size="small" icon="md-close" ghost @click="viewUpdateHouseModel(house);confirm()"></Button>
-                        <Button shape="circle" id="updateHouse"
-                                @click="viewUpdateHouseModel(house); needUpdateHouse = true"
-                                onMouseOut="this.style.borderColor='#2c3e50'; this.style.color='#2c3e50'"
-                                onMouseOver="this.style.borderColor='#17b5d2'; this.style.color='#17b5d2'">
-                            <b>UPDATE</b>
-                        </Button>
-                        <br/>
                         <Button shape="circle" id="addNewWebsite"
                                 @click="needAddService = true"
-                                onMouseOut="this.style.borderColor='#2c3e50'; this.style.color='#2c3e50'"
-                                onMouseOver="this.style.borderColor='#17b5d2'; this.style.color='#17b5d2'">
-                            <b>ADD NEW SERVICE</b>
+                                onMouseOver="this.style.borderColor='#2c3e50'; this.style.color='#2c3e50'"
+                                onMouseOut="this.style.borderColor='#17b5d2'; this.style.color='#17b5d2'">
+                            <b>ADD SERVICE</b>
                         </Button>
+                        <Dropdown style="padding-left: 20px; text-align: center">
+                            <a href="javascript:void(0)" style="color: #17b5d2;font-size: 18px;">
+                                <Icon type="ios-arrow-down" style="margin-top: 4px;"></Icon>
+                            </a>
+                            <Dropdown-menu slot="list">
+                                <Button shape="circle" id="UpdateButton"
+                                        @click="viewUpdateHouseModel(house); needUpdateHouse = true"
+                                        onMouseOver="this.style.borderColor='#2c3e50'; this.style.color='#2c3e50'"
+                                        onMouseOut="this.style.borderColor='#17b5d2'; this.style.color='#17b5d2'">
+                                    <b>Update</b>
+                                </Button>
+                                <br/>
+                                <Button shape="circle" id="removeButton"
+                                        @click="viewUpdateHouseModel(house);confirm()"
+                                        onMouseOver="this.style.borderColor='#2c3e50'; this.style.color='#2c3e50'"
+                                        onMouseOut="this.style.borderColor='red'; this.style.color='red'">
+                                    <b>Remove</b>
+                                </Button>
+                            </Dropdown-menu>
+                        </Dropdown>
                     </p>
                 </Panel>
             </Collapse>
@@ -258,6 +270,9 @@
                 'seeServiceLike', //查看当前房屋的服务链接列表
                 'analysisAddress'
             ]),
+            clickOption(key) {
+                console.log(key);
+            },
             //处理地址解析
             handleSearch (value) {
                 if (value !== "" && this.addressList.indexOf(value) === -1) {
@@ -383,11 +398,27 @@
     /*添加服务信息按钮的样式*/
     #addNewWebsite {
         background-color: transparent;
-        color: #2c3e50;
-        border-color: #2c3e50;
+        color: #17b5d2;
+        border-color: #17b5d2;
         border-width: 1px;
         margin-top: 8px;
-        padding: 4px 10px 4px 10px;
+        padding: 4px 16px 4px 16px;
+    }
+
+    #UpdateButton {
+        background-color: transparent;
+        color: #17b5d2;
+        border: none;
+        margin-top: 8px;
+        padding: 4px 16px 4px 16px;
+    }
+
+    #removeButton {
+        background-color: transparent;
+        color: red;
+        border: none;
+        margin-top: 8px;
+        padding: 4px 16px 4px 16px;
     }
 
     .url {

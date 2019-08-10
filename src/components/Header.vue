@@ -63,12 +63,12 @@
                 :styles="{top: '0px'}"
                 ok-text="OK"
                 cancel-text="cancel"
-                width="260">
+                width="320">
             <p slot="header" style="text-align: center">
                 <span>MY ACCOUNT</span>
             </p>
-            <div style="width: 220px;margin-left:auto;margin-right: auto;">
-                <Card style="margin-bottom: 16px;">
+            <div style="width: 280px;margin-left:auto;margin-right: auto;">
+                <Card>
                     <!-- 点击头像上传图片 -->
                     <div style="text-align:left;">
                         <Upload action="https://boot.serrhub.com/api/user/updateAvatar"
@@ -77,22 +77,141 @@
                                 :show-upload-list="showUploadList"
                                 name="file"
                                 :on-success="uploadSuccess"
-                                style="cursor:pointer;">
+                                :on-exceeded-size="bigFile"
+                                style="cursor:pointer;"
+                                :max-size="512">
                             <div>
-                                <img :src='userInfo.profileImage' style="width: 100%; height: 136px;border-top-left-radius: 4px; border-top-right-radius: 4px">
+                                <img :src='userInfo.profileImage'
+                                     style="width: 100%; height: 136px;border-top-left-radius: 4px; border-top-right-radius: 4px; object-fit: cover;">
                             </div>
                         </Upload>
                         <div style="margin-top: 12px">
-                            <p style="padding: 0 16px 2px 16px"><b>{{userInfo.username}}</b></p>
-                            <p style="padding: 0 16px 2px 16px; color: #9A9A9C">Phone: {{userInfo.phone}}</p>
-                            <p style="padding: 0 16px 12px 16px; color: #9A9A9C">Email: {{userInfo.email}}</p>
+                            <p style="padding-bottom: 2px">
+                                <b>{{userInfo.username}}</b>
+                                <Button size="small" shape="circle" icon="md-create"
+                                        onMouseOut=" this.style.color='#9A9A9C'"
+                                        onMouseOver=" this.style.color='#17b5d2'"
+                                        style="margin-left: 2px; border: none;color: #9A9A9C"
+                                        @click="gotoUpdateUserName"></Button>
+                            </p>
+                            <p style="padding-bottom: 2px; color: #9A9A9C">
+                                Phone: {{userInfo.phone}}
+                                <Button size="small" shape="circle" icon="md-create"
+                                        onMouseOut=" this.style.color='#9A9A9C'"
+                                        onMouseOver=" this.style.color='#17b5d2'"
+                                        style="margin-left: 2px; border: none;color: #9A9A9C"
+                                        @click="gotoUpdatePhone"></Button>
+                            </p>
+                            <p style="padding-bottom: 2px; color: #9A9A9C">
+                                Email: {{userInfo.email}}
+                                <Button size="small" shape="circle" icon="md-create"
+                                        onMouseOut=" this.style.color='#9A9A9C'"
+                                        onMouseOver=" this.style.color='#17b5d2'"
+                                        style="margin-left: 2px; border: none;color: #9A9A9C"
+                                        @click="gotoUpdateEmail"></Button>
+                            </p>
                         </div>
                     </div>
                 </Card>
             </div>
             <div slot="footer" style="text-align: center">
                 <Button type="primary" long style="background-color: #17b5d2; border: 0"
-                        size="large" @click="showMyAccount = false">OK</Button>
+                        size="large" @click="gotoUpdatePassword">Update Password</Button>
+            </div>
+        </Modal>
+
+        <Modal title="Update User Name"
+               v-model="needUpdateUserName"
+               class-name="vertical-center-modal"
+               :styles="{top: '0px'}"
+               width="320"
+               :mask-closable="false">
+            <p slot="header" style="text-align:center">
+                <span>Update user name</span>
+            </p>
+            <div style="text-align:center">
+                <i-input v-model="firstName" placeholder="First name" style="width: 240px"></i-input>
+                <br/><br/>
+                <i-input v-model="lastName" placeholder="Last name" style="width: 240px"></i-input>
+            </div>
+            <div slot="footer">
+                <Button type="primary" long style="background-color: #17b5d2; border: 0" size="large"
+                        @click="wantUpdateUserName">UPDATE</Button>
+            </div>
+        </Modal>
+
+        <Modal title="Update User Name"
+               v-model="needUpdatePassword"
+               class-name="vertical-center-modal"
+               :styles="{top: '0px'}"
+               width="320"
+               :mask-closable="false">
+            <p slot="header" style="text-align:center">
+                <span>Update password</span>
+            </p>
+            <div style="text-align:center">
+                <i-input type="password" v-model="oldPassword" placeholder="Old password" style="width: 240px"></i-input>
+                <br/><br/>
+                <i-input type="password" v-model="newPassword" placeholder="New password" style="width: 240px"></i-input>
+                <br/><br/>
+                <i-input type="password" v-model="secondPassword" placeholder="Confirm password" style="width: 240px"></i-input>
+            </div>
+            <div slot="footer">
+                <Button type="primary" long style="background-color: #17b5d2; border: 0" size="large"
+                        @click="wantUpdatePassword">UPDATE</Button>
+            </div>
+        </Modal>
+
+        <Modal title="Update Phone"
+               v-model="needUpdatePhone"
+               class-name="vertical-center-modal"
+               :styles="{top: '0px'}"
+               width="320"
+               :mask-closable="false">
+            <p slot="header" style="text-align:center">
+                <span>Update phone</span>
+            </p>
+            <div style="text-align:center">
+                <i-input v-model="phone" placeholder="Phone" style="width: 240px"></i-input>
+            </div>
+            <div slot="footer">
+                <Button type="primary" long style="background-color: #17b5d2; border: 0" size="large"
+                        @click="wantUpdatePhone">UPDATE</Button>
+            </div>
+        </Modal>
+
+        <Modal title="Update Email"
+               v-model="needUpdateEmail"
+               class-name="vertical-center-modal"
+               :styles="{top: '0px'}"
+               width="320"
+               :mask-closable="false">
+            <p slot="header" style="text-align:center">
+                <span>Update Email</span>
+            </p>
+            <div style="text-align:center">
+                <i-input v-model="email" placeholder="Email" style="width: 240px"></i-input>
+            </div>
+            <div slot="footer">
+                <Button type="primary" long style="background-color: #17b5d2; border: 0" size="large"
+                        @click="wantUpdateEmail" :loading="loadingEmailUpdate">UPDATE</Button>
+            </div>
+        </Modal>
+
+        <Modal title="Email Code"
+               v-model="needInputEmailCode"
+               class-name="vertical-center-modal"
+               :styles="{top: '0px'}"
+               width="320"
+               :mask-closable="false">
+            <p slot="header" style="color:#f60;text-align:center">
+                <span>Mailbox verification code</span>
+            </p>
+            <div style="text-align:center">
+                <i-input v-model="userEmailCode" placeholder="Mailbox verification code" style="width: 240px"></i-input>
+            </div>
+            <div slot="footer">
+                <Button type="primary" long style="background-color: #17b5d2; border: 0" size="large" @click="submitEmailCode">SUBMIT</Button>
             </div>
         </Modal>
     </div>
@@ -106,7 +225,22 @@
         data() {
             return {
                 showMyAccount: false, //是否展示我的账户信息
-                showUploadList: true
+                showUploadList: true,
+                needUpdateUserName: false,
+                needUpdatePassword: false,
+                needUpdatePhone: false,
+                needUpdateEmail: false,
+                firstName: "",
+                lastName: "",
+                oldPassword: "",
+                newPassword: "",
+                secondPassword: "",
+                phone: "",
+                email: "",
+                serverEmailCode: "",
+                userEmailCode: "",
+                needInputEmailCode: false,
+                loadingEmailUpdate: false,
             }
         },
         computed: {
@@ -119,7 +253,12 @@
             ...mapActions('user', [
                 'viewLoginModal', //显示登录modal
                 'viewRegisterModal', //显示注册modal
-                'logout' //注销
+                'logout', //注销
+                'beginUpdateUserName',
+                'beginUpdatePassword',
+                'beginUpdatePhone',
+                'beginUpdateEmail',
+                'beginSendEmailCode'
             ]),
             //更新头像成功执行，替换用户的头像
             uploadSuccess (response, file, fileList) {
@@ -127,11 +266,138 @@
                 this.showUploadList = false;
                 this.$Message.success('Upload avatar success.')
             },
+            bigFile () {
+                this.$Message.error('Files are too large and the maximum limit is 512 KB.')
+            },
             wantLogout () {
                 this.logout(() => {
                     this.$Message.info('Logout success.')
                 })
-            }
+            },
+            gotoUpdateUserName () {
+                this.showMyAccount = false;
+                this.needUpdateUserName = true;
+                this.firstName = this.userInfo.firstName;
+                this.lastName = this.userInfo.lastName;
+            },
+            gotoUpdatePassword () {
+                this.showMyAccount = false;
+                this.needUpdatePassword = true;
+            },
+            gotoUpdatePhone () {
+                this.showMyAccount = false;
+                this.needUpdatePhone = true;
+                this.phone = this.userInfo.phone;
+            },
+            gotoUpdateEmail () {
+                this.showMyAccount = false;
+                this.needUpdateEmail = true;
+                this.email = this.userInfo.email;
+            },
+            wantUpdateUserName () {
+                this.beginUpdateUserName({
+                    firstName: this.firstName,
+                    lastName: this.lastName,
+                    successCallback: () => {
+                        this.$Message.success('Update success.');
+                        this.needUpdateUserName = false;
+                    },
+                    errorCallback: (msg) => {
+                        this.$Message.error(msg);
+                    },
+                    networkError: () => {
+                        this.$Message.error('Network error, please try again.');
+                    }
+                });
+            },
+            wantUpdatePhone () {
+                this.beginUpdatePhone({
+                    phone: this.phone,
+                    successCallback: () => {
+                        this.$Message.success('Update success.');
+                        this.needUpdatePhone = false;
+                    },
+                    errorCallback: (msg) => {
+                        this.$Message.error(msg);
+                    },
+                    networkError: () => {
+                        this.$Message.error('Network error, please try again.');
+                    }
+                });
+            },
+            wantUpdateEmail () {
+                if (!this.emailCheck(this.email)) {
+                    this.$Message.error('Please fill in the correct email.');
+                    return;
+                }
+                this.loadingEmailUpdate = true;
+                this.beginSendEmailCode({
+                    email: this.email,
+                    successCallback: (emailCode) => {
+                        this.serverEmailCode = emailCode;
+                        this.needInputEmailCode = true;
+                        console.log("emailCode:" + emailCode);
+                    },
+                    emailFormatError: (errMsg) => {
+                        this.$Message.error(errMsg);
+                        this.loadingEmailUpdate = false;
+                    },
+                    emailExistError: (errMsg) => {
+                        this.$Message.error(errMsg);
+                        this.loadingEmailUpdate = false;
+                    },
+                    errorCallback: () => {
+                        this.$Message.error('Network error, please try again.');
+                        this.loadingEmailUpdate = false;
+                    }
+                });
+            },
+            wantUpdatePassword () {
+                this.beginUpdatePassword({
+                    oldPassword: this.oldPassword,
+                    newPassword: this.newPassword,
+                    secondPassword: this.secondPassword,
+                    successCallback: () => {
+                        this.$Message.success('Update success.');
+                        this.needUpdatePassword = false;
+                        this.logout(() => {
+                            this.$Message.info('Please login again.');
+                            this.viewLoginModal();
+                        })
+                    },
+                    errorCallback: (msg) => {
+                        this.$Message.error(msg);
+                    },
+                    networkError: () => {
+                        this.$Message.error('Network error, please try again.');
+                    }
+                });
+            },
+            emailCheck (str) {
+                let reg = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
+                return str.match(reg) != null
+            },
+            submitEmailCode () {
+                if (this.userEmailCode === this.serverEmailCode) {
+                    this.needInputEmailCode = false;
+                    this.loadingEmailUpdate = false;
+                    this.beginUpdateEmail({
+                        "email": this.email,
+                        successCallback: () => {
+                            this.$Message.success('Update success.');
+                            this.needUpdateEmail = false;
+                        },
+                        errorCallback: (msg) => {
+                            this.$Message.error(msg);
+                        },
+                        networkError: () => {
+                            this.$Message.error('Network error, please try again.');
+                        }
+                    });
+                } else {
+                    this.$Message.error('The validation code is incorrect. Please fill it in again.');
+                }
+            },
         }
     }
 </script>

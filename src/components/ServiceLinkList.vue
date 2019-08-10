@@ -26,9 +26,15 @@
                     <h2>
                         {{key}}
                         <!-- 是否展示服务的操作按钮 -->
-                        <Button v-if="currentHouseId !== ''" type="dashed" size="small" shape="circle" icon="md-create"
-                                style="margin-left: 2px"
+                        <span v-if="currentHouseId !== ''">
+                            <Button v-if="!option[key]" size="small" shape="circle" icon="md-create"
+                                    style="margin-left: 2px; color: #9A9A9C; border: none"
+                                    @click="showOption(key)"></Button>
+                            <Button v-if="option[key]" size="small" shape="circle" icon="md-create"
+                                style="margin-left: 2px; color: #17b5d2; border: none"
                                 @click="showOption(key)"></Button>
+                        </span>
+
                     </h2>
                 </Divider>
                 <!-- 是否折叠 -->
@@ -36,11 +42,11 @@
                     <Row :gutter="16">
                         <Col span="6" v-for="serviceLink in value">
                             <a :href="serviceLink.link" target="_blank" style="text-decoration: none; color: #2D3755">
-                                <Card style="margin-bottom: 16px;">
+                                <Card style="margin-bottom: 16px;padding: 0">
                                     <div style="text-align:left;">
-                                        <div>
+                                        <div style="padding: 0; margin: 0; border: 0">
                                             <!-- 服务图片 -->
-                                            <img :src="serviceLink.image" style="width: 100%; height: 136px;border-top-left-radius: 4px; border-top-right-radius: 4px; object-fit: cover;" >
+                                            <img :src="serviceLink.image" style="padding: 0;width: 100%; height: 136px;border-top-left-radius: 4px; border-top-right-radius: 4px; object-fit: cover;" >
                                             <!-- 服务链接 -->
                                             <h2 class="url" v-if="/(\w*\.(?:com|cn|top|org|net))/.exec(serviceLink.link) === null">
                                                 Service Link
@@ -51,17 +57,16 @@
                                                 }}
                                             </h2>
                                         </div>
-                                        <div style="position: relative; top: -8px;">
-                                            <!-- 服务标题 -->
-                                            <p style="padding: 0 16px 2px 16px"><b>{{serviceLink.title}}</b></p>
-                                            <!-- 创建日期 -->
-                                            <p style="padding: 0 16px 12px 16px; color: #9A9A9C">Added on {{serviceLink.createDate.substring(0, 10)}}</p>
-                                        </div>
+                                        <!-- 服务标题 -->
+                                        <p style="padding: 0 16px 2px 16px"><b>{{serviceLink.title}}</b></p>
+                                        <!-- 创建日期 -->
+                                        <p style="padding: 0 16px 2px 16px; color: #9A9A9C">Added on {{serviceLink.createDate.substring(0, 10)}}</p>
+
                                     </div>
                                 </Card>
                             </a>
                             <!-- 两个服务操作按钮 -->
-                            <div v-if="option[key] === true" style="position: absolute; top: 10px; left: 24px; z-index: 10">
+                            <div v-if="option[key] === true" style="position: absolute; top: 24px; left: 32px; z-index: 10">
                                 <Button type="error" shape="circle" size="small" icon="md-close" ghost
                                         style="margin-right: 6px"
                                         @click="confirm(serviceLink.title, serviceLink.link)"></Button>
@@ -296,8 +301,11 @@
     }
     /*网址链接样式*/
     .url {
-        margin: 0;
-        position: relative; top: -34px; left: 0;
+        margin-bottom: -24px;
+        position: relative;
+        top: -34px;
+        left: 0;
+        bottom: 30px;
         color: white;
         width: 100%;
         height: 34px;

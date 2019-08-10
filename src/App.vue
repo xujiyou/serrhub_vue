@@ -186,21 +186,35 @@
                               &nbsp;&nbsp;By clicking on "Sign up", you agree to the Serrhub Terms & Conditions and Privacy Policy
                           </Checkbox>
                       </FormItem>
+                      <div class="g-recaptcha" style="margin-left: 68px"
+                           data-callback="robotVerified" data-sitekey="6LdzYbIUAAAAAOGdHVUiQ8bONaOI1InKUBJMPAC3"></div>
                       <!-- 注册按钮，注册时执行 wantRegister 方法 -->
-                      <FormItem>
-                          <Button type="primary" long style="background-color: #17b5d2; border: 0" size="large" @click="wantRegister">SIGN UP</Button>
-                      </FormItem>
+
                   </Form>
               </div>
           </div>
-          <div slot="footer" style="text-align: center">
-              <!-- 按钮，用于从注册modal切换到登录modal-->
-            <Button size="small" type="text" icon="ios-arrow-back"
-                    onMouseOut="this.style.color='#515A61'"
-                    onMouseOver="this.style.color='#17b5d2'"
-                    @click="viewLoginModal">Go to Login</Button>
+          <div slot="footer" style="text-align: center; margin-left: 68px; margin-right: 68px">
+              <Button type="primary" long style="background-color: #17b5d2; border: 0" size="large"
+                      :loading="loadingSignUp" @click="wantRegister">SIGN UP</Button>
           </div>
       </Modal>
+
+        <Modal title="Email Code"
+               v-model="needInputEmailCode"
+               class-name="vertical-center-modal"
+               :styles="{top: '0px'}"
+               width="320"
+               :mask-closable="false">
+            <p slot="header" style="color:#f60;text-align:center">
+                <span>Mailbox verification code</span>
+            </p>
+            <div style="text-align:center">
+                <i-input v-model="userEmailCode" placeholder="Mailbox verification code" style="width: 240px"></i-input>
+            </div>
+            <div slot="footer">
+                <Button type="primary" long style="background-color: #17b5d2; border: 0" size="large" @click="submitEmailCode">SUBMIT</Button>
+            </div>
+        </Modal>
     </div>
 </template>
 
@@ -216,17 +230,21 @@ export default {
     name: 'app',
     data () {
         return {
-            "checkError": false,
-            "loginError": false,
-            "formatError": false,
-            "rememberMe": false,
-            "registerPhoneFormatError": false,
-            "registerEmailFormatError": false,
-            "registerPhoneExistError": false,
-            "registerEmailExistError": false,
-            "showExcessOption": false, //注册时，是否显示额外的选项
-            "agree": false, //是否同意用户协议
-            "isError": false //用户协议是否是红色的
+            checkError: false,
+            loginError: false,
+            formatError: false,
+            rememberMe: false,
+            registerPhoneFormatError: false,
+            registerEmailFormatError: false,
+            registerPhoneExistError: false,
+            registerEmailExistError: false,
+            showExcessOption: false, //注册时，是否显示额外的选项
+            agree: false, //是否同意用户协议
+            isError: false, //用户协议是否是红色的
+            needInputEmailCode: false,
+            userEmailCode: "",
+            serverEmailCode: "",
+            loadingSignUp: false
         }
     },
     components: {
@@ -276,6 +294,7 @@ export default {
             'login', //登录
             'viewLoginModal', //显示登录modal
             'viewRegisterModal', //显示注册modal
+            'beginSendEmailCode', //给邮箱发送验证码
             'register', //注册
             'findUserInfo', //获取用户信息
             'setNeedLogin',//设置登录Modal的显示和隐藏
@@ -316,6 +335,10 @@ export default {
                 }
             })
         },
+        robotVerified () {
+          console.log("不是机器人");
+
+        },
         //必须勾选同意协议，不然就将文字设置为红色以提示
         wantRegister () {
             this.registerPhoneFormatError = false;
@@ -333,20 +356,57 @@ export default {
                 return;
             }
             if (this.agree) {
-                this.register({
-                    "closeModal": () => this.$Message.success('Register Success'),
-                    "phoneExistError": () => {
-                        this.registerPhoneExistError = true;
-                        this.$Message.error('Phone exists, please use another phone');
+                this.loadingSignUp = true;
+                this.beginSendEmailCode({
+                    email: this.registerInfo.email,
+                    successCallback: (emailCode) => {
+                        this.serverEmailCode = emailCode;
+                        this.needInputEmailCode = true;
+                        console.log("emailCode:" + emailCode);
                     },
-                    "emailExistError": () => {
-                        this.registerEmailExistError = true;
-                        this.$Message.error('Email exists, please use another email address');
+                    emailFormatError: (errMsg) => {
+                        this.$Message.error(errMsg);
+                        this.loadingSignUp = false;
+                    },
+                    emailExistError: (errMsg) => {
+                        this.$Message.error(errMsg);
+                        this.loadingSignUp = false;
+                    },
+                    errorCallback: () => {
+                        this.$Message.error('Network error, please try again.');
+                        this.loadingSignUp = false;
                     }
                 });
             } else {
                 this.$Message.error('you need to agree the Serrhub Terms & Conditions and Privacy Policy');
                 this.isError = true
+            }
+        },
+        submitEmailCode () {
+            if (this.userEmailCode === this.serverEmailCode) {
+                this.needInputEmailCode = false;
+                this.register({
+                    "closeModal": () => {
+                        this.loadingSignUp = false;
+                        this.$Message.success('Register Success');
+                    },
+                    "phoneExistError": () => {
+                        this.loadingSignUp = false;
+                        this.registerPhoneExistError = true;
+                        this.$Message.error('Phone exists, please use another phone');
+                    },
+                    "emailExistError": () => {
+                        this.loadingSignUp = false;
+                        this.registerEmailExistError = true;
+                        this.$Message.error('Email exists, please use another email address');
+                    },
+                    errorCallback: () => {
+                        this.loadingSignUp = false;
+                        this.$Message.error('Network error, please try again.');
+                    }
+                });
+            } else {
+                this.$Message.error('The validation code is incorrect. Please fill it in again.');
             }
         },
         telephoneCheck (str) {

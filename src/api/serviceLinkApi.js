@@ -86,7 +86,7 @@ export default {
                 {
                     "userId": userId,
                     "type": type,
-                    "text": text
+                    "searchText": text
                 }, {
                     headers: {
                         "Content-Type": "application/json",

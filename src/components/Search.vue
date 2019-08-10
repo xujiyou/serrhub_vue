@@ -23,7 +23,7 @@
                         <!--分割线-->
                         <Divider type="vertical" style="width: 1px; height: 50px;"/>
                         <!--搜索框-->
-                        <input placeholder="SEARCH FOR SERVICE" style="width: 74%; height: 100%;" v-model="text"/>
+                        <input placeholder="SEARCH FOR SERVICE" style="width: 74%; height: 100%;background-color: white" v-model="searchText"/>
                     </Col>
                     <Col span="6" id="searchButtonCol">
                         <!--搜索按钮-->
@@ -89,7 +89,7 @@
             return {
                 needShowSearchResult: false, //是否展示搜索结果，搜索完再展示
                 type: "Categories", //当前搜索类型
-                text: "", //要搜索的内容
+                searchText: "", //要搜索的内容
                 searchServiceLinkResult: [] //搜索结果列表
             }
         },
@@ -116,13 +116,13 @@
                         let serviceLink = serviceLinkList[i];
                         switch (this.type) {
                             case "Categories" :
-                                if (serviceLink.categories.toLowerCase().indexOf(this.text.toLowerCase()) !== -1) {this.searchServiceLinkResult.push(serviceLink)}
+                                if (serviceLink.categories.toLowerCase().indexOf(this.searchText.toLowerCase()) !== -1) {this.searchServiceLinkResult.push(serviceLink)}
                                 break;
                             case "Title":
-                                if (serviceLink.title.toLowerCase().indexOf(this.text.toLowerCase()) !== -1) {this.searchServiceLinkResult.push(serviceLink)}
+                                if (serviceLink.title.toLowerCase().indexOf(this.searchText.toLowerCase()) !== -1) {this.searchServiceLinkResult.push(serviceLink)}
                                 break;
                             case "Link":
-                                if (serviceLink.link.toLowerCase().indexOf(this.text.toLowerCase()) !== -1) {this.searchServiceLinkResult.push(serviceLink)}
+                                if (serviceLink.link.toLowerCase().indexOf(this.searchText.toLowerCase()) !== -1) {this.searchServiceLinkResult.push(serviceLink)}
                                 break;
                         }
                     }
@@ -135,7 +135,7 @@
                     //如果是登录状态，从服务端搜索
                     this.searchServiceLink({
                         "type": this.type,
-                        "text": this.text,
+                        "text": this.searchText,
                         "callback": (result) => {
                             if (result.length === 0) {
                                 this.$Message.info('There is no relevant service link');

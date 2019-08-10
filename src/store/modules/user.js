@@ -270,6 +270,7 @@ const actions = {
     setDefaultUserInfo ({ commit }) {
         state.userInfo = state.defaultUserInfo;
     },
+
     //从缓存中获取token
     findTokenFromLocalStorage({ commit }) {
         let storage = window.localStorage;
@@ -282,18 +283,22 @@ const actions = {
     setNeedLogin ({ commit }, visible) {
         state.needLogin = visible;
     },
+
     //设置展示注册modal的字段
     setNeedRegister ({ commit }, visible) {
         state.needRegister = visible;
     },
+
     //查看登录modal
     viewLoginModal ({ commit }) {
         commit('changeModalToLogin');
     },
+
     //查看注册modal
     viewRegisterModal ({ commit }) {
         commit('changeModalToRegister');
     },
+
     //登录
     login ({ commit }, param) {
         //必要信息不能为空
@@ -315,6 +320,20 @@ const actions = {
             }
         })
     },
+
+    //发送邮箱验证码
+    beginSendEmailCode ({ commit }, param) {
+        authApi.sendEmailCode(param["email"], resp => {
+            param["successCallback"](resp.data["emailCode"]);
+        }, resp => {
+            param["emailFormatError"](resp.data["errMsg"]);
+        }, resp => {
+            param["emailExistError"](resp.data["errMsg"]);
+        }, resp => {
+            param["errorCallback"]();
+        })
+    },
+
     //注册
     register ({ commit }, param) {
         //检查必要信息
@@ -349,9 +368,10 @@ const actions = {
         }, resp => {
             param["emailExistError"]();
         }, resp => {
-            alert("Sorry, registration failed, please try again later.")
+            param["errorCallback"]();
         })
     },
+
     //注销，将缓存中的token设为空，将用户信息设为默认，将当前房屋ID设为空字串
     logout ({ commit }, closeModel) {
         let storage = window.localStorage;
@@ -360,6 +380,10 @@ const actions = {
         state.currentHouseId = "";
         closeModel();
     },
+
+    /***********以上为登录注册相关*********/
+    /***********以下为个人信息相关*****/
+
     //进入网页时执行，获取用户信息
     findUserInfo({ commit }, oldHouseId) {
         userApi.findUserInfoThroughToken(state.token, resp => {
@@ -369,13 +393,61 @@ const actions = {
         })
     },
 
-    /***********以上为登录注册相关*********/
+    beginUpdateUserName({ commit }, params) {
+        console.log(state.userInfo.userId)
+        console.log(params["firstName"])
+        console.log(params["lastName"])
+        userApi.updateUserName(state.userInfo.userId, params["firstName"], params["lastName"], state.token, resp => {
+            Vue.set(state, 'userInfo', resp.data["newUserInfo"]);
+            params["successCallback"]();
+        }, resp => {
+            params["errorCallback"](resp.data["errMsg"]);
+        }, resp => {
+            params["networkError"]();
+        })
+    },
+
+    beginUpdatePhone({ commit }, params) {
+        userApi.updatePhone(state.userInfo.userId, params["phone"], state.token, resp => {
+            Vue.set(state, 'userInfo', resp.data["newUserInfo"]);
+            params["successCallback"]();
+        }, resp => {
+            params["errorCallback"](resp.data["errMsg"]);
+        }, resp => {
+            params["networkError"]();
+        })
+    },
+
+    beginUpdateEmail({ commit }, params) {
+        userApi.updateEmail(state.userInfo.userId, params["email"], state.token, resp => {
+            Vue.set(state, 'userInfo', resp.data["newUserInfo"]);
+            params["successCallback"]();
+        }, resp => {
+            params["errorCallback"](resp.data["errMsg"]);
+        }, resp => {
+            params["networkError"]();
+        })
+    },
+
+    beginUpdatePassword({ commit }, params) {
+        userApi.updatePassword(state.userInfo.userId, params["oldPassword"], params["newPassword"],
+            params["secondPassword"], state.token, resp => {
+                params["successCallback"]();
+            }, resp => {
+                params["errorCallback"](resp.data["errMsg"]);
+            }, resp => {
+                params["networkError"]();
+            })
+    },
+
+    /***********以上为个人信息相关*****/
     /***********以下为房屋相关*********/
 
     //设置当前房屋的信息
     viewUpdateHouseModel({ commit }, newHouseInfo) {
         commit('setCurrentHouseInfo', newHouseInfo);
     },
+
     //添加房屋
     addHouse ({ commit }, closeModel) {
         houseApi.addHouseToServer(state.houseInfo, state.userInfo.userId, state.token, resp => {
@@ -387,6 +459,7 @@ const actions = {
             state.houseInfo.note = "";
         }, resp => {})
     },
+
     //更新房屋信息
     updateHouse ({ commit }, closeModel) {
         houseApi.updateHouseToServer(state.currentHouseInfo, state.userInfo.userId, state.token, resp => {
@@ -394,6 +467,7 @@ const actions = {
             closeModel(); //关闭更新房屋modal
         }, resp => {})
     },
+
     //删除房屋
     removeHouse ({ commit }, closeModel) {
         houseApi.removeHouseFromServer(state.currentHouseInfo.houseId, state.userInfo.userId, state.token, resp => {
@@ -412,6 +486,7 @@ const actions = {
             commit("setCurrentHouseId", houseId); //设置当前房屋ID，进而展示服务链接列表
         }
     },
+
     //添加房屋后，把本小区的服务列表展示出来，用户确认添加后，执行这个方法
     addAllServiceLink ({ commit }, serviceLink) {
         serviceLinkApi.addServiceLinkToServer(serviceLink, state.userInfo.userId, state.currentHouseId, state.token, resp => {
@@ -421,6 +496,7 @@ const actions = {
             });
         }, resp => {});
     },
+
     //添加服务链接
     addServiceLink ({ commit }, param) {
         serviceLinkApi.addServiceLinkToServer(state.serviceLinkInfo, state.userInfo.userId, state.currentHouseId, state.token, resp => {
@@ -439,6 +515,7 @@ const actions = {
             param["linkErrorCallBack"]();
         }, resp => {});
     },
+
     //删除服务链接
     removeServiceLink ({ commit }, param) {
         serviceLinkApi.removeServiceLinkFromServer(state.userInfo.userId, state.currentHouseId, param["link"], state.token, resp => {
@@ -449,10 +526,12 @@ const actions = {
             param["closeModel"]();
         }, resp => {});
     },
+
     //点击更新按钮后，需要设置当前链接的信息
     setCurrentServiceLink({ commit }, serviceLinkInfo) {
         Vue.set(state,'currentServiceLinkInfo', serviceLinkInfo);
     },
+
     //更新服务链接信息
     updateServiceLink ({ commit }, param) {
         serviceLinkApi.updateServiceLinkToServer(state.currentServiceLinkInfo, state.userInfo.userId, state.currentHouseId, state.token, resp => {
@@ -465,12 +544,14 @@ const actions = {
             param["linkErrorCallBack"]();
         }, resp => {});
     },
+
     //搜索服务
     searchServiceLink ({ commit }, param) {
         serviceLinkApi.searchServiceLinkFromServer(param["type"], param["text"], state.userInfo.userId, state.token, resp => {
             param["callback"](resp.data["serviceLinkList"]);
         }, resp => {});
     },
+
     //解析address
     analysisAddress ({ commit }, text) {
         addressApi.analysisAddress(text, resp => {
@@ -487,20 +568,24 @@ const actions = {
 
 // mutations
 const mutations = {
+
     //展示注册modal
     changeModalToRegister (state) {
         state.needLogin = false;
         state.needRegister = true
     },
+
     //展示登录modal
     changeModalToLogin (state) {
         state.needLogin = true;
         state.needRegister = false
     },
+
     //设置当前房屋信息
     setCurrentHouseInfo(state, newHouseInfo) {
         Vue.set(state,'currentHouseInfo', newHouseInfo);
     },
+
     //从服务端获取数据后，设置用户信息，然后看情况来设置当前房屋ID
     setUserInfo (state, param) {
         let userInfo = param["userInfo"];
@@ -514,13 +599,16 @@ const mutations = {
             Vue.set(state, 'currentHouseId', oldHouseId)
         }
     },
+
     //添加房屋信息，设置URL
     addOneHouse (state, houseInfo) {
         state.userInfo.houseList.push(houseInfo);
         router.push("/?house=" + houseInfo.houseId);
         Vue.set(state, 'currentHouseId', houseInfo.houseId);
     },
+
     updateOneHouse (state, newHouseInfo) {},
+
     //删除房屋信息
     removeOneHouse (state, houseId) {
         let index = -1;
@@ -532,11 +620,13 @@ const mutations = {
         }
         state.userInfo.houseList.splice(index, 1);
     },
+
     //设置当前房屋ID
     setCurrentHouseId (state, houseId) {
         router.push("/?house=" + houseId);
         Vue.set(state, 'currentHouseId', houseId);
     },
+
     //添加服务链接
     addOneServiceLink (state, param) {
         let houseId = param["houseId"];
@@ -550,6 +640,7 @@ const mutations = {
         }
         currentHouse.serviceLinkList.push(serviceLink)
     },
+
     //删除服务链接
     removeOneServiceLink (state, param) {
         let houseId = param["houseId"];
@@ -570,6 +661,7 @@ const mutations = {
         }
         house.serviceLinkList.splice(index, 1);
     },
+
     //更新服务链接
     updateOneServiceLink (state, param) {
         let houseId = param["houseId"];
