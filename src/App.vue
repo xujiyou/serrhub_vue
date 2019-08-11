@@ -187,7 +187,7 @@
                           </Checkbox>
                       </FormItem>
                       <div class="g-recaptcha" style="margin-left: 68px"
-                           data-callback="robotVerified" data-sitekey="6LdzYbIUAAAAAOGdHVUiQ8bONaOI1InKUBJMPAC3"></div>
+                           data-callback="robotVerified" data-sitekey="6LcEbbIUAAAAAItVqd7Iw1Ez988azFA6J2VdutRg"></div>
                       <!-- 注册按钮，注册时执行 wantRegister 方法 -->
 
                   </Form>
