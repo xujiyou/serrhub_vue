@@ -23,7 +23,7 @@
             <div v-for="(value, key) in houseMap[currentHouseId]">
                 <Divider orientation="left" size="small" :dashed="true" style="padding-bottom: 8px; padding-top: 6px">
                     <!-- 展示类别 -->
-                    <h2>
+                    <h4>
                         {{key}}
                         <!-- 是否展示服务的操作按钮 -->
                         <span v-if="currentHouseId !== ''">
@@ -35,7 +35,7 @@
                                 @click="showOption(key)"></Button>
                         </span>
 
-                    </h2>
+                    </h4>
                 </Divider>
                 <!-- 是否折叠 -->
                 <div v-if="expand">
@@ -48,14 +48,14 @@
                                             <!-- 服务图片 -->
                                             <img :src="serviceLink.image" style="padding: 0;width: 100%; height: 136px;border-top-left-radius: 4px; border-top-right-radius: 4px; object-fit: cover;" >
                                             <!-- 服务链接 -->
-                                            <h2 class="url" v-if="/(\w*\.(?:com|cn|top|org|net))/.exec(serviceLink.link) === null">
-                                                Service Link
-                                            </h2>
-                                            <h2 class="url" v-if="/(\w*\.(?:com|cn|top|org|net))/.exec(serviceLink.link) !== null">
-                                                {{
+                                            <p class="url" v-if="/(\w*\.(?:com|cn|top|org|net))/.exec(serviceLink.link) === null">
+                                                <b>Service Link</b>
+                                            </p>
+                                            <p class="url" v-if="/(\w*\.(?:com|cn|top|org|net))/.exec(serviceLink.link) !== null">
+                                                <b>{{
                                                 /(\w*\.(?:com|cn|top|org|net))/.exec(serviceLink.link)[0]
-                                                }}
-                                            </h2>
+                                                }}</b>
+                                            </p>
                                         </div>
                                         <!-- 服务标题 -->
                                         <p style="padding: 0 16px 2px 16px"><b>{{serviceLink.title}}</b></p>
@@ -309,8 +309,10 @@
         color: white;
         width: 100%;
         height: 34px;
+        line-height: 34px;
+        font-size: 16px;
         background-color: rgba(44,62,80, 0.5);
-        padding: 6px 16px 6px 16px;
+        padding: 0 16px 0 16px;
     }
     .ivu-divider-horizontal.ivu-divider-with-text-left:before {
         width: 1%;

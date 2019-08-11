@@ -42,7 +42,7 @@ export default {
     //发送邮箱验证码
     sendEmailCode (receiver, successCallback, emailFormatError, emailExistError, errorCallback) {
         Vue.http.get(
-            'http://localhost:8001/api/auth/send/' + receiver, {}
+            'https://boot.serrhub.com/api/auth/send/' + receiver, {}
         ).then(response => {
                 let code = response.data["code"];
                 if (code === 0) {

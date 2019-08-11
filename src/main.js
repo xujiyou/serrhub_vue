@@ -4,16 +4,21 @@ import VueResource from 'vue-resource' //http请求库
 import store from './store/index' //状态库
 import router from './router' //路由
 
-import iView from 'iview'; //样式库
-import 'iview/dist/styles/iview.css';
-
 import VueMaterial from 'vue-material' //样式库
 import 'vue-material/dist/vue-material.min.css'
+
+import BootstrapVue from 'bootstrap-vue'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+
+import iView from 'iview'; //样式库
+import 'iview/dist/styles/iview.css';
 
 Vue.config.productionTip = false;
 Vue.use(iView);
 Vue.use(VueMaterial);
 Vue.use(VueResource);
+Vue.use(BootstrapVue);
 
 new Vue({
   store,

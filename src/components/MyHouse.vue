@@ -8,12 +8,12 @@
                 <Button type="text" style="color: #17b5d2" @click="needAddHouse = true"><b>add it</b></Button>
                 .
             </p>
-            <h3 v-if="userInfo.houseList.length !== 0" style="padding-left: 16px">
+            <h4 v-if="userInfo.houseList.length !== 0" style="padding-left: 16px">
                 My House
                 <Button type="dashed" size="small" shape="circle" icon="md-add"
                         style="margin-left: 2px"
                         @click="needAddHouse = true"></Button>
-            </h3>
+            </h4>
             <br/>
             <Collapse simple accordion :value="currentHouseId" v-on:on-change="seeServiceLike" v-if="userInfo.houseList.length !== 0">
                 <Panel :name="house.houseId" v-for="house in userInfo.houseList">
