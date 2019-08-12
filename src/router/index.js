@@ -13,6 +13,11 @@ export default new Router({
             path: '/',
             name: 'ServiceLinkList',
             component: ServiceLinkList,
+        }, {
+            //因为要获取URL中的参数，所以这里要用路由来实现
+            path: '/abc',
+            name: 'ServiceLinkList',
+            component: ServiceLinkList,
         }
     ]
 })
