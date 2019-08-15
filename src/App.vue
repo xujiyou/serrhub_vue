@@ -30,47 +30,49 @@
                 <Form>
 
                     <div v-if="loginError" style="color: red">
-                      Username or password is incorrect, please check it.
+                        Username or password is incorrect, please check it.
                     </div>
                     <div v-if="checkError" style="color: red">
-                      Please complete the necessary information.
+                        Please complete the necessary information.
                     </div>
                     <div v-if="formatError" style="color: red">
-                      Please fill in the correct email or mobile number.
+                        Please fill in the correct email or mobile number.
                     </div>
 
                     <!-- Phone or email -->
                     <FormItem prop="Phone or email" class="formItem">
-                      <Input type="text" size="large" placeholder="Phone or email" v-model="loginInfo.phoneOrEmail">
-                        <Icon type="ios-person-outline" slot="prepend"></Icon>
-                      </Input>
+                        <Input type="text" size="large" placeholder="Phone or email" v-model="loginInfo.phoneOrEmail">
+                            <Icon type="ios-person-outline" slot="prepend"></Icon>
+                        </Input>
                     </FormItem>
                     <br/>
 
                     <!-- Password -->
                     <FormItem prop="password" class="formItem">
-                      <Input type="password" size="large" placeholder="Password" v-model="loginInfo.password">
-                        <Icon type="ios-lock-outline" slot="prepend"></Icon>
-                      </Input>
+                        <label>
+                            <Input type="password" size="large" placeholder="Password" v-model="loginInfo.password">
+                                <Icon type="ios-lock-outline" slot="prepend"></Icon>
+                            </Input>
+                        </label>
                     </FormItem>
                     <br/>
 
                     <!-- 操作选项 -->
                     <FormItem prop="interest" class="formItem">
-                      <CheckboxGroup>
-                          <!-- Remember me -->
-                        <Checkbox label="Remember me" v-model="rememberMe"></Checkbox>
-                          <!-- 按钮，用于从登录modal切换到注册modal，向左浮动-->
-                        <Button size="small" type="text" style="float: right; margin-top: 4px"
+                        <CheckboxGroup>
+                            <!-- Remember me -->
+                            <Checkbox label="Remember me" v-model="rememberMe"></Checkbox>
+                            <!-- 按钮，用于从登录modal切换到注册modal，向左浮动-->
+                            <Button size="small" type="text" style="float: right; margin-top: 4px"
                                 onMouseOut="this.style.color='#515A61'"
                                 onMouseOver="this.style.color='#17b5d2'" @click="viewRegisterModal">Register now</Button>
-                      </CheckboxGroup>
+                        </CheckboxGroup>
                     </FormItem>
                     <br/>
 
                     <!-- 登录按钮，登录时执行login方法 -->
                     <FormItem class="formItem">
-                      <Button type="primary" long style="background-color: #17b5d2; border: 0" size="large" @click="wantLogin">LOGIN</Button>
+                        <Button type="primary" long style="background-color: #17b5d2; border: 0" size="large" @click="wantLogin">LOGIN</Button>
                     </FormItem>
 
                 </Form>
@@ -81,8 +83,8 @@
                 <div style="width: 260px;margin-left:auto;margin-right: auto;">
                     <br/>&nbsp;
                     <Button size="large" long type="primary" style="border: 0;text-align: left; background-color: #EF2A2A">
-                      <span style="width: 30px; "><Icon type="logo-googleplus" style="color: #fff"></Icon></span>
-                      <span style="width: 210px; text-align: center;padding-right: 60px">GOOGLE</span>
+                        <span style="width: 30px; "><Icon type="logo-googleplus" style="color: #fff"></Icon></span>
+                        <span style="width: 210px; text-align: center;padding-right: 60px">GOOGLE</span>
                     </Button>
                     <br/><br/>
                 </div>
@@ -100,10 +102,10 @@
               :mask-closable="false">
         <p slot="header">
             <!-- 按钮，用于从注册modal切换到登录modal-->
-          <Button size="small" type="text" icon="ios-arrow-back"
-                  onMouseOut="this.style.color='#515A61'"
-                  onMouseOver="this.style.color='#17b5d2'" @click="viewLoginModal"></Button>
-          <span>Register</span>
+            <Button size="small" type="text" icon="ios-arrow-back"
+                onMouseOut="this.style.color='#515A61'"
+                onMouseOver="this.style.color='#17b5d2'" @click="viewLoginModal"></Button>
+            <span>Register</span>
         </p>
 
         <div style="width: 440px;margin: auto;text-align: center">
