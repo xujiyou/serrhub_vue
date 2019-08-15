@@ -322,17 +322,17 @@ const actions = {
     },
 
     //发送邮箱验证码
-    beginSendEmailCode ({ commit }, param) {
-        authApi.sendEmailCode(param["email"], resp => {
-            param["successCallback"](resp.data["emailCode"]);
-        }, resp => {
-            param["emailFormatError"](resp.data["errMsg"]);
-        }, resp => {
-            param["emailExistError"](resp.data["errMsg"]);
-        }, resp => {
-            param["errorCallback"]();
-        })
-    },
+    // beginSendEmailCode ({ commit }, param) {
+    //     authApi.sendEmailCode(param["email"], resp => {
+    //         param["successCallback"](resp.data["emailCode"]);
+    //     }, resp => {
+    //         param["emailFormatError"](resp.data["errMsg"]);
+    //     }, resp => {
+    //         param["emailExistError"](resp.data["errMsg"]);
+    //     }, resp => {
+    //         param["errorCallback"]();
+    //     })
+    // },
 
     //注册
     register ({ commit }, param) {

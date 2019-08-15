@@ -1,7 +1,8 @@
 import Vue from 'vue'
 
 export default {
-    //获取用户信息API
+
+    //find user info API
     findUserInfoThroughToken (token, successCallback, errorCallback) {
         Vue.http.get(
             'https://boot.serrhub.com/api/user/info?token=' + token,
@@ -17,7 +18,8 @@ export default {
             errorCallback(response)
         });
     },
-    //修改用户名
+
+    //update user name
     updateUserName(userId, firstName, lastName, token, successCallback, errorCallback, networkError) {
         console.log(token);
         Vue.http.get(
@@ -38,7 +40,8 @@ export default {
             networkError(response)
         });
     },
-    //修改手机号
+
+    //update phone
     updatePhone(userId, phone, token, successCallback, errorCallback, networkError) {
         Vue.http.get(
             'https://boot.serrhub.com/api/user/updatePhone/' + userId + '/' +  phone,
@@ -58,7 +61,8 @@ export default {
             networkError(response)
         });
     },
-    //修改邮箱
+
+    //update email
     updateEmail(userId, email, token, successCallback, errorCallback, networkError) {
         Vue.http.get(
             'https://boot.serrhub.com/api/user/updateEmail/' + userId + '/' +  email,
@@ -78,7 +82,8 @@ export default {
             networkError(response)
         });
     },
-    //修改密码
+
+    //update password
     updatePassword(userId, oldPassword, newPassword, secondPassword, token, successCallback, errorCallback, networkError) {
         Vue.http.post(
             'https://boot.serrhub.com/api/user/updatePassword', {

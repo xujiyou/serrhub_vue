@@ -1,10 +1,12 @@
 <template>
     <div id="footer">
-        <!-- 底部边框，距离底部按钮20个像素-->
+
+        <!-- bottom border-->
         <Divider style="margin: 0 0 20px 0"></Divider>
+
+        <!-- bottom some button -->
         <Row>
             <Col span="4">&nbsp;&nbsp;</Col>
-            <!-- 底部各个按钮，横向居中显示 -->
             <Col span="16" style="text-align: center">
                 <Button size="small" type="text"
                         onMouseOut="this.style.color='#515A61'"
@@ -24,7 +26,9 @@
             </Col>
             <Col span="4">&nbsp;&nbsp;</Col>
         </Row>
+
         <br/>
+
     </div>
 </template>
 

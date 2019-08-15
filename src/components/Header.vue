@@ -1,5 +1,6 @@
 <template>
     <div id="header">
+
         <div id="buttonGroup">
             <!-- userId为空字符串说明未登录，显示未登录的两个按钮 -->
             <div v-if="userInfo.userId === ''">
@@ -16,6 +17,7 @@
                     <b>&nbsp;&nbsp;REGISTER&nbsp;&nbsp;</b>
                 </Button>
             </div>
+
             <!-- 若已登录，显示已登录的两个按钮 -->
             <div v-if="userInfo.userId !== ''">
                <Button shape="circle" type="text" id="myAccount"
@@ -32,19 +34,20 @@
                </Button>
             </div>
         </div>
-        <!-- 标题 -->
+
+        <!-- title -->
         <div id="title">
             <Row>
                 <Col span="4">&nbsp;</Col>
                 <Col span="16">
                     <h1>ANYTHING YOU NEED, <br/>
                         WE’VE GOT YOU COVERED.</h1>
-
                 </Col>
                 <Col span="4">&nbsp;</Col>
             </Row>
         </div>
-        <!-- 副标题 -->
+
+        <!-- sub title -->
         <div id="subTitle">
             <Row>
                 <Col span="4">&nbsp;</Col>
@@ -64,10 +67,11 @@
                 size="xl"
                 style="padding: 0; margin: 0; border: 0">
             <Row>
+
                 <Col span="8" style="text-align: center;">
                     <h3 style="margin-bottom: 10px">My profile</h3>
                     <br/>
-                    <img :src='userInfo.profileImage' class="avatar"/>
+                    <img :src='userInfo.profileImage' class="avatar" alt="avatar"/>
                     <div class="editAvatar">
                         <Upload action="https://boot.serrhub.com/api/user/updateAvatar"
                                 :headers="{'Authorization': 'serrhub' + token}"
@@ -90,6 +94,7 @@
                     </p>
                     <br/><br/>
                 </Col>
+
                 <Col span="16" style="padding-left: 64px; padding-right: 64px;border-left: #f5f5f5 solid 1px">
                     <h3 style="margin-bottom: 10px">Update your profile</h3>
                     <br/>
@@ -131,22 +136,6 @@
             </Row>
         </b-modal>
 
-        <Modal title="Email Code"
-               v-model="needInputEmailCode"
-               class-name="vertical-center-modal"
-               :styles="{top: '0px'}"
-               width="320"
-               :mask-closable="false">
-            <p slot="header" style="color:#f60;text-align:center">
-                <span>Mailbox verification code</span>
-            </p>
-            <div style="text-align:center">
-                <i-input v-model="userEmailCode" placeholder="Mailbox verification code" style="width: 240px"></i-input>
-            </div>
-            <div slot="footer">
-                <Button type="primary" long style="background-color: #17b5d2; border: 0" size="large" @click="submitEmailCode">SUBMIT</Button>
-            </div>
-        </Modal>
     </div>
 </template>
 
@@ -155,168 +144,157 @@
 
     export default {
         name: "Header",
+
         data() {
             return {
-                showMyAccount: false, //是否展示我的账户信息
+                showMyAccount: false,
                 showUploadList: true,
-                needUpdateUserName: false,
-                needUpdatePassword: false,
-                needUpdatePhone: false,
-                needUpdateEmail: false,
                 firstName: "",
                 lastName: "",
                 oldPassword: "",
                 newPassword: "",
                 secondPassword: "",
                 phone: "",
-                email: "",
-                serverEmailCode: "",
-                userEmailCode: "",
-                needInputEmailCode: false,
-                loadingEmailUpdate: false,
+                email: ""
             }
         },
+
         computed: {
             ... mapState({
-                userInfo: state => state.user.userInfo, //用户信息
+                userInfo: state => state.user.userInfo,
                 token: state => state.user.token
             }),
         },
+
         methods: {
             ...mapActions('user', [
-                'viewLoginModal', //显示登录modal
-                'viewRegisterModal', //显示注册modal
-                'logout', //注销
+                'viewLoginModal', //view login modal
+                'viewRegisterModal', //view register modal
+                'logout',
                 'beginUpdateUserName',
                 'beginUpdatePassword',
                 'beginUpdatePhone',
-                'beginUpdateEmail',
-                'beginSendEmailCode'
+                'beginUpdateEmail'
             ]),
-            //更新头像成功执行，替换用户的头像
+
+            //update avatar success，replace user avatar
             uploadSuccess (response, file, fileList) {
                 this.userInfo.profileImage = response;
                 this.showUploadList = false;
                 this.$Message.success('Upload avatar success.')
             },
+
+            //image is big
             bigFile () {
                 this.$Message.error('Files are too large and the maximum limit is 512 KB.')
             },
+
             wantLogout () {
-                this.logout(() => {
-                    this.$Message.info('Logout success.')
-                })
+                this.logout(() => this.$Message.info('Logout success.'));
             },
+
             updateProfile () {
                 if (this.firstName !== "" && this.lastName !== "") {
-                    this.beginUpdateUserName({
-                        firstName: this.firstName,
-                        lastName: this.lastName,
-                        successCallback: () => {
-                            this.firstName = "";
-                            this.lastName = "";
-                            this.$Message.success('Update success.');
-                            this.needUpdateUserName = false;
-                        },
-                        errorCallback: (msg) => {
-                            this.$Message.error(msg);
-                        },
-                        networkError: () => {
-                            this.$Message.error('Network error, please try again.');
-                        }
-                    });
+                    this.updateUserName();
                 }
+
                 if (this.phone !== "") {
-                    this.beginUpdatePhone({
-                        phone: this.phone,
-                        successCallback: () => {
-                            this.phone = "";
-                            this.$Message.success('Update success.');
-                        },
-                        errorCallback: (msg) => {
-                            this.$Message.error(msg);
-                        },
-                        networkError: () => {
-                            this.$Message.error('Network error, please try again.');
-                        }
-                    });
+                    this.updatePhone();
                 }
                 if (this.email !== "") {
                     if (!this.emailCheck(this.email)) {
                         this.$Message.error('Please fill in the correct email.');
                         return;
                     }
-                    this.beginSendEmailCode({
-                        email: this.email,
-                        successCallback: (emailCode) => {
-                            this.$bvModal.hide('myAccount');
-                            this.serverEmailCode = emailCode;
-                            this.needInputEmailCode = true;
-                            console.log("emailCode:" + emailCode);
-                        },
-                        emailFormatError: (errMsg) => {
-                            this.$Message.error(errMsg);
-                        },
-                        emailExistError: (errMsg) => {
-                            this.$Message.error(errMsg);
-                        },
-                        errorCallback: () => {
-                            this.$Message.error('Network error, please try again.');
-                        }
-                    });
+                    this.updateEmail();
                 }
 
                 if (this.oldPassword !== "" && this.newPassword !== "" && this.secondPassword !== "") {
-                    this.beginUpdatePassword({
-                        oldPassword: this.oldPassword,
-                        newPassword: this.newPassword,
-                        secondPassword: this.secondPassword,
-                        successCallback: () => {
-                            this.$Message.success('Update success.');
-                            this.$bvModal.hide('myAccount');
-                            this.oldPassword = "";
-                            this.newPassword = "";
-                            this.secondPassword = "";
-                            this.logout(() => {
-                                this.$Message.info('Please login again.');
-                                this.viewLoginModal();
-                            })
-                        },
-                        errorCallback: (msg) => {
-                            this.$Message.error(msg);
-                        },
-                        networkError: () => {
-                            this.$Message.error('Network error, please try again.');
-                        }
-                    });
+                    if (this.newPassword !== this.secondPassword) {
+                        this.$Message.error('Please fill in the correct email.');
+                        return;
+                    }
+                    this.updatePassword();
                 }
             },
 
+            updateUserName () {
+                this.beginUpdateUserName({
+                    firstName: this.firstName,
+                    lastName: this.lastName,
+                    successCallback: () => {
+                        this.firstName = "";
+                        this.lastName = "";
+                        this.$Message.success('Update success.');
+                    },
+                    errorCallback: (msg) => {
+                        this.$Message.error(msg);
+                    },
+                    networkError: () => {
+                        this.$Message.error('Network error, please try again.');
+                    }
+                });
+            },
+
+            updatePhone () {
+                this.beginUpdatePhone({
+                    phone: this.phone,
+                    successCallback: () => {
+                        this.phone = "";
+                        this.$Message.success('Update success.');
+                    },
+                    errorCallback: (msg) => {
+                        this.$Message.error(msg);
+                    },
+                    networkError: () => {
+                        this.$Message.error('Network error, please try again.');
+                    }
+                });
+            },
+
+            updateEmail () {
+                this.beginUpdateEmail({
+                    "email": this.email,
+                    successCallback: () => {
+                        this.$Message.success('Update success.');
+                        this.$bvModal.show('myAccount');
+                        this.email = "";
+                    },
+                    errorCallback: (msg) => {
+                        this.$Message.error(msg);
+                    },
+                    networkError: () => {
+                        this.$Message.error('Network error, please try again.');
+                    }
+                });
+            },
+
+            updatePassword () {
+                this.beginUpdatePassword({
+                    oldPassword: this.oldPassword,
+                    newPassword: this.newPassword,
+                    secondPassword: this.secondPassword,
+                    successCallback: () => {
+                        this.$Message.success('Update success.');
+                        this.$bvModal.hide('myAccount');
+                        this.oldPassword = "";
+                        this.newPassword = "";
+                        this.secondPassword = "";
+                        this.logout(() => {
+                            this.$Message.info('Please login again.');
+                            this.viewLoginModal();
+                        })
+                    },
+                    errorCallback: (msg) => this.$Message.error(msg),
+                    networkError: () =>
+                        this.$Message.error('Network error, please try again.')
+                });
+            },
+
+            // check email format
             emailCheck (str) {
                 let reg = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
                 return str.match(reg) != null
-            },
-            submitEmailCode () {
-                if (this.userEmailCode === this.serverEmailCode) {
-                    this.needInputEmailCode = false;
-                    this.loadingEmailUpdate = false;
-                    this.beginUpdateEmail({
-                        "email": this.email,
-                        successCallback: () => {
-                            this.$Message.success('Update success.');
-                            this.$bvModal.show('myAccount');
-                            this.email = "";
-                        },
-                        errorCallback: (msg) => {
-                            this.$Message.error(msg);
-                        },
-                        networkError: () => {
-                            this.$Message.error('Network error, please try again.');
-                        }
-                    });
-                } else {
-                    this.$Message.error('The validation code is incorrect. Please fill it in again.');
-                }
             },
         }
     }

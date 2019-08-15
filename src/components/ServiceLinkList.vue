@@ -1,12 +1,6 @@
 <template>
     <div id="serviceLinkList">
         <div>
-            <adsense
-                    ad-client="ca-pub-9144523027625187"
-                    ad-slot="9144523027625187"
-                    ad-style="display: block"
-                    ad-format="auto">
-            </adsense>
             <!-- 如果服务链接为空，给出提示 -->
             <div v-if="JSON.stringify(houseMap[currentHouseId]) === '{}'">
                 Sorry, you haven't added the service link yet. Please
@@ -179,9 +173,6 @@
 <script>
     import { mapState, mapGetters, mapActions } from 'vuex'
     import Vue from 'vue'
-    import VueAdsense from 'vue-adsense'
-
-    Vue.component('adsense', VueAdsense);
 
     export default {
         name: "ServiceLinkList",

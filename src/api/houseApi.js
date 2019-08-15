@@ -1,78 +1,78 @@
 import Vue from 'vue'
 
 export default {
-    //添加房屋API
+
+    //add house API
     addHouseToServer (houseInfo, userId, token, successCallback, errorCallback) {
         Vue.http.post(
-                'https://boot.serrhub.com/api/house/add',
-                {
-                    "house": houseInfo,
-                    "userId": userId
-                }, {
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": "serrhub" + token
-                    }
+            'https://boot.serrhub.com/api/house/add',
+            {
+                "house": houseInfo,
+                "userId": userId
+            }, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "serrhub" + token
                 }
-            ).then(response => {
-                let code = response.data["code"];
-                if (code === 0) {
-                    successCallback(response);
-                } else {
-                    alert(response.data["errMsg"]);
-                }
-            }, response => {
-                errorCallback(response)
             }
-        );
+        ).then(response => {
+            let code = response.data["code"];
+            if (code === 0) {
+                successCallback(response);
+            } else {
+                alert(response.data["errMsg"]);
+            }
+        }, response => {
+            errorCallback(response)
+        });
     },
-    //更新房屋API
+
+    //update house API
     updateHouseToServer (houseInfo, userId, token, successCallback, errorCallback) {
         Vue.http.post(
-                'https://boot.serrhub.com/api/house/update',
-                {
-                    "house": houseInfo,
-                    "userId": userId
-                }, {
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": "serrhub" + token
-                    }
+            'https://boot.serrhub.com/api/house/update',
+            {
+                "house": houseInfo,
+                "userId": userId
+            }, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "serrhub" + token
                 }
-            ).then(response => {
-                if (response.data["code"] === 0) {
-                    successCallback(response);
-                } else {
-                    alert(response.data["errMsg"])
-                }
-            }, response => {
-                errorCallback(response)
             }
-        );
+        ).then(response => {
+            if (response.data["code"] === 0) {
+                successCallback(response);
+            } else {
+                alert(response.data["errMsg"])
+            }
+        }, response => {
+            errorCallback(response)
+        });
     },
-    //删除房屋API
+
+    //delete house API
     removeHouseFromServer (houseId, userId, token, successCallback, errorCallback) {
         Vue.http.post(
-                'https://boot.serrhub.com/api/house/remove',
-                {
-                    "houseId": houseId,
-                    "userId": userId
-                }, {
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": "serrhub" + token
-                    }
+            'https://boot.serrhub.com/api/house/remove',
+            {
+                "houseId": houseId,
+                "userId": userId
+            }, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "serrhub" + token
                 }
-            ).then(response => {
-                let code = response.data["code"];
-                if (code === 0) {
-                    successCallback(response);
-                } else {
-                    alert(response.data["errMsg"]);
-                }
-            }, response => {
-                errorCallback(response)
             }
-        );
+        ).then(response => {
+            let code = response.data["code"];
+            if (code === 0) {
+                successCallback(response);
+            } else {
+                alert(response.data["errMsg"]);
+            }
+        }, response => {
+            errorCallback(response)
+        });
     }
 }
