@@ -321,32 +321,8 @@ const actions = {
         })
     },
 
-    //发送邮箱验证码
-    // beginSendEmailCode ({ commit }, param) {
-    //     authApi.sendEmailCode(param["email"], resp => {
-    //         param["successCallback"](resp.data["emailCode"]);
-    //     }, resp => {
-    //         param["emailFormatError"](resp.data["errMsg"]);
-    //     }, resp => {
-    //         param["emailExistError"](resp.data["errMsg"]);
-    //     }, resp => {
-    //         param["errorCallback"]();
-    //     })
-    // },
-
     //注册
     register ({ commit }, param) {
-        //检查必要信息
-        let info = state.registerInfo;
-        if (info.firstName === "" || info.lastName === "" || info.phone === "" || info.email === "" ||
-            info.password === "") {
-            alert("Please complete the necessary information");
-            return;
-        }
-        if (info.password !== info.secondPassword) {
-            alert("Sorry, the password entered twice is inconsistent");
-            return;
-        }
         authApi.register(state.registerInfo, resp => {
             //设置信息，进行登录
             state.loginInfo.phoneOrEmail = state.registerInfo.phone;

@@ -100,29 +100,43 @@
                     <br/>
                     <Form inline style="padding: 0; margin: 0" >
                         <FormItem label="First Name" label-position="top" style="padding: 0 20px 0 0; margin: 0">
-                            <Input placeholder="First Name" v-model="firstName"></Input>
+                            <label>
+                                <Input placeholder="First Name" v-model="firstName"></Input>
+                            </label>
                         </FormItem>
                         <FormItem label="Last Name" label-position="top" style="padding: 0; margin: 0">
-                            <Input placeholder="Last Name" v-model="lastName"></Input>
+                            <label>
+                                <Input placeholder="Last Name" v-model="lastName"></Input>
+                            </label>
                         </FormItem>
                     </Form>
                     <div style="">
                         <Form style="padding: 0; margin: 0">
                             <FormItem label="Phone" label-position="top" style="padding: 0; margin: 0">
-                                <Input placeholder="Input your new phone" v-model="phone"></Input>
+                                <label>
+                                    <Input placeholder="Input your new phone" v-model="phone"></Input>
+                                </label>
                             </FormItem>
                             <FormItem label="Email" label-position="top" style="padding: 0; margin: 0">
-                                <Input placeholder="Input your new email" v-model="email"></Input>
+                                <label>
+                                    <Input placeholder="Input your new email" v-model="email"></Input>
+                                </label>
                             </FormItem>
                             <Divider :dashed="true"></Divider>
                             <FormItem label="Old Password" label-position="top" style="padding: 0; margin: 0">
-                                <Input type="password" placeholder="Input your old password" v-model="oldPassword"></Input>
+                                <label>
+                                    <Input type="password" placeholder="Input your old password" v-model="oldPassword"></Input>
+                                </label>
                             </FormItem>
                             <FormItem label="New Password" label-position="top" style="padding: 0 0 20px 0; margin: 0">
-                                <Input type="password" placeholder="Input your new password" v-model="newPassword"></Input>
+                                <label>
+                                    <Input type="password" placeholder="Input your new password" v-model="newPassword"></Input>
+                                </label>
                             </FormItem>
                             <FormItem style="padding: 0; margin: 0">
-                                <Input type="password" placeholder="Confirm your new password" v-model="secondPassword"></Input>
+                                <label>
+                                    <Input type="password" placeholder="Confirm your new password" v-model="secondPassword"></Input>
+                                </label>
                             </FormItem>
                         </Form>
                     </div>

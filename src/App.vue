@@ -165,10 +165,10 @@
                     <Divider orientation="left" size="small" :dashed="true" style="margin-left: 68px; padding-right: 68px; margin-bottom: 20px">
                         <!-- 按钮，用于展示或隐藏额外选项 -->
                         <Button type="text" size="small"
-                              style="margin-left: 2px"
-                              onMouseOut="this.style.color='#2c3e50'"
-                              onMouseOver="this.style.color='#17b5d2'"
-                              @click="showExcessOption = !showExcessOption">
+                                style="margin-left: 2px"
+                                onMouseOut="this.style.color='#2c3e50'"
+                                onMouseOver="this.style.color='#17b5d2'"
+                                @click="showExcessOption = !showExcessOption">
                             Add my home now
                             <Icon :type="showExcessOption ? 'ios-arrow-down' : 'ios-arrow-forward'" />
                         </Button>
@@ -336,6 +336,16 @@
 
             //必须勾选同意协议，不然就将文字设置为红色以提示
             wantRegister () {
+                //检查必要信息
+                let info = this.registerInfo;
+                if (info.firstName === "" || info.lastName === "" || info.phone === "" || info.email === "" || info.password === "") {
+                    this.$Message.error("Please complete the necessary information");
+                    return;
+                }
+                if (info.password !== info.secondPassword) {
+                    this.$Message.error("Sorry, the password entered twice is inconsistent");
+                    return;
+                }
                 this.registerPhoneFormatError = false;
                 this.registerEmailFormatError = false;
                 this.registerPhoneExistError = false;
