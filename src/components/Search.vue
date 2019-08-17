@@ -238,4 +238,11 @@
         background-color: rgba(44,62,80, 0.5);
         padding: 0 16px 0 16px;
     }
+
+    .ivu-dropdown-item-selected {
+        color: #17b5d2;
+    }
+    .ivu-dropdown-item-selected:hover {
+        color: #2c3e50;
+    }
 </style>
