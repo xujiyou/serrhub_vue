@@ -49,11 +49,9 @@
 
                     <!-- Password -->
                     <FormItem prop="password" class="formItem">
-                        <label>
-                            <Input type="password" size="large" placeholder="Password" v-model="loginInfo.password">
-                                <Icon type="ios-lock-outline" slot="prepend"></Icon>
-                            </Input>
-                        </label>
+                        <Input type="password" size="large" placeholder="Password" v-model="loginInfo.password">
+                            <Icon type="ios-lock-outline" slot="prepend"></Icon>
+                        </Input>
                     </FormItem>
                     <br/>
 
@@ -112,14 +110,10 @@
             <!-- First Name And Last Name，显示在一行 -->
             <Form inline>
                 <FormItem :required="true">
-                    <label>
-                        <Input placeholder="First Name *" v-model="registerInfo.firstName"></Input>
-                    </label>
+                    <Input placeholder="First Name *" v-model="registerInfo.firstName"></Input>
                 </FormItem>
                 <FormItem :required="true">
-                    <label>
-                        <Input placeholder="Last Name *" v-model="registerInfo.lastName"></Input>
-                    </label>
+                    <Input placeholder="Last Name *" v-model="registerInfo.lastName"></Input>
                 </FormItem>
             </Form>
             <!-- 362和68是精心调的，用于和上面的行对其 -->
@@ -133,9 +127,7 @@
                         Phone exists, please use another phone.
                     </div>
                     <FormItem :required="true">
-                        <label>
-                            <Input placeholder="Phone *" v-model="registerInfo.phone"></Input>
-                        </label>
+                        <Input placeholder="Phone *" v-model="registerInfo.phone"></Input>
                     </FormItem>
 
                     <div v-if="registerEmailFormatError" style="color: red; text-align: left; padding-left: 70px; padding-bottom: 10px;">
@@ -145,20 +137,14 @@
                         Email exists, please use another email address.
                     </div>
                     <FormItem :required="true">
-                        <label>
-                            <Input placeholder="Email *" v-model="registerInfo.email"></Input>
-                        </label>
+                        <Input placeholder="Email *" v-model="registerInfo.email"></Input>
                     </FormItem>
 
                     <FormItem prop="password">
-                        <label>
-                            <Input type="password" placeholder="Password *"  v-model="registerInfo.password"></Input>
-                        </label>
+                        <Input type="password" placeholder="Password *"  v-model="registerInfo.password"></Input>
                     </FormItem>
                     <FormItem prop="password">
-                        <label>
-                            <Input type="password" placeholder="Confirm password *"  v-model="registerInfo.secondPassword"></Input>
-                        </label>
+                        <Input type="password" placeholder="Confirm password *"  v-model="registerInfo.secondPassword"></Input>
                     </FormItem>
 
                     <!-- 分割线 -->
@@ -177,9 +163,7 @@
                     <!-- 额外选项 -->
                     <div v-if="showExcessOption">
                         <FormItem>
-                            <label>
-                                <Input placeholder="House name" v-model="registerInfo.houseName"></Input>
-                            </label>
+                            <Input placeholder="House name" v-model="registerInfo.houseName"></Input>
                         </FormItem>
                         <FormItem style="text-align: left">
                             <AutoComplete
@@ -189,9 +173,7 @@
                                 placeholder="Address"></AutoComplete>
                         </FormItem>
                         <FormItem>
-                            <label>
-                                <Input placeholder="Community name" v-model="registerInfo.communityName"></Input>
-                            </label>
+                            <Input placeholder="Community name" v-model="registerInfo.communityName"></Input>
                         </FormItem>
                     </div>
 
