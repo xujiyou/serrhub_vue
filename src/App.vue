@@ -70,7 +70,10 @@
 
                     <!-- 登录按钮，登录时执行login方法 -->
                     <FormItem class="formItem">
-                        <Button type="primary" long style="background-color: #17b5d2; border: 0" size="large" @click="wantLogin">LOGIN</Button>
+                        <Button type="primary" long style="background-color: #17b5d2; border: 0" size="large"
+                                onMouseOut="this.style.backgroundColor='#17b5d2'"
+                                onMouseOver="this.style.backgroundColor='#2c3e50'"
+                                @click="wantLogin">LOGIN</Button>
                     </FormItem>
 
                 </Form>
@@ -80,7 +83,8 @@
             <div slot="footer" style=" text-align: center">
                 <div style="width: 260px;margin-left:auto;margin-right: auto;">
                     <br/>&nbsp;
-                    <Button size="large" long type="primary" style="border: 0;text-align: left; background-color: #EF2A2A">
+                    <Button size="large" long type="primary"
+                            style="border: 0;text-align: left; background-color: #EF2A2A">
                         <span style="width: 30px; "><Icon type="logo-googleplus" style="color: #fff"></Icon></span>
                         <span style="width: 210px; text-align: center;padding-right: 60px">GOOGLE</span>
                     </Button>
@@ -194,6 +198,8 @@
           </div>
           <div slot="footer" style="text-align: center; margin-left: 68px; margin-right: 68px">
               <Button type="primary" long style="background-color: #17b5d2; border: 0" size="large"
+                  onMouseOut="this.style.backgroundColor='#17b5d2'"
+                  onMouseOver="this.style.backgroundColor='#2c3e50'"
                   :loading="loadingSignUp" @click="wantRegister">SIGN UP</Button>
           </div>
       </Modal>

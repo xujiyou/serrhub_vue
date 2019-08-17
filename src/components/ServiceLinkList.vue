@@ -23,9 +23,13 @@
                         <span v-if="currentHouseId !== ''">
                             <Button v-if="!option[key]" size="small" shape="circle" icon="md-create"
                                     style="margin-left: 2px; color: #9A9A9C; border: none"
+                                    onMouseOut="this.style.color='#9A9A9C'"
+                                    onMouseOver="this.style.color='#17b5d2'"
                                     @click="showOption(key)"></Button>
                             <Button v-if="option[key]" size="small" shape="circle" icon="md-create"
                                 style="margin-left: 2px; color: #17b5d2; border: none"
+                                onMouseOut="this.style.color='#17b5d2'"
+                                onMouseOver="this.style.color='#2c3e50'"
                                 @click="showOption(key)"></Button>
                         </span>
 
@@ -35,7 +39,7 @@
                 <div v-if="expand">
                     <Row :gutter="16">
                         <Col span="6" v-for="serviceLink in value">
-                            <a :href="serviceLink.link" target="_blank" style="text-decoration: none; color: #2D3755">
+                            <a :href="serviceLink.link" target="_blank" style="text-decoration: none; color: #2D3755; cursor: pointer;">
                                 <Card style="margin-bottom: 16px;padding: 0">
                                     <div style="text-align:left;">
                                         <div style="padding: 0; margin: 0; border: 0">
@@ -60,12 +64,21 @@
                                 </Card>
                             </a>
                             <!-- 两个服务操作按钮 -->
-                            <div v-if="option[key] === true" style="position: absolute; top: 24px; left: 32px; z-index: 10">
-                                <Button type="error" shape="circle" size="small" icon="md-close" ghost
-                                        style="margin-right: 6px"
-                                        @click="confirm(serviceLink.title, serviceLink.link)"></Button>
-                                <Button type="info" shape="circle" size="small" icon="md-create" ghost
-                                        @click="setCurrentServiceLink(serviceLink);needUpdateServiceLink = true"></Button>
+                            <div v-if="option[key] === true" style="position: absolute; top: 22px; left: 32px; z-index: 10">
+                                    <div class="redIcon" @click="confirm(serviceLink.title, serviceLink.link)">
+                                    </div>
+                                    <div class="yellowIcon" @click="setCurrentServiceLink(serviceLink);needUpdateServiceLink = true">
+                                    </div>
+                                    <a :href="serviceLink.link" target="_blank">
+                                        <div class="greenIcon">
+                                        </div>
+                                    </a>
+
+<!--                                <Button type="error" shape="circle" size="small" icon="md-close" ghost-->
+<!--                                        style="margin-right: 6px"-->
+<!--                                        @click="confirm(serviceLink.title, serviceLink.link)"></Button>-->
+<!--                                <Button type="info" shape="circle" size="small" icon="md-create" ghost-->
+<!--                                        @click="setCurrentServiceLink(serviceLink);needUpdateServiceLink = true"></Button>-->
                             </div>
                         </Col>
                     </Row>
@@ -117,7 +130,9 @@
             <div slot="footer" style="text-align: center">
                 <div style="width: 240px;margin-left:auto;margin-right: auto;">
                     <Button type="primary" long @click="wantUpdateServiceLink" :loading="loadingUpdateService"
-                            style="background-color: #17b5d2; border: 0" size="large" >UPDATE SERVICE</Button>
+                        onMouseOut="this.style.backgroundColor='#17b5d2'"
+                        onMouseOver="this.style.backgroundColor='#2c3e50'"
+                        style="background-color: #17b5d2; border: 0" size="large" >UPDATE SERVICE</Button>
                 </div>
             </div>
         </Modal>
@@ -163,7 +178,9 @@
             <div slot="footer" style="text-align: center">
                 <div style="width: 240px;margin-left:auto;margin-right: auto;">
                     <Button type="primary" html-type="submit" long @click="wantAddService" :loading="loadingAddService"
-                            style="background-color: #17b5d2; border: 0" size="large" >ADD NEW SERVICE</Button>
+                        onMouseOut="this.style.backgroundColor='#17b5d2'"
+                        onMouseOver="this.style.backgroundColor='#2c3e50'"
+                        style="background-color: #17b5d2; border: 0" size="large" >ADD NEW SERVICE</Button>
                 </div>
             </div>
         </Modal>
@@ -284,12 +301,14 @@
         padding-top: 20px;
         padding-bottom: 160px;
     }
+
     /*modal框竖向居中*/
     .vertical-center-modal{
         display: flex;
         align-items: center;
         justify-content: center;
     }
+
     /*网址链接样式*/
     .url {
         margin-bottom: -24px;
@@ -305,6 +324,42 @@
         background-color: rgba(44,62,80, 0.5);
         padding: 0 16px 0 16px;
     }
+
+    .redIcon {
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        line-height: 12px;
+        text-align: center;
+        border-radius: 7px;
+        background-color: rgb(252, 64, 66);
+        cursor: pointer;
+    }
+
+    .yellowIcon {
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        line-height: 12px;
+        text-align: center;
+        border-radius: 7px;
+        background-color: rgb(223, 181, 33);
+        margin-left: 6px;
+        cursor: pointer;
+    }
+
+    .greenIcon {
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        border-radius: 7px;
+        line-height: 12px;
+        text-align: center;
+        background-color: rgb(71, 186, 33);
+        margin-left: 6px;
+        cursor: pointer;
+    }
+
     .ivu-divider-horizontal.ivu-divider-with-text-left:before {
         width: 1%;
     }

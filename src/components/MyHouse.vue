@@ -2,19 +2,24 @@
     <div id="myHouse">
         &nbsp;
         <div v-if="userInfo.userId !== ''">
+
             <!-- 如果房屋为空，给出提示 -->
             <p v-if="userInfo.houseList.length === 0" style="line-height: 1.4">
                 Sorry, you haven't added the house yet. Please
                 <Button type="text" style="color: #17b5d2" @click="needAddHouse = true"><b>add it</b></Button>
                 .
             </p>
+
             <h4 v-if="userInfo.houseList.length !== 0" style="padding-left: 16px">
                 My House
-                <Button type="dashed" size="small" shape="circle" icon="md-add"
-                        style="margin-left: 2px"
+                <Button size="small" shape="circle" icon="md-add"
+                        style="margin-left: 2px; color: #17b5d2; border: none"
+                        onMouseOut="this.style.color='#17b5d2'"
+                        onMouseOver="this.style.color='#2c3e50'"
                         @click="needAddHouse = true"></Button>
             </h4>
             <br/>
+
             <Collapse simple accordion :value="currentHouseId" v-on:on-change="seeServiceLike" v-if="userInfo.houseList.length !== 0">
                 <Panel :name="house.houseId" v-for="house in userInfo.houseList">
                     <span v-if="currentHouseId === house.houseId"><b style="color: #2c3e50">{{house.houseName}}</b></span>
@@ -59,6 +64,7 @@
                     </p>
                 </Panel>
             </Collapse>
+
             <Modal
                     title="Add house"
                     v-model="needAddHouse"
@@ -94,10 +100,13 @@
                 <div slot="footer" style="text-align: center">
                     <div style="width: 240px;margin-left:auto;margin-right: auto;">
                         <Button type="primary" long @click="wantAddHouse"
+                                onMouseOut="this.style.backgroundColor='#17b5d2'"
+                                onMouseOver="this.style.backgroundColor='#2c3e50'"
                                 style="background-color: #17b5d2; border: 0" size="large" >ADD HOUSE</Button>
                     </div>
                 </div>
             </Modal>
+
             <Modal
                     title="Update house"
                     v-model="needUpdateHouse"
@@ -133,7 +142,9 @@
                 <div slot="footer" style="text-align: center">
                     <div style="width: 240px;margin-left:auto;margin-right: auto;">
                         <Button type="primary" long @click="wantUpdateHouse"
-                                style="background-color: #17b5d2; border: 0" size="large" >UPDATE HOUSE</Button>
+                            onMouseOut="this.style.backgroundColor='#17b5d2'"
+                            onMouseOver="this.style.backgroundColor='#2c3e50'"
+                            style="background-color: #17b5d2; border: 0" size="large" >UPDATE HOUSE</Button>
                     </div>
                 </div>
             </Modal>
@@ -225,6 +236,8 @@
                 <div slot="footer" style="text-align: center">
                     <div style="width: 240px;margin-left:auto;margin-right: auto;">
                         <Button type="primary" html-type="submit" long @click="wantAddService" :loading="loadingAddService"
+                                onMouseOut="this.style.backgroundColor='#17b5d2'"
+                                onMouseOver="this.style.backgroundColor='#2c3e50'"
                                 style="background-color: #17b5d2; border: 0" size="large" >ADD NEW SERVICE</Button>
                     </div>
                 </div>
