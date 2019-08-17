@@ -184,8 +184,11 @@
                         </Checkbox>
                     </FormItem>
 
-                    <div class="g-recaptcha" style="margin-left: 68px"
-                       data-callback="robotVerified" data-sitekey="6LcEbbIUAAAAAItVqd7Iw1Ez988azFA6J2VdutRg"></div>
+                    <vue-recaptcha sitekey="6LcEbbIUAAAAAItVqd7Iw1Ez988azFA6J2VdutRg"
+                                   recaptchaHost="https://www.serrhub.com"
+                                   style="margin-left: 68px"></vue-recaptcha>
+<!--                    <div class="g-recaptcha" -->
+<!--                       data-callback="robotVerified" data-sitekey="6LcEbbIUAAAAAItVqd7Iw1Ez988azFA6J2VdutRg"></div>-->
                 </Form>
               </div>
           </div>
@@ -203,6 +206,7 @@
     import MyHouse from './components/MyHouse.vue'
     import ServiceLinkList from './components/ServiceLinkList.vue'
     import Footer from './components/Footer.vue'
+    import VueRecaptcha from 'vue-recaptcha';
     import { mapState, mapActions } from 'vuex'
 
     export default {
@@ -229,7 +233,8 @@
             Search,
             MyHouse,
             ServiceLinkList,
-            Footer
+            Footer,
+            VueRecaptcha
         },
 
         mounted: function () {
