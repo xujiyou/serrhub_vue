@@ -19,20 +19,6 @@
                     <!-- 展示类别 -->
                     <h4>
                         {{key}}
-                        <!-- 是否展示服务的操作按钮 -->
-                        <span v-if="currentHouseId !== ''">
-                            <Button v-if="!option[key]" size="small" shape="circle" icon="md-create"
-                                    style="margin-left: 2px; color: #9A9A9C; border: none"
-                                    onMouseOut="this.style.color='#9A9A9C'"
-                                    onMouseOver="this.style.color='#17b5d2'"
-                                    @click="showOption(key)"></Button>
-                            <Button v-if="option[key]" size="small" shape="circle" icon="md-create"
-                                style="margin-left: 2px; color: #17b5d2; border: none"
-                                onMouseOut="this.style.color='#17b5d2'"
-                                onMouseOver="this.style.color='#2c3e50'"
-                                @click="showOption(key)"></Button>
-                        </span>
-
                     </h4>
                 </Divider>
                 <!-- 是否折叠 -->
@@ -64,21 +50,46 @@
                                 </Card>
                             </a>
                             <!-- 两个服务操作按钮 -->
-                            <div v-if="option[key] === true" style="position: absolute; top: 22px; left: 32px; z-index: 10">
-                                    <div class="redIcon" @click="confirm(serviceLink.title, serviceLink.link)">
-                                    </div>
-                                    <div class="yellowIcon" @click="setCurrentServiceLink(serviceLink);needUpdateServiceLink = true">
-                                    </div>
-                                    <a :href="serviceLink.link" target="_blank">
-                                        <div class="greenIcon">
-                                        </div>
-                                    </a>
-
-<!--                                <Button type="error" shape="circle" size="small" icon="md-close" ghost-->
-<!--                                        style="margin-right: 6px"-->
-<!--                                        @click="confirm(serviceLink.title, serviceLink.link)"></Button>-->
-<!--                                <Button type="info" shape="circle" size="small" icon="md-create" ghost-->
-<!--                                        @click="setCurrentServiceLink(serviceLink);needUpdateServiceLink = true"></Button>-->
+                            <div v-if="currentHouseId !== ''" style="position: absolute; top: 24px; left: 16px; z-index: 10">
+                                <Dropdown style="padding-left: 16px; text-align: center;">
+                                    <Button size="small"
+                                            style="color: #17b5d2; border-color: #17b5d2"
+                                            onMouseOut="this.style.color='#17b5d2'"
+                                            onMouseOver="this.style.color='#2c3e50'">
+                                        <Icon type="ios-arrow-down" size="10"></Icon>
+                                    </Button>
+                                    <Dropdown-menu slot="list">
+                                        <Upload action="https://boot.serrhub.com/api/user/updateAvatar"
+                                                :headers="{'Authorization': 'serrhub' + token}"
+                                                :data="{'userId': userInfo.userId}"
+                                                :show-upload-list="false"
+                                                name="file"
+                                                :on-success="uploadSuccess"
+                                                :on-exceeded-size="bigFile"
+                                                style="cursor:pointer;"
+                                                :max-size="512">
+                                            <Button shape="circle" id="UpdateImageButton"
+                                                    @click="setCurrentServiceLink(serviceLink)"
+                                                    onMouseOver="this.style.borderColor='#2c3e50'; this.style.color='#2c3e50'"
+                                                    onMouseOut="this.style.borderColor='#17b5d2'; this.style.color='#17b5d2'">
+                                                <b>Update image</b>
+                                            </Button>
+                                        </Upload>
+                                        <Button shape="circle" id="UpdateButton"
+                                                @click="setCurrentServiceLink(serviceLink);needUpdateServiceLink = true"
+                                                onMouseOver="this.style.borderColor='#2c3e50'; this.style.color='#2c3e50'"
+                                                onMouseOut="this.style.borderColor='#17b5d2'; this.style.color='#17b5d2'">
+                                            <b>Edit</b>
+                                        </Button>
+                                        <br/>
+                                        <Button shape="circle" id="removeButton" style="margin-bottom: 10px"
+                                                @click="confirm(serviceLink.title, serviceLink.link)"
+                                                onMouseOver="this.style.borderColor='#2c3e50'; this.style.color='#2c3e50'"
+                                                onMouseOut="this.style.borderColor='red'; this.style.color='red'">
+                                            <b>Remove</b>
+                                        </Button>
+                                    </Dropdown-menu>
+                                </Dropdown>
                             </div>
                         </Col>
                     </Row>
@@ -103,9 +114,6 @@
                 <Form :label-width="120" ref="formValidate" onsubmit="event.preventDefault()" :model="currentServiceLinkInfo" >
                     <FormItem label="Title" :required="true">
                         <Input placeholder="Title" v-model="currentServiceLinkInfo.title"></Input>
-                    </FormItem>
-                    <FormItem label="Image" :required="true">
-                        <Input placeholder="Image" v-model="currentServiceLinkInfo.image"></Input>
                     </FormItem>
                     <div v-if="checkUpdateLinkError" style="color: red;padding-left: 120px; padding-bottom: 10px;">
                         Link not accessible.
@@ -195,7 +203,6 @@
         name: "ServiceLinkList",
         data: function() {
             return {
-                option: {}, //是否展示各个分类的服务的修改删除按钮
                 needUpdateServiceLink: false, //是否展示修改modal的按钮
                 expand: true, //是否折叠
                 needAddService: false, //展示添加服务的modal
@@ -212,6 +219,8 @@
                 houseMap: 'houseMap', //组装的房屋-服务数据结构
             }),
             ...mapState('user', {
+                userInfo: 'userInfo',
+                token: 'token',
                 currentHouseId: 'currentHouseId', //当前房屋ID，用于展示不同房屋的链接
                 currentServiceLinkInfo: 'currentServiceLinkInfo', //当前要修改的服务的信息
                 serviceLinkInfo: 'serviceLinkInfo', //要添加的服务的信息
@@ -224,10 +233,6 @@
                 'updateServiceLink', //修改服务
                 'addServiceLink', //添加服务
             ]),
-            //是否展示修改，删除服务的按钮
-            showOption: function(key) {
-                Vue.set(this.option,key,!this.option[key]);
-            },
             //添加服务，由于添加服务很耗时，所以将按钮置为等待，添加成功后将按钮置为正常，下次再添加时，按钮还是正常的
             wantAddService () {
                 this.checkAddServiceError = false;
@@ -263,7 +268,7 @@
                     "closeModel": () => {
                         this.needUpdateServiceLink = false;
                         this.loadingUpdateService = false;
-                        this.$Message.success('Update house success')
+                        this.$Message.success('Update service success')
                     },
                     "linkErrorCallBack": () => {
                         this.checkUpdateLinkError = true;
@@ -290,7 +295,19 @@
                     okText: 'Remove',
                     cancelText: 'Cancel'
                 });
-            }
+            },
+
+            //update avatar success，replace user avatar
+            uploadSuccess (response, file, fileList) {
+                this.currentServiceLinkInfo.image = response;
+                this.wantUpdateServiceLink();
+                this.$Message.success('Upload service image success.')
+            },
+
+            //image is big
+            bigFile () {
+                this.$Message.error('Files are too large and the maximum limit is 512 KB.')
+            },
         }
     }
 </script>
@@ -325,39 +342,28 @@
         padding: 0 16px 0 16px;
     }
 
-    .redIcon {
-        display: inline-block;
-        width: 14px;
-        height: 14px;
-        line-height: 12px;
-        text-align: center;
-        border-radius: 7px;
-        background-color: rgb(252, 64, 66);
-        cursor: pointer;
+    #UpdateButton {
+        background-color: transparent;
+        color: #17b5d2;
+        border: none;
+        margin-top: 8px;
+        padding: 4px 16px 4px 16px;
     }
 
-    .yellowIcon {
-        display: inline-block;
-        width: 14px;
-        height: 14px;
-        line-height: 12px;
-        text-align: center;
-        border-radius: 7px;
-        background-color: rgb(223, 181, 33);
-        margin-left: 6px;
-        cursor: pointer;
+    #UpdateImageButton {
+        background-color: transparent;
+        color: #17b5d2;
+        border: none;
+        margin-top: 8px;
+        padding: 4px 16px 4px 16px;
     }
 
-    .greenIcon {
-        display: inline-block;
-        width: 14px;
-        height: 14px;
-        border-radius: 7px;
-        line-height: 12px;
-        text-align: center;
-        background-color: rgb(71, 186, 33);
-        margin-left: 6px;
-        cursor: pointer;
+    #removeButton {
+        background-color: transparent;
+        color: red;
+        border: none;
+        margin-top: 8px;
+        padding: 4px 16px 4px 16px;
     }
 
     .ivu-divider-horizontal.ivu-divider-with-text-left:before {
