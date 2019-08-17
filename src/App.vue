@@ -189,10 +189,8 @@
                     </FormItem>
 
                     <vue-recaptcha sitekey="6LcEbbIUAAAAAItVqd7Iw1Ez988azFA6J2VdutRg"
-                                   recaptchaHost="https://www.serrhub.com"
+                                   @verify="robotVerified"
                                    style="margin-left: 68px"></vue-recaptcha>
-<!--                    <div class="g-recaptcha" -->
-<!--                       data-callback="robotVerified" data-sitekey="6LcEbbIUAAAAAItVqd7Iw1Ez988azFA6J2VdutRg"></div>-->
                 </Form>
               </div>
           </div>
@@ -402,9 +400,8 @@
                 this.setNeedRegister(visible);
             },
 
-            robotVerified () {
-                console.log("不是机器人");
-
+            robotVerified (result) {
+                console.log("robot verified result:" + result);
             },
         },
     }

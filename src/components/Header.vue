@@ -35,8 +35,7 @@
             </div>
         </div>
 
-        <div class="hornView">
-        </div>
+        <div class="hornView"></div>
         <div class="hornTitle">
             <h6 style="color: white;">
                 <img src="../assets/home3.png" style="width: 20px; height: 18px">
