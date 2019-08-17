@@ -35,6 +35,15 @@
             </div>
         </div>
 
+        <div class="hornView">
+        </div>
+        <div class="hornTitle">
+            <h6 style="color: white;">
+                <img src="../assets/home3.png" style="width: 20px; height: 18px">
+                <span style="padding-left: 8px">Serrhub</span>
+            </h6>
+        </div>
+
         <!-- title -->
         <div id="title">
             <Row>
@@ -364,6 +373,31 @@
         padding: 6px 16px 6px 16px;
         margin-right: 60px;
         margin-top: 20px;
+    }
+
+    .hornView {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 0;
+        height: 0;
+        border-top: 160px solid #17b5d2;
+        border-right: 160px solid transparent;
+    }
+
+    .hornTitle {
+        position: absolute;
+        top: 0;
+        left: 0;
+        transform:rotate(-45deg);
+        -ms-transform:rotate(-45deg); 	/* IE 9 */
+        -moz-transform:rotate(-45deg); 	/* Firefox */
+        -webkit-transform:rotate(-45deg); /* Safari 和 Chrome */
+        -o-transform:rotate(-45deg);
+        text-align: center;
+        width: 160px;
+        height: 160px;
+        padding-top: 30px;
     }
 
     /*标题距离顶部30个像素*/
