@@ -41,7 +41,7 @@
                                 onMouseOut="this.style.borderColor='#17b5d2'; this.style.color='#17b5d2'">
                             <b>ADD SERVICE</b>
                         </Button>
-                        <Dropdown style="padding-left: 20px; text-align: center">
+                        <Dropdown style="padding-left: 20px; text-align: center;">
                             <a href="javascript:void(0)" style="color: #17b5d2;font-size: 18px;">
                                 <Icon type="ios-arrow-down" style="margin-top: 4px;"></Icon>
                             </a>
@@ -53,7 +53,7 @@
                                     <b>Update</b>
                                 </Button>
                                 <br/>
-                                <Button shape="circle" id="removeButton"
+                                <Button shape="circle" id="removeButton" style="margin-bottom: 10px"
                                         @click="viewUpdateHouseModel(house);confirm()"
                                         onMouseOver="this.style.borderColor='#2c3e50'; this.style.color='#2c3e50'"
                                         onMouseOut="this.style.borderColor='red'; this.style.color='red'">

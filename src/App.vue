@@ -195,9 +195,10 @@
               </div>
           </div>
           <div slot="footer" style="text-align: center; margin-left: 68px; margin-right: 68px">
-              <Button type="primary" long style="background-color: #17b5d2; border: 0" size="large"
-                  onMouseOut="this.style.backgroundColor='#17b5d2'"
-                  onMouseOver="this.style.backgroundColor='#2c3e50'"
+              <Button type="primary" long :style="isRobot ? 'background-color: #999;border:0': 'background-color: #17b5d2;border:0'" size="large"
+                      class="signUpButton"
+                  onMouseOut="isRobot ? this.style.backgroundColor='#999' : this.style.backgroundColor='#17b5d2'"
+                  onMouseOver="isRobot ? this.style.backgroundColor='#999' : this.style.backgroundColor='#2c3e50'"
                   :loading="loadingSignUp" @click="wantRegister">SIGN UP</Button>
           </div>
       </Modal>
@@ -228,7 +229,8 @@
                 showExcessOption: false, //注册时，是否显示额外的选项
                 agree: false, //是否同意用户协议
                 isError: false, //用户协议是否是红色的
-                loadingSignUp: false
+                loadingSignUp: false,
+                isRobot: true
             }
         },
 
@@ -327,6 +329,10 @@
 
             //必须勾选同意协议，不然就将文字设置为红色以提示
             wantRegister () {
+                if (this.isRobot) {
+                    this.$Message.error("Please verify through Google first.");
+                    return;
+                }
                 //检查必要信息
                 let info = this.registerInfo;
                 if (info.firstName === "" || info.lastName === "" || info.phone === "" || info.email === "" || info.password === "") {
@@ -357,6 +363,13 @@
                         "closeModal": () => {
                             this.loadingSignUp = false;
                             this.$Message.success('Register Success');
+                        },
+                        "loginSuccess":  () => {
+                            this.$Message.success('Now you are logged in.');
+                        },
+                        "loginError": () => {
+                            this.loginError = true;
+                            this.$Message.error('Username or password is incorrect, please check it.')
                         },
                         "phoneExistError": () => {
                             this.loadingSignUp = false;
@@ -401,7 +414,7 @@
             },
 
             robotVerified (result) {
-                console.log("robot verified result:" + result);
+                this.isRobot = false;
             },
         },
     }
@@ -463,5 +476,9 @@
     /*在未勾选同意协议时生效*/
     .checkboxError {
         color: red;
+    }
+
+    .signUpButton {
+        border: 0;
     }
 </style>

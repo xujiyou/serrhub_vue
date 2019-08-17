@@ -239,6 +239,12 @@
         padding: 0 16px 0 16px;
     }
 
+    .ivu-dropdown-item {
+        font-weight: bold;
+        padding-top: 12px;
+        padding-bottom: 12px;
+        font-size: 16px;
+    }
     .ivu-dropdown-item-selected {
         color: #17b5d2;
     }

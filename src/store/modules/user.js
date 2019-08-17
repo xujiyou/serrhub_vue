@@ -325,10 +325,11 @@ const actions = {
     register ({ commit }, param) {
         authApi.register(state.registerInfo, resp => {
             //设置信息，进行登录
-            state.loginInfo.phoneOrEmail = state.registerInfo.phone;
+            state.loginInfo.phoneOrEmail = state.registerInfo.email;
             state.loginInfo.password = state.registerInfo.password;
             param["closeModal"]();
-            actions.viewLoginModal({commit});
+            state.needRegister = false;
+            actions.login({commit}, param);
 
             state.registerInfo.firstName = "";
             state.registerInfo.lastName = "";
