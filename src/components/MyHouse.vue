@@ -23,7 +23,12 @@
                         <br/>
                         <b>Address:</b> {{house.address}}
                         <br/>
-                        <b>Community name:</b> {{house.communityName}}
+                        <span v-if="house.communityName !== undefined && house.communityName !== '' && house.communityName !== null">
+                            <b>Community name:</b> {{house.communityName}}
+                        </span>
+                        <span v-if="house.note !== undefined && house.note !== '' && house.note !== null">
+                            <b>Note:</b> {{house.note}}
+                        </span>
                         <br/><br/>
                         <Button shape="circle" id="addNewWebsite"
                                 @click="needAddService = true"

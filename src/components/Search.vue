@@ -12,22 +12,22 @@
                                 <Icon type="ios-arrow-down"></Icon>
                             </a>
                             <DropdownMenu slot="list">
-                                <DropdownItem name="Categories" :selected="type === 'Categories'">Categories</DropdownItem>
-                                <DropdownItem name="Title" :selected="type === 'Title'">Title</DropdownItem>
-                                <DropdownItem name="Link" :selected="type === 'Link'">Link</DropdownItem>
-                                <DropdownItem name="Contact" :selected="type === 'Contact'">Contact</DropdownItem>
-                                <DropdownItem name="Contact Phone" :selected="type === 'Contact Phone'">Contact Phone</DropdownItem>
-                                <DropdownItem name="Note" :selected="type === 'Note'">Note</DropdownItem>
+                                <DropdownItem name="Service" :selected="type === 'Service'">Service</DropdownItem>
+                                <DropdownItem name="Home" :selected="type === 'Home'">Home</DropdownItem>
                             </DropdownMenu>
                         </Dropdown>
                         <!--分割线-->
-                        <Divider type="vertical" style="width: 1px; height: 50px;"/>
+                        <Divider type="vertical" style="width: 1px; height: 50px;"></Divider>
                         <!--搜索框-->
-                        <input placeholder="SEARCH FOR SERVICE" style="width: 74%; height: 100%;background-color: white" v-model="searchText"/>
+                        <input :placeholder="placeholder" style="width: 74%; height: 100%;background-color: white"
+                               @keyup.enter="search" v-model="searchText"/>
                     </Col>
                     <Col span="6" id="searchButtonCol">
                         <!--搜索按钮-->
-                        <Button type="info" style="width: 100%;height: 60px;" id="searchButton" @click="search">
+                        <Button type="info" style="width: 100%;height: 60px;" id="searchButton"
+                                onMouseOut="this.style.backgroundColor='#17b5d2'"
+                                onMouseOver="this.style.backgroundColor='#2c3e50'"
+                                @click="search">
                             <b>SEARCH</b>
                         </Button>
                     </Col>
@@ -40,12 +40,9 @@
         <Modal
                 title="Search Result"
                 v-model="needShowSearchResult"
-                class-name="vertical-center-modal"
-                :styles="{top: '0px'}"
-                :scrollable="true"
                 ok-text="OK"
                 cancel-text="cancel"
-                width="860">
+                width="1000">
             <p slot="header" style="text-align: center">
                 <span>Search Result</span>
             </p>
@@ -68,7 +65,7 @@
                                     </div>
                                     <div style="position: relative; top: -8px;">
                                         <p style="padding: 0 16px 2px 16px"><b>{{serviceLink.title}}</b></p>
-                                        <p style="padding: 0 16px 12px 16px; color: #9A9A9C">Added on {{serviceLink.createDate.substring(0, 10)}}</p>
+                                        <p style="padding: 0 16px 0 16px; color: #9A9A9C">Added on {{serviceLink.createDate.substring(0, 10)}}</p>
                                     </div>
                                 </div>
                             </Card>
@@ -88,9 +85,10 @@
         data: function () {
             return {
                 needShowSearchResult: false, //是否展示搜索结果，搜索完再展示
-                type: "Categories", //当前搜索类型
+                type: "Service", //当前搜索类型
                 searchText: "", //要搜索的内容
-                searchServiceLinkResult: [] //搜索结果列表
+                searchServiceLinkResult: [], //搜索结果列表
+                placeholder: "Search service"
             }
         },
         computed: {
@@ -105,47 +103,85 @@
             //切换搜索类型
             switchType: function (value) {
                 this.type = value;
+                if (this.type === 'Service') {
+                    this.placeholder = "Search service"
+                } else {
+                    this.placeholder = "Search home"
+                }
             },
             search: function () {
                 //先将结果置为空数组，避免展示上次搜索的结果
+                if (this.searchText === "") {
+                    this.$Message.info('Please enter the search content first.');
+                    return;
+                }
+                console.log(this.userInfo);
+
                 this.searchServiceLinkResult = [];
-                if (this.userInfo.userId === "") {
-                    //如果是未登录状态，从公共数据中搜索
-                    let serviceLinkList = this.userInfo.houseList[0].serviceLinkList;
+
+                if (this.type === 'Service') {
+                    let serviceLinkList = [];
+                    for (let i = 0; i < this.userInfo.houseList.length; i++) {
+                        serviceLinkList = serviceLinkList.concat(this.userInfo.houseList[i].serviceLinkList);
+                    }
+
                     for (let i = 0; i < serviceLinkList.length; i++) {
                         let serviceLink = serviceLinkList[i];
-                        switch (this.type) {
-                            case "Categories" :
-                                if (serviceLink.categories.toLowerCase().indexOf(this.searchText.toLowerCase()) !== -1) {this.searchServiceLinkResult.push(serviceLink)}
-                                break;
-                            case "Title":
-                                if (serviceLink.title.toLowerCase().indexOf(this.searchText.toLowerCase()) !== -1) {this.searchServiceLinkResult.push(serviceLink)}
-                                break;
-                            case "Link":
-                                if (serviceLink.link.toLowerCase().indexOf(this.searchText.toLowerCase()) !== -1) {this.searchServiceLinkResult.push(serviceLink)}
-                                break;
+                        if (serviceLink.categories !== undefined && serviceLink.categories.toLowerCase().indexOf(this.searchText.toLowerCase()) !== -1) {
+                            this.searchServiceLinkResult.push(serviceLink);
+                        } else if (serviceLink.title !== undefined && serviceLink.title.toLowerCase().indexOf(this.searchText.toLowerCase()) !== -1) {
+                            this.searchServiceLinkResult.push(serviceLink)
+                        } else if (serviceLink.link !== undefined && serviceLink.link.toLowerCase().indexOf(this.searchText.toLowerCase()) !== -1) {
+                            this.searchServiceLinkResult.push(serviceLink)
+                        } else if (serviceLink.contact !== undefined && serviceLink.contact.toLowerCase().indexOf(this.searchText.toLowerCase()) !== -1) {
+                            this.searchServiceLinkResult.push(serviceLink)
+                        } else if (serviceLink.phone !== undefined && serviceLink.phone.toLowerCase().indexOf(this.searchText.toLowerCase()) !== -1) {
+                            this.searchServiceLinkResult.push(serviceLink)
+                        } else if (serviceLink.note !== undefined && serviceLink.note.toLowerCase().indexOf(this.searchText.toLowerCase()) !== -1) {
+                            this.searchServiceLinkResult.push(serviceLink)
                         }
                     }
-                    if (this.searchServiceLinkResult.length === 0) {
-                        this.$Message.info('There is no relevant service link');
-                    } else {
-                        this.needShowSearchResult = true
-                    }
-                } else {
-                    //如果是登录状态，从服务端搜索
-                    this.searchServiceLink({
-                        "type": this.type,
-                        "text": this.searchText,
-                        "callback": (result) => {
-                            if (result.length === 0) {
-                                this.$Message.info('There is no relevant service link');
-                            } else {
-                                this.searchServiceLinkResult = result;
-                                this.needShowSearchResult = true
-                            }
+                } else if (this.type === "Home") {
+                    for (let i = 0; i < this.userInfo.houseList.length; i++) {
+                        let house = this.userInfo.houseList[i];
+                        if (house.houseName !== undefined && house.houseName.toLowerCase().indexOf(this.searchText.toLowerCase()) !== -1) {
+                            this.searchServiceLinkResult = this.searchServiceLinkResult.concat(house.serviceLinkList)
+                        } else if (house.address !== undefined && house.address.toLowerCase().indexOf(this.searchText.toLowerCase()) !== -1) {
+                            this.searchServiceLinkResult = this.searchServiceLinkResult.concat(house.serviceLinkList)
+                        } else if (house.communityName !== undefined && house.communityName.toLowerCase().indexOf(this.searchText.toLowerCase()) !== -1) {
+                            this.searchServiceLinkResult = this.searchServiceLinkResult.concat(house.serviceLinkList)
+                        } else if (house.note !== undefined && house.note.toLowerCase().indexOf(this.searchText.toLowerCase()) !== -1) {
+                            this.searchServiceLinkResult = this.searchServiceLinkResult.concat(house.serviceLinkList)
                         }
-                    })
+                    }
                 }
+                console.log(this.searchText)
+
+                if (this.searchServiceLinkResult.length === 0) {
+                    this.$Message.info('There is no relevant service link');
+                } else {
+                    this.needShowSearchResult = true
+                }
+
+                // if (this.userInfo.userId === "") {
+                //     //如果是未登录状态，从公共数据中搜索
+                //     let serviceLinkList = this.userInfo.houseList[0].serviceLinkList;
+                //
+                // } else {
+                //     //如果是登录状态，从服务端搜索
+                //     this.searchServiceLink({
+                //         "type": this.type,
+                //         "text": this.searchText,
+                //         "callback": (result) => {
+                //             if (result.length === 0) {
+                //                 this.$Message.info('There is no relevant service link');
+                //             } else {
+                //                 this.searchServiceLinkResult = result;
+                //                 this.needShowSearchResult = true
+                //             }
+                //         }
+                //     })
+                // }
             }
         }
     }
@@ -160,7 +196,6 @@
     /*横条样式*/
     #shadow {
         background-color: #fff;
-        border: #17b5d2 solid 1px;
         border-radius: 8px;
         height: 60px;
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08)
@@ -190,12 +225,17 @@
     }
 
     .url {
-        margin: 0;
-        position: relative; top: -34px; left: 0;
+        margin-bottom: -24px;
+        position: relative;
+        top: -34px;
+        left: 0;
+        bottom: 30px;
         color: white;
         width: 100%;
         height: 34px;
+        line-height: 34px;
+        font-size: 16px;
         background-color: rgba(44,62,80, 0.5);
-        padding: 6px 16px 6px 16px;
+        padding: 0 16px 0 16px;
     }
 </style>
