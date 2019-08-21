@@ -22,78 +22,82 @@
                     </h4>
                 </Divider>
                 <!-- 是否折叠 -->
-                <div v-if="expand">
-                    <Row :gutter="16">
-                        <Col span="6" v-for="serviceLink in value">
-                            <a :href="serviceLink.link" target="_blank" style="text-decoration: none; color: #2D3755; cursor: pointer;">
-                                <Card style="margin-bottom: 16px;padding: 0">
-                                    <div style="text-align:left;">
-                                        <div style="padding: 0; margin: 0; border: 0">
-                                            <!-- 服务图片 -->
-                                            <img :src="serviceLink.image" style="padding: 0;width: 100%; height: 136px;border-top-left-radius: 4px; border-top-right-radius: 4px; object-fit: cover;" >
-                                            <!-- 服务链接 -->
-                                            <p class="url" v-if="/(\w*\.(?:com|cn|top|org|net))/.exec(serviceLink.link) === null">
-                                                <b>Service Link</b>
-                                            </p>
-                                            <p class="url" v-if="/(\w*\.(?:com|cn|top|org|net))/.exec(serviceLink.link) !== null">
-                                                <b>{{
-                                                /(\w*\.(?:com|cn|top|org|net))/.exec(serviceLink.link)[0]
-                                                }}</b>
-                                            </p>
-                                        </div>
-                                        <!-- 服务标题 -->
-                                        <p style="padding: 0 16px 2px 16px"><b>{{serviceLink.title}}</b></p>
-                                        <!-- 创建日期 -->
-                                        <p style="padding: 0 16px 2px 16px; color: #9A9A9C">Added on {{serviceLink.createDate.substring(0, 10)}}</p>
+                <transition name="fade">
+                    <div v-if="expand">
+                        <Row :gutter="16">
+                            <Col span="6" v-for="serviceLink in value">
+                                <a :href="serviceLink.link" target="_blank" style="text-decoration: none; color: #2D3755; cursor: pointer;">
+                                    <Card style="margin-bottom: 16px;padding: 0">
+                                        <div style="text-align:left;">
+                                            <div style="padding: 0; margin: 0; border: 0">
+                                                <!-- 服务图片 -->
+                                                <img :src="serviceLink.image"
+                                                     onerror='this.src="https://pic3.zhimg.com/19554be26eaaace6f99476ef9c6e0ed2_xll.jpg"'
+                                                     style="padding: 0;width: 100%; height: 136px;border-top-left-radius: 4px; border-top-right-radius: 4px; object-fit: cover;" >
+                                                <!-- 服务链接 -->
+                                                <p class="url" v-if="/(\w*\.(?:com|cn|top|org|net))/.exec(serviceLink.link) === null">
+                                                    <b>Service Link</b>
+                                                </p>
+                                                <p class="url" v-if="/(\w*\.(?:com|cn|top|org|net))/.exec(serviceLink.link) !== null">
+                                                    <b>{{
+                                                        /(\w*\.(?:com|cn|top|org|net))/.exec(serviceLink.link)[0]
+                                                        }}</b>
+                                                </p>
+                                            </div>
+                                            <!-- 服务标题 -->
+                                            <p style="padding: 0 16px 2px 16px"><b>{{serviceLink.title}}</b></p>
+                                            <!-- 创建日期 -->
+                                            <p style="padding: 0 16px 2px 16px; color: #9A9A9C">Added on {{serviceLink.createDate.substring(0, 10)}}</p>
 
-                                    </div>
-                                </Card>
-                            </a>
-                            <!-- 两个服务操作按钮 -->
-                            <div v-if="currentHouseId !== ''" style="position: absolute; top: 24px; left: 16px; z-index: 10">
-                                <Dropdown style="padding-left: 16px; text-align: center;">
-                                    <Button size="small"
-                                            style="color: #17b5d2; border-color: #17b5d2"
-                                            onMouseOut="this.style.color='#17b5d2'"
-                                            onMouseOver="this.style.color='#2c3e50'">
-                                        <Icon type="ios-arrow-down" size="10"></Icon>
-                                    </Button>
-                                    <Dropdown-menu slot="list">
-                                        <Upload action="https://boot.serrhub.com/api/user/updateAvatar"
-                                                :headers="{'Authorization': 'serrhub' + token}"
-                                                :data="{'userId': userInfo.userId}"
-                                                :show-upload-list="false"
-                                                name="file"
-                                                :on-success="uploadSuccess"
-                                                :on-exceeded-size="bigFile"
-                                                style="cursor:pointer;"
-                                                :max-size="512">
-                                            <Button shape="circle" id="UpdateImageButton"
-                                                    @click="setCurrentServiceLink(serviceLink)"
+                                        </div>
+                                    </Card>
+                                </a>
+                                <!-- 两个服务操作按钮 -->
+                                <div v-if="currentHouseId !== ''" style="position: absolute; top: 24px; left: 16px; z-index: 10">
+                                    <Dropdown style="padding-left: 16px; text-align: center;">
+                                        <Button size="small"
+                                                style="color: #17b5d2; border-color: #17b5d2"
+                                                onMouseOut="this.style.color='#17b5d2'"
+                                                onMouseOver="this.style.color='#2c3e50'">
+                                            <Icon type="ios-arrow-down" size="10"></Icon>
+                                        </Button>
+                                        <Dropdown-menu slot="list">
+                                            <Upload action="https://boot.serrhub.com/api/user/updateAvatar"
+                                                    :headers="{'Authorization': 'serrhub' + token}"
+                                                    :data="{'userId': userInfo.userId}"
+                                                    :show-upload-list="false"
+                                                    name="file"
+                                                    :on-success="uploadSuccess"
+                                                    :on-exceeded-size="bigFile"
+                                                    style="cursor:pointer;"
+                                                    :max-size="512">
+                                                <Button shape="circle" id="UpdateImageButton"
+                                                        @click="setCurrentServiceLink(serviceLink)"
+                                                        onMouseOver="this.style.borderColor='#2c3e50'; this.style.color='#2c3e50'"
+                                                        onMouseOut="this.style.borderColor='#17b5d2'; this.style.color='#17b5d2'">
+                                                    <b>Update image</b>
+                                                </Button>
+                                            </Upload>
+                                            <Button shape="circle" id="UpdateButton"
+                                                    @click="setCurrentServiceLink(serviceLink);needUpdateServiceLink = true"
                                                     onMouseOver="this.style.borderColor='#2c3e50'; this.style.color='#2c3e50'"
                                                     onMouseOut="this.style.borderColor='#17b5d2'; this.style.color='#17b5d2'">
-                                                <b>Update image</b>
+                                                <b>Edit</b>
                                             </Button>
-                                        </Upload>
-                                        <Button shape="circle" id="UpdateButton"
-                                                @click="setCurrentServiceLink(serviceLink);needUpdateServiceLink = true"
-                                                onMouseOver="this.style.borderColor='#2c3e50'; this.style.color='#2c3e50'"
-                                                onMouseOut="this.style.borderColor='#17b5d2'; this.style.color='#17b5d2'">
-                                            <b>Edit</b>
-                                        </Button>
-                                        <br/>
-                                        <Button shape="circle" id="removeButton" style="margin-bottom: 10px"
-                                                @click="confirm(serviceLink.title, serviceLink.link)"
-                                                onMouseOver="this.style.borderColor='#2c3e50'; this.style.color='#2c3e50'"
-                                                onMouseOut="this.style.borderColor='red'; this.style.color='red'">
-                                            <b>Remove</b>
-                                        </Button>
-                                    </Dropdown-menu>
-                                </Dropdown>
-                            </div>
-                        </Col>
-                    </Row>
-                </div>
+                                            <br/>
+                                            <Button shape="circle" id="removeButton" style="margin-bottom: 10px"
+                                                    @click="confirm(serviceLink.title, serviceLink.link)"
+                                                    onMouseOver="this.style.borderColor='#2c3e50'; this.style.color='#2c3e50'"
+                                                    onMouseOut="this.style.borderColor='red'; this.style.color='red'">
+                                                <b>Remove</b>
+                                            </Button>
+                                        </Dropdown-menu>
+                                    </Dropdown>
+                                </div>
+                            </Col>
+                        </Row>
+                    </div>
+                </transition>
             </div>
         </div>
 
@@ -197,7 +201,6 @@
 
 <script>
     import { mapState, mapGetters, mapActions } from 'vuex'
-    import Vue from 'vue'
 
     export default {
         name: "ServiceLinkList",
