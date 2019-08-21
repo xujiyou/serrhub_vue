@@ -22,7 +22,7 @@
                     </h4>
                 </Divider>
                 <!-- 是否折叠 -->
-                <transition name="fade">
+                <transition name="slide-fade">
                     <div v-if="expand">
                         <Row :gutter="16">
                             <Col span="6" v-for="serviceLink in value">
@@ -371,5 +371,17 @@
 
     .ivu-divider-horizontal.ivu-divider-with-text-left:before {
         width: 1%;
+    }
+
+    .slide-fade-enter-active {
+        transition: all .4s ease;
+    }
+    .slide-fade-leave-active {
+        transition: all .6s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+    }
+    .slide-fade-enter, .slide-fade-leave-to
+        /* .slide-fade-leave-active for below version 2.1.8 */ {
+        transform: translateX(120px);
+        opacity: 0;
     }
 </style>
