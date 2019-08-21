@@ -4,13 +4,13 @@
         <div id="buttonGroup">
             <!-- userId为空字符串说明未登录，显示未登录的两个按钮 -->
             <div v-if="userInfo.userId === ''">
-                <Button shape="circle" id="loginButton"
+                <Button shape="circle" id="loginButton" style="box-shadow: none;"
                         onMouseOut="this.style.backgroundColor='transparent'"
                         onMouseOver="this.style.backgroundColor='#fff'"
                         @click="viewLoginModal">
                     <b>&nbsp;&nbsp;&nbsp;LOGIN&nbsp;&nbsp;&nbsp;</b>
                 </Button>
-                <Button shape="circle" id="registerButton"
+                <Button shape="circle" id="registerButton" style="box-shadow: none;"
                         onMouseOut="this.style.backgroundColor='transparent'"
                         onMouseOver="this.style.backgroundColor='#fff'"
                         @click="viewRegisterModal">
@@ -20,13 +20,13 @@
 
             <!-- 若已登录，显示已登录的两个按钮 -->
             <div v-if="userInfo.userId !== ''">
-               <Button shape="circle" type="text" id="myAccount"
+               <Button shape="circle" type="text" id="myAccount" style="box-shadow: none;"
                        onMouseOut="this.style.backgroundColor='transparent'"
                        onMouseOver="this.style.backgroundColor='#fff'"
                         @click="$bvModal.show('myAccount')">
                    <b>&nbsp;MY ACCOUNT&nbsp;</b>
                </Button>
-               <Button shape="circle" type="text" id="logoutButton"
+               <Button shape="circle" type="text" id="logoutButton" style="box-shadow: none;"
                        onMouseOut="this.style.backgroundColor='transparent'"
                        onMouseOver="this.style.backgroundColor='#fff'"
                        @click="wantLogout">
@@ -134,7 +134,7 @@
                             </FormItem>
                         </Form>
                     </div>
-                    <Button type="text" id="updateInfoButton"
+                    <Button type="text" id="updateInfoButton"  style="box-shadow: none;"
                             onMouseOut="this.style.backgroundColor='transparent'"
                             onMouseOver="this.style.backgroundColor='#f5f5f5'"
                             @click="updateProfile">

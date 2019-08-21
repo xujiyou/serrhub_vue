@@ -10,6 +10,8 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 import iView from 'iview'; //样式库
 import 'iview/dist/styles/iview.css';
+import '../theme/index.less'
+
 
 Vue.config.productionTip = false;
 Vue.use(iView);

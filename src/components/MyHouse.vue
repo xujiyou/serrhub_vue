@@ -13,7 +13,7 @@
             <h4 v-if="userInfo.houseList.length !== 0" style="padding-left: 16px">
                 My House
                 <Button size="small" shape="circle" icon="md-add"
-                        style="margin-left: 2px; color: #17b5d2; border: none"
+                        style="margin-left: 2px; color: #17b5d2; border: none; box-shadow: none; background-color: transparent"
                         onMouseOut="this.style.color='#17b5d2'"
                         onMouseOver="this.style.color='#2c3e50'"
                         @click="needAddHouse = true"></Button>
@@ -36,7 +36,7 @@
                         </span>
                         <br/><br/>
                         <Button shape="circle" id="addNewWebsite"
-                                @click="needAddService = true"
+                                @click="needAddService = true"  style="box-shadow: none;"
                                 onMouseOver="this.style.borderColor='#2c3e50'; this.style.color='#2c3e50'"
                                 onMouseOut="this.style.borderColor='#17b5d2'; this.style.color='#17b5d2'">
                             <b>ADD SERVICE</b>
@@ -46,14 +46,14 @@
                                 <Icon type="ios-arrow-down" style="margin-top: 4px;"></Icon>
                             </a>
                             <Dropdown-menu slot="list">
-                                <Button shape="circle" id="UpdateButton"
+                                <Button shape="circle" id="UpdateButton" style="box-shadow: none;"
                                         @click="viewUpdateHouseModel(house); needUpdateHouse = true"
                                         onMouseOver="this.style.borderColor='#2c3e50'; this.style.color='#2c3e50'"
                                         onMouseOut="this.style.borderColor='#17b5d2'; this.style.color='#17b5d2'">
                                     <b>Update</b>
                                 </Button>
                                 <br/>
-                                <Button shape="circle" id="removeButton" style="margin-bottom: 10px"
+                                <Button shape="circle" id="removeButton" style="margin-bottom: 10px;box-shadow: none;"
                                         @click="viewUpdateHouseModel(house);confirm()"
                                         onMouseOver="this.style.borderColor='#2c3e50'; this.style.color='#2c3e50'"
                                         onMouseOut="this.style.borderColor='red'; this.style.color='red'">
@@ -102,7 +102,7 @@
                         <Button type="primary" long @click="wantAddHouse"
                                 onMouseOut="this.style.backgroundColor='#17b5d2'"
                                 onMouseOver="this.style.backgroundColor='#2c3e50'"
-                                style="background-color: #17b5d2; border: 0" size="large" >ADD HOUSE</Button>
+                                style="background-color: #17b5d2; border: 0; box-shadow: none" size="large" >ADD HOUSE</Button>
                     </div>
                 </div>
             </Modal>
@@ -144,7 +144,7 @@
                         <Button type="primary" long @click="wantUpdateHouse"
                             onMouseOut="this.style.backgroundColor='#17b5d2'"
                             onMouseOver="this.style.backgroundColor='#2c3e50'"
-                            style="background-color: #17b5d2; border: 0" size="large" >UPDATE HOUSE</Button>
+                            style="background-color: #17b5d2; border: 0; box-shadow: none" size="large" >UPDATE HOUSE</Button>
                     </div>
                 </div>
             </Modal>
@@ -188,7 +188,7 @@
                             </a>
                             <div style="position: absolute; top: 10px; left: 24px; z-index: 10">
                                 <Button type="error" shape="circle" size="small" icon="md-close" ghost
-                                        style="margin-right: 6px"
+                                        style="margin-right: 6px; box-shadow: none"
                                         @click="removeServiceFromArray(serviceLink)"></Button>
                             </div>
                         </Col>
@@ -238,7 +238,7 @@
                         <Button type="primary" html-type="submit" long @click="wantAddService" :loading="loadingAddService"
                                 onMouseOut="this.style.backgroundColor='#17b5d2'"
                                 onMouseOver="this.style.backgroundColor='#2c3e50'"
-                                style="background-color: #17b5d2; border: 0" size="large" >ADD NEW SERVICE</Button>
+                                style="background-color: #17b5d2; border: 0;box-shadow: none" size="large" >ADD NEW SERVICE</Button>
                     </div>
                 </div>
             </Modal>

@@ -61,7 +61,7 @@
                             <!-- Remember me -->
                             <Checkbox label="Remember me" v-model="rememberMe"></Checkbox>
                             <!-- 按钮，用于从登录modal切换到注册modal，向左浮动-->
-                            <Button size="small" type="text" style="float: right; margin-top: 4px"
+                            <Button size="small" type="text" style="float: right; margin-top: 4px;box-shadow: none"
                                 onMouseOut="this.style.color='#515A61'"
                                 onMouseOver="this.style.color='#17b5d2'" @click="viewRegisterModal">Register now</Button>
                         </CheckboxGroup>
@@ -70,7 +70,7 @@
 
                     <!-- 登录按钮，登录时执行login方法 -->
                     <FormItem class="formItem">
-                        <Button type="primary" long style="background-color: #17b5d2; border: 0" size="large"
+                        <Button type="primary" long style="background-color: #17b5d2; border: 0; box-shadow: none" size="large"
                                 onMouseOut="this.style.backgroundColor='#17b5d2'"
                                 onMouseOver="this.style.backgroundColor='#2c3e50'"
                                 @click="wantLogin">LOGIN</Button>
@@ -84,7 +84,7 @@
                 <div style="width: 260px;margin-left:auto;margin-right: auto;">
                     <br/>&nbsp;
                     <Button size="large" long type="primary"
-                            style="border: 0;text-align: left; background-color: #EF2A2A">
+                            style="border: 0;text-align: left; background-color: #EF2A2A;box-shadow: none">
                         <span style="width: 30px; "><Icon type="logo-googleplus" style="color: #fff"></Icon></span>
                         <span style="width: 210px; text-align: center;padding-right: 60px">GOOGLE</span>
                     </Button>
@@ -104,7 +104,7 @@
               :mask-closable="false">
         <p slot="header">
             <!-- 按钮，用于从注册modal切换到登录modal-->
-            <Button size="small" type="text" icon="ios-arrow-back"
+            <Button size="small" type="text" icon="ios-arrow-back" style="box-shadow: none;"
                 onMouseOut="this.style.color='#515A61'"
                 onMouseOver="this.style.color='#17b5d2'" @click="viewLoginModal"></Button>
             <span>Register</span>
@@ -114,10 +114,10 @@
             <!-- First Name And Last Name，显示在一行 -->
             <Form inline>
                 <FormItem :required="true">
-                    <Input placeholder="First Name *" v-model="registerInfo.firstName"></Input>
+                    <Input placeholder="First Name *" v-model="registerInfo.firstName" style="box-shadow: none; border-color: #17b5d2; outline: none"></Input>
                 </FormItem>
                 <FormItem :required="true">
-                    <Input placeholder="Last Name *" v-model="registerInfo.lastName"></Input>
+                    <Input placeholder="Last Name *" v-model="registerInfo.lastName" style="box-shadow: none"></Input>
                 </FormItem>
             </Form>
             <!-- 362和68是精心调的，用于和上面的行对其 -->
@@ -155,7 +155,7 @@
                     <Divider orientation="left" size="small" :dashed="true" style="margin-left: 68px; padding-right: 68px; margin-bottom: 20px">
                         <!-- 按钮，用于展示或隐藏额外选项 -->
                         <Button type="text" size="small"
-                                style="margin-left: 2px"
+                                style="margin-left: 2px;box-shadow: none"
                                 onMouseOut="this.style.color='#2c3e50'"
                                 onMouseOver="this.style.color='#17b5d2'"
                                 @click="showExcessOption = !showExcessOption">
@@ -165,25 +165,27 @@
                     </Divider>
 
                     <!-- 额外选项 -->
-                    <div v-if="showExcessOption">
-                        <FormItem>
-                            <Input placeholder="House name" v-model="registerInfo.houseName"></Input>
-                        </FormItem>
-                        <FormItem style="text-align: left">
-                            <AutoComplete
-                                v-model="registerInfo.address"
-                                :data="addressList"
-                                @on-search="handleSearch"
-                                placeholder="Address"></AutoComplete>
-                        </FormItem>
-                        <FormItem>
-                            <Input placeholder="Community name" v-model="registerInfo.communityName"></Input>
-                        </FormItem>
-                    </div>
+                    <transition name="slide-fade">
+                        <div v-if="showExcessOption">
+                            <FormItem>
+                                <Input placeholder="House name" v-model="registerInfo.houseName"></Input>
+                            </FormItem>
+                            <FormItem style="text-align: left">
+                                <AutoComplete
+                                    v-model="registerInfo.address"
+                                    :data="addressList"
+                                    @on-search="handleSearch"
+                                    placeholder="Address"></AutoComplete>
+                            </FormItem>
+                            <FormItem>
+                                <Input placeholder="Community name" v-model="registerInfo.communityName"></Input>
+                            </FormItem>
+                        </div>
+                    </transition>
 
                     <!-- 是否同于用户协议，未勾选时点注册会变为红色，勾选后变为默认颜色 -->
-                    <FormItem style="color: darkgray">
-                        <Checkbox v-model="agree" style="line-height: 1.3" v-bind:class="{checkboxError: isError}" @on-change="isError = false">
+                    <FormItem style="color: darkgray;box-shadow: none">
+                        <Checkbox v-model="agree" style="line-height: 1.3;box-shadow: none" v-bind:class="{checkboxError: isError}" @on-change="isError = false">
                           &nbsp;&nbsp;By clicking on "Sign up", you agree to the Serrhub Terms & Conditions and Privacy Policy
                         </Checkbox>
                     </FormItem>
@@ -196,7 +198,7 @@
           </div>
           <div slot="footer" style="text-align: center; margin-left: 68px; margin-right: 68px">
               <Button type="primary" long :style="isRobot ? 'background-color: #999;border:0': 'background-color: #17b5d2;border:0'" size="large"
-                      class="signUpButton"
+                  class="signUpButton"  style="box-shadow: none;"
                   onMouseOut="isRobot ? this.style.backgroundColor='#999' : this.style.backgroundColor='#17b5d2'"
                   onMouseOver="isRobot ? this.style.backgroundColor='#999' : this.style.backgroundColor='#2c3e50'"
                   :loading="loadingSignUp" @click="wantRegister">SIGN UP</Button>
@@ -480,5 +482,21 @@
 
     .signUpButton {
         border: 0;
+    }
+
+    .ivu-divider-horizontal.ivu-divider-with-text-left:before {
+        width: 1%;
+    }
+
+    .slide-fade-enter-active {
+        transition: all .4s ease;
+    }
+    .slide-fade-leave-active {
+        transition: all .6s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+    }
+    .slide-fade-enter, .slide-fade-leave-to
+        /* .slide-fade-leave-active for below version 2.1.8 */ {
+        transform: translateX(60px);
+        opacity: 0;
     }
 </style>

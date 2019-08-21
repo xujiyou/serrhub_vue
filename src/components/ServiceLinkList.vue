@@ -9,7 +9,7 @@
             </div>
             <div style="float: right" v-if="JSON.stringify(houseMap[currentHouseId]) !== '{}'">
                 <!-- 折叠按钮 -->
-                <Button :icon="expand ? 'md-funnel' : 'md-expand'"
+                <Button :icon="expand ? 'md-funnel' : 'md-expand'" style="box-shadow: none;background-color: transparent"
                         onMouseOut="this.style.borderColor='#D3D6DB'; this.style.color='#D3D6DB'"
                         onMouseOver="this.style.borderColor='#17b5d2'; this.style.color='#17b5d2'"
                 @click="expand = !expand"></Button>
@@ -56,7 +56,7 @@
                                 <div v-if="currentHouseId !== ''" style="position: absolute; top: 12px; left: 8px; z-index: 10">
                                     <Dropdown style="padding-left: 16px; text-align: center;">
                                         <Button size="small"
-                                                style="color: #17b5d2; border-color: #17b5d2"
+                                                style="color: #17b5d2; border: none; box-shadow: none; background-color: rgba(255, 255, 255, 0.8)"
                                                 onMouseOut="this.style.color='#17b5d2'"
                                                 onMouseOver="this.style.color='#2c3e50'">
                                             <Icon type="ios-arrow-down" size="10"></Icon>
@@ -71,21 +71,21 @@
                                                     :on-exceeded-size="bigFile"
                                                     style="cursor:pointer;"
                                                     :max-size="512">
-                                                <Button shape="circle" id="UpdateImageButton"
+                                                <Button shape="circle" id="UpdateImageButton" style="box-shadow: none;"
                                                         @click="setCurrentServiceLink(serviceLink)"
                                                         onMouseOver="this.style.borderColor='#2c3e50'; this.style.color='#2c3e50'"
                                                         onMouseOut="this.style.borderColor='#17b5d2'; this.style.color='#17b5d2'">
                                                     <b>Update image</b>
                                                 </Button>
                                             </Upload>
-                                            <Button shape="circle" id="UpdateButton"
+                                            <Button shape="circle" id="UpdateButton" style="box-shadow: none;"
                                                     @click="setCurrentServiceLink(serviceLink);needUpdateServiceLink = true"
                                                     onMouseOver="this.style.borderColor='#2c3e50'; this.style.color='#2c3e50'"
                                                     onMouseOut="this.style.borderColor='#17b5d2'; this.style.color='#17b5d2'">
                                                 <b>Edit</b>
                                             </Button>
                                             <br/>
-                                            <Button shape="circle" id="removeButton" style="margin-bottom: 10px"
+                                            <Button shape="circle" id="removeButton" style="margin-bottom: 10px;box-shadow: none;"
                                                     @click="confirm(serviceLink.title, serviceLink.link)"
                                                     onMouseOver="this.style.borderColor='#2c3e50'; this.style.color='#2c3e50'"
                                                     onMouseOut="this.style.borderColor='red'; this.style.color='red'">
@@ -144,7 +144,7 @@
                     <Button type="primary" long @click="wantUpdateServiceLink" :loading="loadingUpdateService"
                         onMouseOut="this.style.backgroundColor='#17b5d2'"
                         onMouseOver="this.style.backgroundColor='#2c3e50'"
-                        style="background-color: #17b5d2; border: 0" size="large" >UPDATE SERVICE</Button>
+                        style="background-color: #17b5d2; border: 0;box-shadow: none" size="large" >UPDATE SERVICE</Button>
                 </div>
             </div>
         </Modal>
@@ -192,7 +192,7 @@
                     <Button type="primary" html-type="submit" long @click="wantAddService" :loading="loadingAddService"
                         onMouseOut="this.style.backgroundColor='#17b5d2'"
                         onMouseOver="this.style.backgroundColor='#2c3e50'"
-                        style="background-color: #17b5d2; border: 0" size="large" >ADD NEW SERVICE</Button>
+                        style="background-color: #17b5d2; border: 0;box-shadow: none" size="large" >ADD NEW SERVICE</Button>
                 </div>
             </div>
         </Modal>

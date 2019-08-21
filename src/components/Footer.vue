@@ -9,19 +9,19 @@
             <Col span="4">&nbsp;&nbsp;</Col>
             <Col span="16" style="text-align: center">
                 <!--                ©-->
-                <Button size="small" type="text"
+                <Button size="small" type="text" style="box-shadow: none;"
                         onMouseOut="this.style.color='#515A61'"
                         onMouseOver="this.style.color='#17b5d2'">About</Button>
-                <Button size="small" type="text"
+                <Button size="small" type="text" style="box-shadow: none;"
                         onMouseOut="this.style.color='#515A61'"
                         onMouseOver="this.style.color='#17b5d2'">Serrhub Help</Button>
-                <Button size="small" type="text"
+                <Button size="small" type="text" style="box-shadow: none;"
                         onMouseOut="this.style.color='#515A61'"
                         onMouseOver="this.style.color='#17b5d2'">Privacy&Term</Button>
-                <Button size="small" type="text"
+                <Button size="small" type="text" style="box-shadow: none;"
                         onMouseOut="this.style.color='#515A61'"
                         onMouseOver="this.style.color='#17b5d2'">Contact</Button>
-                <Button size="small" type="text"
+                <Button size="small" type="text" style="box-shadow: none;"
                         onMouseOut="this.style.color='#515A61'"
                         onMouseOver="this.style.color='#17b5d2'">Mobile App</Button>
             </Col>
