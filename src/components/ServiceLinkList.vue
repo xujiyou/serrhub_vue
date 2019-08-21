@@ -47,13 +47,13 @@
                                             <!-- 服务标题 -->
                                             <p style="padding: 0 16px 2px 16px"><b>{{serviceLink.title}}</b></p>
                                             <!-- 创建日期 -->
-                                            <p style="padding: 0 16px 2px 16px; color: #9A9A9C">Added on {{serviceLink.createDate.substring(0, 10)}}</p>
+                                            <p style="padding: 0 16px 12px 16px; color: #9A9A9C">Added on {{serviceLink.createDate.substring(0, 10)}}</p>
 
                                         </div>
                                     </Card>
                                 </a>
                                 <!-- 两个服务操作按钮 -->
-                                <div v-if="currentHouseId !== ''" style="position: absolute; top: 24px; left: 16px; z-index: 10">
+                                <div v-if="currentHouseId !== ''" style="position: absolute; top: 12px; left: 8px; z-index: 10">
                                     <Dropdown style="padding-left: 16px; text-align: center;">
                                         <Button size="small"
                                                 style="color: #17b5d2; border-color: #17b5d2"
