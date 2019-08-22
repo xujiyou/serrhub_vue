@@ -45,7 +45,6 @@
                             <Icon type="ios-person-outline" slot="prepend"></Icon>
                         </Input>
                     </FormItem>
-                    <br/>
 
                     <!-- Password -->
                     <FormItem prop="password" class="formItem">
@@ -53,7 +52,6 @@
                             <Icon type="ios-lock-outline" slot="prepend"></Icon>
                         </Input>
                     </FormItem>
-                    <br/>
 
                     <!-- 操作选项 -->
                     <FormItem prop="interest" class="formItem">
@@ -66,10 +64,9 @@
                                 onMouseOver="this.style.color='#17b5d2'" @click="viewRegisterModal">Register now</Button>
                         </CheckboxGroup>
                     </FormItem>
-                    <br/>
 
                     <!-- 登录按钮，登录时执行login方法 -->
-                    <FormItem class="formItem">
+                    <FormItem class="formItem" style="padding: 0; margin: 0" >
                         <Button type="primary" long style="background-color: #17b5d2; border: 0; box-shadow: none" size="large"
                                 onMouseOut="this.style.backgroundColor='#17b5d2'"
                                 onMouseOver="this.style.backgroundColor='#2c3e50'"
@@ -448,7 +445,6 @@
     .formItem {
       padding: 0;
       margin: 0;
-      line-height: 100%;
     }
 
     /*复选框样式*/
