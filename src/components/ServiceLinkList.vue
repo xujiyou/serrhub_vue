@@ -62,9 +62,8 @@
                                             <Icon type="ios-arrow-down" size="10"></Icon>
                                         </Button>
                                         <Dropdown-menu slot="list">
-                                            <Upload action="https://boot.serrhub.com/api/user/updateAvatar"
+                                            <Upload action="https://boot.serrhub.com/api/image/upload"
                                                     :headers="{'Authorization': 'serrhub' + token}"
-                                                    :data="{'userId': userInfo.userId}"
                                                     :show-upload-list="false"
                                                     name="file"
                                                     :on-success="uploadSuccess"
