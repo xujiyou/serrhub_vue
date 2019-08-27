@@ -29,6 +29,7 @@ const state = {
     },
     userInfo: { //初始的用户信息，为了避免报错，这个信息在运行时很快就会被替换掉
         userId: "",
+        username: "",
         houseList:  [{serviceLinkList: [{categories: ""}]}]
     },
     defaultUserInfo: { //默认的用户信息，用于展示一些公共的信息
@@ -427,6 +428,8 @@ const actions = {
 
     //添加房屋
     addHouse ({ commit }, closeModel) {
+        state.houseInfo["userName"] = state.userInfo.username;
+        state.houseInfo["userId"] = state.userInfo.userId;
         houseApi.addHouseToServer(state.houseInfo, state.userInfo.userId, state.token, resp => {
             commit("addOneHouse", resp.data["house"]); //添加一个房屋信息
             closeModel(resp.data["serviceLinkList"]); //关闭添加房屋modal，并让用户选择添加服务

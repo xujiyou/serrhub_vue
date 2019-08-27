@@ -21,7 +21,6 @@ export default {
 
     //update user name
     updateUserName(userId, firstName, lastName, token, successCallback, errorCallback, networkError) {
-        console.log(token);
         Vue.http.get(
             'https://boot.serrhub.com/api/user/updateUserName/' + userId + '/' +  firstName + '/' + lastName,
             {
@@ -104,7 +103,6 @@ export default {
                 errorCallback(response);
             }
         }, response => {
-            console.log(response);
             if (response.status === 403) {
                 errorCallback(response);
             } else {
