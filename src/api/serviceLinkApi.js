@@ -108,7 +108,7 @@ export default {
 
     findCommonList (successCallback, errorCallback) {
         Vue.http.get(
-            'http://127.0.0.1:8001/api/serviceLink/common/list', {}
+            'https://boot.serrhub.com/api/serviceLink/common/list', {}
         ).then(response => {
             successCallback(response);
         }, response => {

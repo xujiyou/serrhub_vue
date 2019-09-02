@@ -32,7 +32,7 @@
                                             <div style="padding: 0; margin: 0; border: 0">
                                                 <!-- 服务图片 -->
                                                 <img :src="serviceLink.image"
-                                                     onerror='this.src="https://pic3.zhimg.com/19554be26eaaace6f99476ef9c6e0ed2_xll.jpg"'
+                                                     onerror='this.src="https://boot.serrhub.com/api/image/id/5d6cddf4e1787e1e3162cf7d"'
                                                      style="padding: 0;width: 100%; height: 136px;border-top-left-radius: 4px; border-top-right-radius: 4px; object-fit: cover;" >
                                                 <!-- 服务链接 -->
                                                 <p class="url" v-if="/(\w*\.(?:com|cn|top|org|net))/.exec(serviceLink.link) === null">
@@ -47,7 +47,9 @@
                                             <!-- 服务标题 -->
                                             <p style="padding: 0 16px 2px 16px"><b>{{serviceLink.title}}</b></p>
                                             <!-- 创建日期 -->
-                                            <p style="padding: 0 16px 12px 16px; color: #9A9A9C" v-if="serviceLink.createDate !== null">Added on {{serviceLink.createDate.substring(0, 10)}}</p>
+                                            <p style="padding: 0 16px 12px 16px; color: #9A9A9C" v-if="serviceLink.createDate !== null && serviceLink.createDate !== undefined">
+                                                Added on {{serviceLink.createDate.substring(0, 10)}}
+                                            </p>
 
                                         </div>
                                     </Card>

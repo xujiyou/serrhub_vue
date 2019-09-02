@@ -53,7 +53,8 @@
                             <Card style="margin-bottom: 16px;">
                                 <div style="text-align:left;">
                                     <div>
-                                        <img :src="serviceLink.image" style="width: 100%; height: 136px;border-top-left-radius: 4px; border-top-right-radius: 4px">
+                                        <img :src="serviceLink.image" style="width: 100%; height: 136px;border-top-left-radius: 4px; border-top-right-radius: 4px"
+                                             onerror='this.src="https://boot.serrhub.com/api/image/id/5d6cddf4e1787e1e3162cf7d"'>
                                         <h2 class="url" v-if="/(\w*\.(?:com|cn|top|org|net))/.exec(serviceLink.link) === null">
                                             Service Link
                                         </h2>
