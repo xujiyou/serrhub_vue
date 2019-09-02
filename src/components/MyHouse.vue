@@ -169,7 +169,8 @@
                                 <Card style="margin-bottom: 16px;">
                                     <div style="text-align:left;">
                                         <div>
-                                            <img :src="serviceLink.image" style="width: 100%; height: 136px;border-top-left-radius: 4px; border-top-right-radius: 4px">
+                                            <img :src="getImage(serviceLink)"
+                                                 style="width: 100%; height: 136px;border-top-left-radius: 4px; border-top-right-radius: 4px">
                                             <h2 class="url" v-if="/(\w*\.(?:com|cn|top|org|net))/.exec(serviceLink.link) === null">
                                                 Service Link
                                             </h2>
@@ -294,6 +295,14 @@
 
             clickOption(key) {
                 console.log(key);
+            },
+
+            getImage (serviceLink) {
+                if (serviceLink.image === null || serviceLink.image === '' || serviceLink.image === undefined) {
+                    return 'https://boot.serrhub.com/api/image/id/5d6cddf4e1787e1e3162cf7d';
+                } else {
+                    return serviceLink.image;
+                }
             },
 
             //处理地址解析

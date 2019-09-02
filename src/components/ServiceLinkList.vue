@@ -31,8 +31,7 @@
                                         <div style="text-align:left;padding: 0">
                                             <div style="padding: 0; margin: 0; border: 0">
                                                 <!-- 服务图片 -->
-                                                <img :src="serviceLink.image"
-                                                     onerror='this.src="https://boot.serrhub.com/api/image/id/5d6cddf4e1787e1e3162cf7d"'
+                                                <img :src="getImage(serviceLink)"
                                                      style="padding: 0;width: 100%; height: 136px;border-top-left-radius: 4px; border-top-right-radius: 4px; object-fit: cover;" >
                                                 <!-- 服务链接 -->
                                                 <p class="url" v-if="/(\w*\.(?:com|cn|top|org|net))/.exec(serviceLink.link) === null">
@@ -242,6 +241,14 @@
                 'updateServiceLink', //修改服务
                 'addServiceLink', //添加服务
             ]),
+
+            getImage (serviceLink) {
+                if (serviceLink.image === null || serviceLink.image === '' || serviceLink.image === undefined) {
+                    return 'https://boot.serrhub.com/api/image/id/5d6cddf4e1787e1e3162cf7d';
+                } else {
+                    return serviceLink.image;
+                }
+            },
 
             //添加服务，由于添加服务很耗时，所以将按钮置为等待，添加成功后将按钮置为正常，下次再添加时，按钮还是正常的
             wantAddService () {
