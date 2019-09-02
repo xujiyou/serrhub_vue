@@ -198,7 +198,7 @@
             },
 
             wantLogout () {
-                this.logout(() => this.$Message.info('Logout success.'));
+                this.logout(() => this.$Message.success('Logout success.'));
             },
 
             updateProfile () {

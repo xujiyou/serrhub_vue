@@ -29,11 +29,6 @@ const state = {
     },
     userInfo: { //初始的用户信息，为了避免报错，这个信息在运行时很快就会被替换掉
         userId: "",
-        username: "",
-        houseList:  [{serviceLinkList: [{categories: ""}]}]
-    },
-    defaultUserInfo: { //默认的用户信息，用于展示一些公共的信息
-        userId: "",
         roles: [],
         username: "",
         firstName: "",
@@ -45,167 +40,12 @@ const state = {
         communityName: "",
         profileImage: "",
         lastPasswordResetDate: "",
-        houseList: [{
-            houseId: "",
-            houseName: "",
-            mainResident: true,
-            address: "",
-            communityName: "",
-            startYear: "",
-            note: "",
-            serviceLinkList: [{
-                    serviceLinkId: "",
-                    title: "PG&E",
-                    image: "https://www.pge.com/pge_global/local/images/data/en-us/home/wildfire-veg-management.jpg",
-                    link: "https://pge.com",
-                    categories: "Utilities",
-                    note: "",
-                    contact: "",
-                    phone: "",
-                    createDate: "2019-07-23 15:10"
-                }, {
-                    serviceLinkId: "",
-                    title: "Power",
-                    image: "https://power-electronics.com/wp-content/uploads/2019/05/Ballarat-Energy-Storage-System-DJI_0010.jpg",
-                    link: "https://power-electronics.com",
-                    categories: "Utilities",
-                    note: "",
-                    contact: "",
-                    phone: "",
-                    createDate: "2019-07-23 15:10"
-                }, {
-                    serviceLinkId: "",
-                    title: "Tesla Solar",
-                    image: "https://www.tesla.com/tesla_theme/assets/img/solar/panels/section-hero@2x.jpg?20180104",
-                    link: "https://www.tesla.com/solarpanels",
-                    categories: "Solar",
-                    note: "",
-                    contact: "",
-                    phone: "",
-                    createDate: "2019-07-23 15:10"
-                }, {
-                    serviceLinkId: "",
-                    title: "SunPower",
-                    image: "https://us.sunpower.com/sites/default/files/styles/background_image/public/d7optimize-hp-header-panels-2_0.jpg?itok=mLcGkV0A",
-                    link: "https://us.sunpower.com/",
-                    categories: "Solar",
-                    note: "",
-                    contact: "",
-                    phone: "",
-                    createDate: "2019-07-23 15:10"
-                }, {
-                    serviceLinkId: "",
-                    title: "Solar Energy",
-                    image: "https://solarenergy.com/i/market-bg.jpg",
-                    link: "https://solarenergy.com/",
-                    categories: "Solar",
-                    note: "",
-                    contact: "",
-                    phone: "",
-                    createDate: "2019-07-23 15:10"
-                }, {
-                    serviceLinkId: "",
-                    title: "Bay area Water",
-                    image: "http://bawsca.org/sliderimages/mov.jpg",
-                    link: "http://bawsca.org/",
-                    categories: "Water Supply",
-                    note: "",
-                    contact: "",
-                    phone: "",
-                    createDate: "2019-07-23 15:10"
-                }, {
-                    serviceLinkId: "",
-                    title: "San Jose Water",
-                    image: "https://www.sjwater.com/sites/default/files/styles/tout/public/2019-07/06-2019_SJW_Blog-HistoryOfPipes_Blog.jpg?itok=Ay-kZ4uf",
-                    link: "https://www.sjwater.com/",
-                    categories: "Water Supply",
-                    note: "",
-                    contact: "",
-                    phone: "",
-                    createDate: "2019-07-23 15:10"
-                }, {
-                    serviceLinkId: "",
-                    title: "Alameda County Water",
-                    image: "https://www.futuristarchitecture.com/wp-content/uploads/2018/02/Ring-Rail-Line-1.jpg",
-                    link: "https://www.acwd.org/",
-                    categories: "Water Supply",
-                    note: "",
-                    contact: "",
-                    phone: "",
-                    createDate: "2019-07-23 15:10"
-                }, {
-                    serviceLinkId: "",
-                    title: "California Water Service",
-                    image: "https://www.calwater.com/wp-content/uploads/2019/07/2019-0711-ela-well1-400x200.jpg",
-                    link: "https://www.calwater.com/",
-                    categories: "Water Supply",
-                    note: "",
-                    contact: "",
-                    phone: "",
-                    createDate: "2019-07-23 15:10"
-                }, {
-                    serviceLinkId: "",
-                    title: "Bayservice",
-                    image: "http://www.bayservice.net/data/siteimages/bayarea-bg.jpg",
-                    link: "http://www.bayservice.net/",
-                    categories: "HOA",
-                    note: "",
-                    contact: "",
-                    phone: "",
-                    createDate: "2019-07-23 15:10"
-                }, {
-                    serviceLinkId: "",
-                    title: "HOA service",
-                    image: "https://img.pconline.com.cn/images/upload/upc/tx/housephotolib/1804/13/c0/82516889_1523586577874_690x460.jpg",
-                    link: "https://www.hoaservices.net/default.php",
-                    categories: "HOA",
-                    note: "",
-                    contact: "",
-                    phone: "",
-                    createDate: "2019-07-23 15:10"
-                }, {
-                    serviceLinkId: "",
-                    title: "zillow",
-                    image: "https://s.zillowstatic.com/homepage/static/_Desktop_overlay.jpg",
-                    link: "https://www.zillow.com/",
-                    categories: "Real Estate Website",
-                    note: "",
-                    contact: "",
-                    phone: "",
-                    createDate: "2019-07-23 15:10"
-                }, {
-                    serviceLinkId: "",
-                    title: "redfin",
-                    image: "https://ssl.cdn-redfin.com/v271.4.0/images/homepage/banners/genHomepageDesktopBanner/SunnyVideo_Homepage.jpg",
-                    link: "https://www.redfin.com/",
-                    categories: "Real Estate Website",
-                    note: "",
-                    contact: "",
-                    phone: "",
-                    createDate: "2019-07-23 15:10"
-                }, {
-                    serviceLinkId: "",
-                    title: "Avalon",
-                    image: "https://www.avaloncommunities.com/~/media/Images/Brand%20Photos/Home%20Photos/Avalon_Burbank_Pool_1440x720.jpg?w=1440&h=463",
-                    link: "https://www.avaloncommunities.com/",
-                    categories: "Apartment",
-                    note: "",
-                    contact: "",
-                    phone: "",
-                    createDate: "2019-07-23 15:10"
-                }, {
-                    serviceLinkId: "",
-                    title: "Equity Aprtment(",
-                    image: "https://media.equityapartments.com/image/upload/q_70/f_auto/fl_lossy/v1/Content/home-hero-2",
-                    link: "https://www.equityapartments.com/",
-                    categories: "Apartment",
-                    note: "",
-                    contact: "",
-                    phone: "",
-                    createDate: "2019-07-23 15:10"
-                }
-            ]
-        }]
+        houseList:  [
+            {
+                houseId: "",
+                serviceLinkList: [{categories: ""}]
+            }
+        ]
     },
     houseInfo: { //添加房屋时需要用到的信息
         houseName: "",
@@ -269,7 +109,16 @@ const getters = {
 const actions = {
     //设置默认的用户信息，在进入网站时执行
     setDefaultUserInfo ({ commit }) {
-        state.userInfo = state.defaultUserInfo;
+        serviceLinkApi.findCommonList(resp => {
+            state.userInfo.houseList = [
+                {
+                    houseId: "",
+                    serviceLinkList: resp.body
+                }
+            ];
+            state.userInfo.userId = "";
+            commit('setCommonService', state.userInfo)
+        }, resp => {});
     },
 
     //从缓存中获取token
@@ -354,9 +203,9 @@ const actions = {
     logout ({ commit }, closeModel) {
         let storage = window.localStorage;
         storage.token = "";
-        state.userInfo = state.defaultUserInfo;
         state.currentHouseId = "";
         closeModel();
+        actions.setDefaultUserInfo({ commit });
     },
 
     /***********以上为登录注册相关*********/
@@ -367,6 +216,7 @@ const actions = {
         userApi.findUserInfoThroughToken(state.token, resp => {
             commit("setUserInfo", {"userInfo": resp.data, "oldHouseId": oldHouseId});
         }, resp => {
+            actions.setDefaultUserInfo({ commit });
             actions.viewLoginModal({ commit });
         })
     },
@@ -564,6 +414,11 @@ const mutations = {
     //设置当前房屋信息
     setCurrentHouseInfo(state, newHouseInfo) {
         Vue.set(state,'currentHouseInfo', newHouseInfo);
+    },
+
+    setCommonService (state, userInfo) {
+        Vue.set(state,'userInfo', userInfo);
+        console.log(state.userInfo);
     },
 
     //从服务端获取数据后，设置用户信息，然后看情况来设置当前房屋ID

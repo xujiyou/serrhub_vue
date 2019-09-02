@@ -82,6 +82,7 @@
 
     export default {
         name: "Search",
+
         data: function () {
             return {
                 needShowSearchResult: false, //是否展示搜索结果，搜索完再展示
@@ -91,15 +92,19 @@
                 placeholder: "Search service"
             }
         },
+
         computed: {
             ... mapState({
                 userInfo: state => state.user.userInfo //用户信息
             }),
         },
+
         methods: {
+
             ...mapActions('user', [
                 'searchServiceLink' //开始搜索
             ]),
+
             //切换搜索类型
             switchType: function (value) {
                 this.type = value;
@@ -109,6 +114,7 @@
                     this.placeholder = "Search home"
                 }
             },
+
             search: function () {
                 //先将结果置为空数组，避免展示上次搜索的结果
                 if (this.searchText === "") {

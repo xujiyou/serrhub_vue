@@ -78,7 +78,7 @@
                     <div v-if="checkAddHouseError" style="color: red;padding-left: 120px; padding-bottom: 10px;">
                         Please fill in the necessary information.
                     </div>
-                    <Form :label-width="120" ref="formValidate" onsubmit="event.preventDefault()" :model="houseInfo" >
+                    <Form :label-width="120" ref="formValidate" :model="houseInfo" >
                         <FormItem label="House name" :required="true">
                             <Input placeholder="House name" v-model="houseInfo.houseName"></Input>
                         </FormItem>
@@ -253,6 +253,7 @@
 
     export default {
         name: "MyHouse",
+
         data: () => {
             return {
                 needAddHouse: false, //是否显示添加房屋的modal
@@ -267,6 +268,7 @@
                 checkLinkError: false
             }
         },
+
         computed: {
             ... mapState({
                 userInfo: state => state.user.userInfo, //用户信息
@@ -277,6 +279,7 @@
                 addressList: state => state.user.addressList,
             }),
         },
+
         methods: {
             ...mapActions('user', [
                 'viewUpdateHouseModel', //显示更新房屋的modal
@@ -288,15 +291,18 @@
                 'seeServiceLike', //查看当前房屋的服务链接列表
                 'analysisAddress'
             ]),
+
             clickOption(key) {
                 console.log(key);
             },
+
             //处理地址解析
             handleSearch (value) {
                 if (value !== "" && this.addressList.indexOf(value) === -1) {
                     this.analysisAddress(value);
                 }
             },
+
             wantAddHouse () {
                 this.checkAddHouseError = false;
                 if (this.houseInfo.houseName === "" || this.houseInfo.address === "") {
@@ -314,6 +320,7 @@
                     }
                 })
             },
+
             wantUpdateHouse () {
                 this.checkUpdateHouseError = false;
                 if (this.currentHouseInfo.houseName === "" || this.currentHouseInfo.address === "") {
@@ -326,6 +333,7 @@
                     this.$Message.success('Update house success')
                 })
             },
+
             //添加服务，由于添加服务很耗时，所以将按钮置为等待，添加成功后将按钮置为正常，下次再添加时，按钮还是正常的
             wantAddService () {
                 this.checkAddServiceError = false;
@@ -350,6 +358,7 @@
                     }
                 });
             },
+
             //询问是否确定删除房屋
             confirm () {
                 this.$Modal.confirm({
@@ -366,6 +375,7 @@
                     cancelText: 'Cancel'
                 });
             },
+
             //在添加房屋后，服务端会给出本小区房屋的服务链接列表，如果其中有不想要的，可以去掉
             removeServiceFromArray (serviceLink) {
                 let index = -1;
@@ -377,6 +387,7 @@
                 }
                 this.cacheServiceLinkList.splice(index, 1);
             },
+
             //在添加房屋后，服务端会给出本小区房屋的服务链接列表，可以确定添加想要的服务链接
             makeSureAddAll () {
                 for (let i = 0; i < this.cacheServiceLinkList.length; i++) {

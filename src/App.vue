@@ -243,10 +243,10 @@
         },
 
         mounted: function () {
-            this.setDefaultUserInfo(this); //先设置公共数据，让未登录界面友好显示
             this.findTokenFromLocalStorage(this); //从缓存中获取token
             if (this.token === undefined || this.token === "") {
                 //this.viewLoginModal(this)
+                this.setDefaultUserInfo(); //设置公共数据，让未登录界面友好显示
             } else {
                 //如果缓存中有token，直接根据token去服务端获取用户信息
                 let house = this.$route.query.house;

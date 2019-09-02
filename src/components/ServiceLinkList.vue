@@ -28,7 +28,7 @@
                             <Col span="6" v-for="serviceLink in value">
                                 <a :href="serviceLink.link" target="_blank" style="text-decoration: none; color: #2D3755; cursor: pointer;">
                                     <Card style="margin-bottom: 16px;padding: 0">
-                                        <div style="text-align:left;">
+                                        <div style="text-align:left;padding: 0">
                                             <div style="padding: 0; margin: 0; border: 0">
                                                 <!-- 服务图片 -->
                                                 <img :src="serviceLink.image"
@@ -47,7 +47,7 @@
                                             <!-- 服务标题 -->
                                             <p style="padding: 0 16px 2px 16px"><b>{{serviceLink.title}}</b></p>
                                             <!-- 创建日期 -->
-                                            <p style="padding: 0 16px 12px 16px; color: #9A9A9C">Added on {{serviceLink.createDate.substring(0, 10)}}</p>
+                                            <p style="padding: 0 16px 12px 16px; color: #9A9A9C" v-if="serviceLink.createDate !== null">Added on {{serviceLink.createDate.substring(0, 10)}}</p>
 
                                         </div>
                                     </Card>
@@ -203,6 +203,7 @@
 
     export default {
         name: "ServiceLinkList",
+
         data: function() {
             return {
                 needUpdateServiceLink: false, //是否展示修改modal的按钮
@@ -216,10 +217,12 @@
                 checkUpdateLinkError: false
             }
         },
+
         computed: {
             ...mapGetters('user', {
                 houseMap: 'houseMap', //组装的房屋-服务数据结构
             }),
+
             ...mapState('user', {
                 userInfo: 'userInfo',
                 token: 'token',
@@ -228,13 +231,16 @@
                 serviceLinkInfo: 'serviceLinkInfo', //要添加的服务的信息
             })
         },
+
         methods: {
+
             ...mapActions('user', [
                 'removeServiceLink', //删除服务
                 'setCurrentServiceLink',  //展示修改服务的modal
                 'updateServiceLink', //修改服务
                 'addServiceLink', //添加服务
             ]),
+
             //添加服务，由于添加服务很耗时，所以将按钮置为等待，添加成功后将按钮置为正常，下次再添加时，按钮还是正常的
             wantAddService () {
                 this.checkAddServiceError = false;
@@ -258,6 +264,7 @@
                     }
                 });
             },
+
             wantUpdateServiceLink () {
                 this.checkUpdateServiceError = false;
                 this.checkUpdateLinkError = false;
@@ -279,6 +286,7 @@
                     }
                 })
             },
+
             //询问是否删除服务
             confirm (title, link) {
                 this.$Modal.confirm({

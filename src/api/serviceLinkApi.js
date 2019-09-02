@@ -80,7 +80,7 @@ export default {
         });
     },
 
-    //search service link API
+    //search service link API4
     searchServiceLinkFromServer (type, text, userId, token, successCallback, errorCallback) {
         Vue.http.post(
             'https://boot.serrhub.com/api/serviceLink/search',
@@ -101,6 +101,16 @@ export default {
             } else {
                 alert(response.data["errMsg"]);
             }
+        }, response => {
+            errorCallback(response)
+        });
+    },
+
+    findCommonList (successCallback, errorCallback) {
+        Vue.http.get(
+            'http://127.0.0.1:8001/api/serviceLink/common/list', {}
+        ).then(response => {
+            successCallback(response);
         }, response => {
             errorCallback(response)
         });
