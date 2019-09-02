@@ -35,8 +35,8 @@
             </div>
         </div>
 
-        <div class="hornView"></div>
-        <div class="hornTitle">
+        <div class="hornView" onclick="window.location.href='https://www.serrhub.com/'"></div>
+        <div class="hornTitle"  onclick="window.location.href='https://www.serrhub.com/'">
             <h6 style="color: white;">
                 <img src="../assets/home3.png" style="width: 20px; height: 18px">
                 <span style="padding-left: 8px">Serrhub</span>
@@ -90,7 +90,7 @@
                                 :on-exceeded-size="bigFile"
                                 style="cursor:pointer;"
                                 :max-size="512">
-                            <Icon type="ios-videocam" :size="36"></Icon>
+                            <Icon custom="iconfont icon-camera" size="24"/>
                         </Upload>
                     </div>
                     <h3 style="margin-bottom: 10px">{{userInfo.username}}</h3>
@@ -382,9 +382,11 @@
         height: 0;
         border-top: 160px solid #17b5d2;
         border-right: 160px solid transparent;
+        cursor: pointer;
     }
 
     .hornTitle {
+        cursor: pointer;
         position: absolute;
         top: 0;
         left: 0;
