@@ -3,6 +3,7 @@ import App from './App.vue'
 import VueResource from 'vue-resource' //http请求库
 import store from './store/index' //状态库
 import router from './router' //路由
+import Ads from 'vue-google-adsense'
 
 import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
@@ -17,6 +18,11 @@ Vue.config.productionTip = false;
 Vue.use(iView);
 Vue.use(VueResource);
 Vue.use(BootstrapVue);
+
+Vue.use(require('vue-script2'));
+Vue.use(Ads.Adsense);
+Vue.use(Ads.InArticleAdsense);
+Vue.use(Ads.InFeedAdsense);
 
 new Vue({
   store,
