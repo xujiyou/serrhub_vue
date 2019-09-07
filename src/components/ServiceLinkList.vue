@@ -112,44 +112,44 @@
                 v-model="needUpdateServiceLink"
                 class-name="vertical-center-modal"
                 :styles="{top: '0px'}"
-                width="520">
+                width="560">
             <p slot="header" style="text-align: center">
                 <span>Update service</span>
             </p>
-            <div style="width: 360px;margin-left:auto;margin-right: auto;">
+            <div style="width: 400px;margin-left:auto;margin-right: auto;">
                 <div v-if="checkUpdateServiceError" style="color: red;padding-left: 120px; padding-bottom: 10px;">
                     Please fill in the necessary information.
                 </div>
                 <Form :label-width="120" ref="formValidate" onsubmit="event.preventDefault()" :model="currentServiceLinkInfo" >
                     <FormItem label="Title" :required="true">
-                        <Input placeholder="Title" v-model="currentServiceLinkInfo.title"></Input>
+                        <Input placeholder="Title" v-model="currentServiceLinkInfo.title" size="large"></Input>
                     </FormItem>
                     <div v-if="checkUpdateLinkError" style="color: red;padding-left: 120px; padding-bottom: 10px;">
                         Link not accessible.
                     </div>
                     <FormItem label="Link" :required="true">
-                        <Input placeholder="Link" v-model="currentServiceLinkInfo.link"></Input>
+                        <Input placeholder="Link" v-model="currentServiceLinkInfo.link" size="large"></Input>
                     </FormItem>
                     <FormItem label="Categories" :required="true">
-                        <Input placeholder="Categories" v-model="currentServiceLinkInfo.categories"></Input>
+                        <Input placeholder="Categories" v-model="currentServiceLinkInfo.categories" size="large"></Input>
                     </FormItem>
                     <FormItem label="contact">
-                        <Input placeholder="contact" v-model="currentServiceLinkInfo.contact"></Input>
+                        <Input placeholder="contact" v-model="currentServiceLinkInfo.contact" size="large"></Input>
                     </FormItem>
                     <FormItem label="Phone">
-                        <Input placeholder="Phone" v-model="currentServiceLinkInfo.phone"></Input>
+                        <Input placeholder="Phone" v-model="currentServiceLinkInfo.phone" size="large"></Input>
                     </FormItem>
                     <FormItem label="Note">
-                        <Input placeholder="Note"v-model="currentServiceLinkInfo.note" ></Input>
+                        <Input placeholder="Note"v-model="currentServiceLinkInfo.note" size="large"></Input>
                     </FormItem>
                 </Form>
             </div>
             <div slot="footer" style="text-align: center">
-                <div style="width: 240px;margin-left:auto;margin-right: auto;">
-                    <Button type="primary" long @click="wantUpdateServiceLink" :loading="loadingUpdateService"
+                <div style="width: 280px;margin-left:auto;margin-right: auto;">
+                    <Button type="primary" long @click="wantUpdateServiceLink" :loading="loadingUpdateService" shape="circle"
                         onMouseOut="this.style.backgroundColor='#17b5d2'"
                         onMouseOver="this.style.backgroundColor='#2c3e50'"
-                        style="background-color: #17b5d2; border: 0;box-shadow: none" size="large" >UPDATE SERVICE</Button>
+                        style="background-color: #17b5d2; border: 0;box-shadow: none;height: 40px; line-height: 20px" size="large" >UPDATE SERVICE</Button>
                 </div>
             </div>
         </Modal>

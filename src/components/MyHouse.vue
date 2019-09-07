@@ -70,39 +70,39 @@
                     v-model="needAddHouse"
                     class-name="vertical-center-modal"
                     :styles="{top: '0px'}"
-                    width="520">
+                    width="560">
                 <p slot="header" style="text-align: center">
                     <span>Add house</span>
                 </p>
-                <div style="width: 360px;margin-left:auto;margin-right: auto;">
+                <div style="width: 400px;margin-left:auto;margin-right: auto;">
                     <div v-if="checkAddHouseError" style="color: red;padding-left: 120px; padding-bottom: 10px;">
                         Please fill in the necessary information.
                     </div>
                     <Form :label-width="120" ref="formValidate" :model="houseInfo" >
                         <FormItem label="House name" :required="true">
-                            <Input placeholder="House name" v-model="houseInfo.houseName"></Input>
+                            <Input placeholder="House name" v-model="houseInfo.houseName" size="large"></Input>
                         </FormItem>
                         <FormItem label="Address" :required="true">
                             <AutoComplete
                                     v-model="houseInfo.address"
                                     :data="addressList"
                                     @on-search="handleSearch"
-                                    placeholder="Address"></AutoComplete>
+                                    placeholder="Address" size="large"></AutoComplete>
                         </FormItem>
                         <FormItem label="Community name">
-                            <Input placeholder="Community name" v-model="houseInfo.communityName"></Input>
+                            <Input placeholder="Community name" v-model="houseInfo.communityName" size="large"></Input>
                         </FormItem>
                         <FormItem label="Note">
-                            <Input placeholder="Note" v-model="houseInfo.note" ></Input>
+                            <Input placeholder="Note" v-model="houseInfo.note" size="large"></Input>
                         </FormItem>
                     </Form>
                 </div>
                 <div slot="footer" style="text-align: center">
-                    <div style="width: 240px;margin-left:auto;margin-right: auto;">
-                        <Button type="primary" long @click="wantAddHouse"
+                    <div style="width: 280px;margin-left:auto;margin-right: auto;">
+                        <Button type="primary" long @click="wantAddHouse" shape="circle"
                                 onMouseOut="this.style.backgroundColor='#17b5d2'"
                                 onMouseOver="this.style.backgroundColor='#2c3e50'"
-                                style="background-color: #17b5d2; border: 0; box-shadow: none" size="large" >ADD HOUSE</Button>
+                                style="background-color: #17b5d2; border: 0; box-shadow: none; height: 40px; line-height: 20px" size="large" >ADD HOUSE</Button>
                     </div>
                 </div>
             </Modal>
@@ -112,39 +112,39 @@
                     v-model="needUpdateHouse"
                     class-name="vertical-center-modal"
                     :styles="{top: '0px'}"
-                    width="520">
+                    width="560">
                 <p slot="header" style="text-align: center">
                     <span>Update house</span>
                 </p>
-                <div style="width: 360px;margin-left:auto;margin-right: auto;">
+                <div style="width: 400px;margin-left:auto;margin-right: auto;">
                     <div v-if="checkUpdateHouseError" style="color: red;padding-left: 120px; padding-bottom: 10px;">
                         Please fill in the necessary information.
                     </div>
                     <Form :label-width="120" ref="formValidate" onsubmit="event.preventDefault()" :model="currentHouseInfo" >
                         <FormItem label="House name" :required="true">
-                            <Input placeholder="House name" v-model="currentHouseInfo.houseName"></Input>
+                            <Input placeholder="House name" v-model="currentHouseInfo.houseName" size="large"></Input>
                         </FormItem>
                         <FormItem label="Address" style="text-align: left" :required="true">
                             <AutoComplete
                                     v-model="currentHouseInfo.address"
                                     :data="addressList"
                                     @on-search="handleSearch"
-                                    placeholder="Address"></AutoComplete>
+                                    placeholder="Address" size="large"></AutoComplete>
                         </FormItem>
                         <FormItem label="Community name">
-                            <Input placeholder="Community name" v-model="currentHouseInfo.communityName"></Input>
+                            <Input placeholder="Community name" v-model="currentHouseInfo.communityName" size="large"></Input>
                         </FormItem>
                         <FormItem label="Note">
-                            <Input placeholder="Note" v-model="currentHouseInfo.note" ></Input>
+                            <Input placeholder="Note" v-model="currentHouseInfo.note" size="large"></Input>
                         </FormItem>
                     </Form>
                 </div>
                 <div slot="footer" style="text-align: center">
-                    <div style="width: 240px;margin-left:auto;margin-right: auto;">
-                        <Button type="primary" long @click="wantUpdateHouse"
+                    <div style="width: 280px;margin-left:auto;margin-right: auto;">
+                        <Button type="primary" long @click="wantUpdateHouse" shape="circle"
                             onMouseOut="this.style.backgroundColor='#17b5d2'"
                             onMouseOver="this.style.backgroundColor='#2c3e50'"
-                            style="background-color: #17b5d2; border: 0; box-shadow: none" size="large" >UPDATE HOUSE</Button>
+                            style="background-color: #17b5d2; border: 0; box-shadow: none; height: 40px; line-height: 20px" size="large" >UPDATE HOUSE</Button>
                     </div>
                 </div>
             </Modal>
@@ -202,44 +202,44 @@
                     v-model="needAddService"
                     class-name="vertical-center-modal"
                     :styles="{top: '0px'}"
-                    width="520">
+                    width="560">
                 <p slot="header" style="text-align: center">
                     <span>Add website</span>
                 </p>
-                <div style="width: 360px;margin-left:auto;margin-right: auto;">
+                <div style="width: 400px;margin-left:auto;margin-right: auto;">
                     <div v-if="checkAddServiceError" style="color: red;padding-left: 120px; padding-bottom: 10px;">
                         Please fill in the necessary information.
                     </div>
                     <Form :label-width="120" ref="formValidate" onsubmit="event.preventDefault()" :model="serviceLinkInfo" >
                         <FormItem label="Title" :required="true">
-                            <Input placeholder="Title" v-model="serviceLinkInfo.title"></Input>
+                            <Input placeholder="Title" v-model="serviceLinkInfo.title" size="large"></Input>
                         </FormItem>
                         <div v-if="checkLinkError" style="color: red;padding-left: 120px; padding-bottom: 10px;">
                             Link not accessible.
                         </div>
                         <FormItem label="Link" :required="true">
-                            <Input placeholder="Link" v-model="serviceLinkInfo.link"></Input>
+                            <Input placeholder="Link" v-model="serviceLinkInfo.link" size="large"></Input>
                         </FormItem>
                         <FormItem label="Categories" :required="true">
-                            <Input placeholder="Categories" v-model="serviceLinkInfo.categories"></Input>
+                            <Input placeholder="Categories" v-model="serviceLinkInfo.categories" size="large"></Input>
                         </FormItem>
                         <FormItem label="contact">
-                            <Input placeholder="contact" v-model="serviceLinkInfo.contact"></Input>
+                            <Input placeholder="contact" v-model="serviceLinkInfo.contact" size="large"></Input>
                         </FormItem>
                         <FormItem label="Phone">
-                            <Input placeholder="Phone" v-model="serviceLinkInfo.phone"></Input>
+                            <Input placeholder="Phone" v-model="serviceLinkInfo.phone" size="large"></Input>
                         </FormItem>
                         <FormItem label="Note">
-                            <Input placeholder="Note"v-model="serviceLinkInfo.note" ></Input>
+                            <Input placeholder="Note"v-model="serviceLinkInfo.note" size="large"></Input>
                         </FormItem>
                     </Form>
                 </div>
                 <div slot="footer" style="text-align: center">
-                    <div style="width: 240px;margin-left:auto;margin-right: auto;">
+                    <div style="width: 280px;margin-left:auto;margin-right: auto;">
                         <Button type="primary" html-type="submit" long @click="wantAddService" :loading="loadingAddService"
-                                onMouseOut="this.style.backgroundColor='#17b5d2'"
+                                onMouseOut="this.style.backgroundColor='#17b5d2'" shape="circle"
                                 onMouseOver="this.style.backgroundColor='#2c3e50'"
-                                style="background-color: #17b5d2; border: 0;box-shadow: none" size="large" >ADD NEW SERVICE</Button>
+                                style="background-color: #17b5d2; border: 0;box-shadow: none;height: 40px; line-height: 20px" size="large" >ADD NEW SERVICE</Button>
                     </div>
                 </div>
             </Modal>
