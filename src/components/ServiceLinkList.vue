@@ -100,10 +100,10 @@
                 </transition>
             </div>
 
-            <InArticleAdsense
-                    data-ad-client="ca-pub-9144523027625187"
-                    data-ad-slot="1234567890">
-            </InArticleAdsense>
+<!--            <InArticleAdsense-->
+<!--                    data-ad-client="ca-pub-9144523027625187"-->
+<!--                    data-ad-slot="1234567890">-->
+<!--            </InArticleAdsense>-->
         </div>
 
         <!-- 更新服务信息 -->
