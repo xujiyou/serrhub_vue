@@ -24,7 +24,7 @@
                     </Col>
                     <Col span="6" id="searchButtonCol">
                         <!--搜索按钮-->
-                        <Button type="info" style="width: 100%;height: 60px;" id="searchButton"
+                        <Button type="info" style="width: 100%;height: 60px;box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08)" id="searchButton"
                                 onMouseOut="this.style.backgroundColor='#17b5d2'"
                                 onMouseOver="this.style.backgroundColor='#2c3e50'"
                                 @click="search">
@@ -54,7 +54,7 @@
                                 <div style="text-align:left;">
                                     <div>
                                         <img :src="getImage(serviceLink)"
-                                             style="width: 100%; height: 136px;border-top-left-radius: 4px; border-top-right-radius: 4px">
+                                             style="width: 100%; height: 136px;border-top-left-radius: 4px; border-top-right-radius: 4px;object-fit: cover;">
                                         <h2 class="url" v-if="/(\w*\.(?:com|cn|top|org|net))/.exec(serviceLink.link) === null">
                                             Service Link
                                         </h2>
@@ -234,9 +234,9 @@
     /*搜索按钮样式*/
     #searchButton {
         border-radius: 8px;
+        border: none;
         background-color: #17b5d2;
         font-size: 18px;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08)
     }
 
     .url {

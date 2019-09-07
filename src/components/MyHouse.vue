@@ -22,7 +22,7 @@
 
             <Collapse simple accordion :value="currentHouseId" v-on:on-change="seeServiceLike" v-if="userInfo.houseList.length !== 0">
                 <Panel :name="house.houseId" v-for="house in userInfo.houseList">
-                    <span v-if="currentHouseId === house.houseId"><b style="color: #2c3e50">{{house.houseName}}</b></span>
+                    <span v-if="currentHouseId === house.houseId" style="color: #2c3e50">{{house.houseName}}</span>
                     <span v-if="currentHouseId !== house.houseId">{{house.houseName}}</span>
                     <p slot="content">
                         <br/>
