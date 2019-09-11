@@ -222,9 +222,6 @@ const actions = {
     },
 
     beginUpdateUserName({ commit }, params) {
-        console.log(state.userInfo.userId)
-        console.log(params["firstName"])
-        console.log(params["lastName"])
         userApi.updateUserName(state.userInfo.userId, params["firstName"], params["lastName"], state.token, resp => {
             Vue.set(state, 'userInfo', resp.data["newUserInfo"]);
             params["successCallback"]();
@@ -329,7 +326,7 @@ const actions = {
 
     //添加服务链接
     addServiceLink ({ commit }, param) {
-        serviceLinkApi.addServiceLinkToServer(state.serviceLinkInfo, state.userInfo.userId, state.currentHouseId, state.token, resp => {
+        serviceLinkApi.addServiceLinkToServer(param["userPrivate"], state.serviceLinkInfo, state.userInfo.userId, state.currentHouseId, state.token, resp => {
             commit("addOneServiceLink", {
                 "houseId": state.currentHouseId,
                 "serviceLink": resp.data["serviceLink"]
@@ -385,7 +382,6 @@ const actions = {
     //解析address
     analysisAddress ({ commit }, text) {
         addressApi.analysisAddress(text, resp => {
-            console.log(resp.data);
             let list = [];
             let predictions = resp.data["predictions"];
             for (let i = 0; i < predictions.length; i++) {
@@ -418,7 +414,6 @@ const mutations = {
 
     setCommonService (state, userInfo) {
         Vue.set(state,'userInfo', userInfo);
-        console.log(state.userInfo);
     },
 
     //从服务端获取数据后，设置用户信息，然后看情况来设置当前房屋ID

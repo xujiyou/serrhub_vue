@@ -232,6 +232,12 @@
                         <FormItem label="Note">
                             <Input placeholder="Note"v-model="serviceLinkInfo.note" size="large"></Input>
                         </FormItem>
+
+                        <FormItem style="color: darkgray;box-shadow: none">
+                            <Checkbox v-model="userPrivate" style="line-height: 1.3;box-shadow: none">
+                                &nbsp;&nbsp;private service
+                            </Checkbox>
+                        </FormItem>
                     </Form>
                 </div>
                 <div slot="footer" style="text-align: center">
@@ -266,7 +272,8 @@
                 checkAddHouseError: false,
                 checkUpdateHouseError: false,
                 checkAddServiceError: false,
-                checkLinkError: false
+                checkLinkError: false,
+                userPrivate: false,
             }
         },
 
@@ -355,12 +362,13 @@
 
                 this.loadingAddService = true;
                 this.addServiceLink({
-                    "closeModel": () => {
+                    userPrivate: this.userPrivate,
+                    closeModel: () => {
                         this.needAddService = false;
                         this.loadingAddService = false;
                         this.$Message.success('Add website success.') //提示添加服务成功
                     },
-                    "linkErrorCallBack": () => {
+                    linkErrorCallBack: () => {
                         this.checkLinkError = true;
                         this.loadingAddService = false;
                         this.$Message.error('Link not accessible.')

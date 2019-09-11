@@ -3,12 +3,13 @@ import Vue from 'vue'
 export default {
 
     //add service link API
-    addServiceLinkToServer (serviceLinkInfo, userId, houseId, token, successCallback, saveErrorCallback, errorCallback) {
+    addServiceLinkToServer (userPrivate, serviceLinkInfo, userId, houseId, token, successCallback, saveErrorCallback, errorCallback) {
         Vue.http.post(
             'https://boot.serrhub.com/api/serviceLink/add',
             {
                 "userId": userId,
                 "houseId": houseId,
+                "userPrivate": userPrivate,
                 "serviceLink": serviceLinkInfo
             }, {
                 headers: {
