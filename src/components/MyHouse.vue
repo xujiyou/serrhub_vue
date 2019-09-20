@@ -27,10 +27,11 @@
                     <p slot="content">
                         <br/>
                         <b>Address:</b> {{house.address}}
-                        <br/>
+                        <br v-if="house.communityName !== undefined && house.communityName !== '' && house.communityName !== null"/>
                         <span v-if="house.communityName !== undefined && house.communityName !== '' && house.communityName !== null">
                             <b>Community name:</b> {{house.communityName}}
                         </span>
+                        <br v-if="house.note !== undefined && house.note !== '' && house.note !== null"/>
                         <span v-if="house.note !== undefined && house.note !== '' && house.note !== null">
                             <b>Note:</b> {{house.note}}
                         </span>
