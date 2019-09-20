@@ -25,6 +25,7 @@ const state = {
         secondPassword: "",
         houseName: "",
         address: "",
+        placeId: "",
         communityName: ""
     },
     userInfo: { //初始的用户信息，为了避免报错，这个信息在运行时很快就会被替换掉
@@ -50,6 +51,7 @@ const state = {
     houseInfo: { //添加房屋时需要用到的信息
         houseName: "",
         address: "",
+        placeId: "",
         communityName: "",
         note: ""
     },
@@ -57,6 +59,7 @@ const state = {
         houseId: "",
         houseName: "",
         address: "",
+        placeId: "",
         communityName: "",
         note: ""
     },
@@ -382,12 +385,7 @@ const actions = {
     //解析address
     analysisAddress ({ commit }, text) {
         addressApi.analysisAddress(text, resp => {
-            let list = [];
-            let predictions = resp.data["predictions"];
-            for (let i = 0; i < predictions.length; i++) {
-                list.push(predictions[i]["description"]);
-            }
-            Vue.set(state, 'addressList', list);
+            Vue.set(state, 'addressList', resp.data["predictions"]);
         }, resp => {})
     }
 };

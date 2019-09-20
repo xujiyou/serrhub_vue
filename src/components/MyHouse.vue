@@ -87,7 +87,10 @@
                                     v-model="houseInfo.address"
                                     :data="addressList"
                                     @on-search="handleSearch"
-                                    placeholder="Address" size="large"></AutoComplete>
+                                    @on-select="handleAddSelect"
+                                    placeholder="Address" size="large">
+                                <Option v-for="(address, i) in addressList" :value="address" :key="i">{{ address.description }}</Option>
+                            </AutoComplete>
                         </FormItem>
                         <FormItem label="Community name">
                             <Input placeholder="Community name" v-model="houseInfo.communityName" size="large"></Input>
@@ -129,7 +132,10 @@
                                     v-model="currentHouseInfo.address"
                                     :data="addressList"
                                     @on-search="handleSearch"
-                                    placeholder="Address" size="large"></AutoComplete>
+                                    @on-select="handleUpdateSelect"
+                                    placeholder="Address" size="large">
+                                <Option v-for="(address, i) in addressList" :value="address" :key="i">{{ address.description }}</Option>
+                            </AutoComplete>
                         </FormItem>
                         <FormItem label="Community name">
                             <Input placeholder="Community name" v-model="currentHouseInfo.communityName" size="large"></Input>
@@ -300,10 +306,6 @@
                 'analysisAddress'
             ]),
 
-            clickOption(key) {
-                console.log(key);
-            },
-
             getImage (serviceLink) {
                 if (serviceLink.image === null || serviceLink.image === '' || serviceLink.image === undefined) {
                     return 'https://boot.serrhub.com/api/image/id/5d6cddf4e1787e1e3162cf7d';
@@ -317,6 +319,16 @@
                 if (value !== "" && this.addressList.indexOf(value) === -1) {
                     this.analysisAddress(value);
                 }
+            },
+
+            handleAddSelect (value) {
+                this.houseInfo.address = value.description;
+                this.houseInfo.placeId = value.place_id;
+            },
+
+            handleUpdateSelect (value) {
+                this.currentHouseInfo.address = value.description;
+                this.currentHouseInfo.placeId = value.place_id;
             },
 
             wantAddHouse () {

@@ -13,7 +13,6 @@ import iView from 'iview'; //样式库
 import 'iview/dist/styles/iview.css';
 import '../theme/index.less'
 
-
 Vue.config.productionTip = false;
 Vue.use(iView);
 Vue.use(VueResource);
@@ -29,3 +28,4 @@ new Vue({
   router,
   render: h => h(App),
 }).$mount('#app');
+

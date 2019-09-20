@@ -172,7 +172,10 @@
                                     v-model="registerInfo.address"
                                     :data="addressList"
                                     @on-search="handleSearch"
-                                    placeholder="Address"></AutoComplete>
+                                    @on-select="handleAddSelect"
+                                    placeholder="Address">
+                                    <Option v-for="(address, i) in addressList" :value="address" :key="i">{{ address.description }}</Option>
+                                </AutoComplete>
                             </FormItem>
                             <FormItem>
                                 <Input placeholder="Community name" v-model="registerInfo.communityName"></Input>
@@ -295,6 +298,11 @@
                 if (value !== "" && this.addressList.indexOf(value) === -1) {
                     this.analysisAddress(value);
                 }
+            },
+
+            handleAddSelect (value) {
+                this.registerInfo.address = value.description;
+                this.registerInfo.placeId = value.place_id;
             },
 
             wantLogin () {
