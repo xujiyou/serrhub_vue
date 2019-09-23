@@ -15,7 +15,7 @@
                 <Button size="small" type="text" style="box-shadow: none;"
                         onMouseOut="this.style.color='#515A61'"
                         onMouseOver="this.style.color='#17b5d2'">Serrhub Help</Button>
-                <Button size="small" type="text" style="box-shadow: none;"
+                <Button size="small" type="text" style="box-shadow: none;" @click="viewPrivacy"
                         onMouseOut="this.style.color='#515A61'"
                         onMouseOver="this.style.color='#17b5d2'">Privacy&Term</Button>
                 <Button size="small" type="text" style="box-shadow: none;"
@@ -47,13 +47,47 @@
 
         <br/>
 
-
+        <Modal
+                fullscreen
+                v-model="needViewPrivacy"
+                class-name="vertical-center-modal"
+                styles="">
+            <div style="padding: 32px">
+                <Privacy></Privacy>
+            </div>
+            <div slot="footer" style="text-align: center">
+                <div style="width: 240px;margin-left:auto;margin-right: auto;">
+                    <Button type="primary" html-type="submit" long @click="needViewPrivacy = false"
+                            onMouseOut="this.style.backgroundColor='#17b5d2'"
+                            onMouseOver="this.style.backgroundColor='#2c3e50'"
+                            style="background-color: #17b5d2; border: 0;box-shadow: none" size="large" >OK</Button>
+                </div>
+            </div>
+        </Modal>
     </div>
 </template>
 
 <script>
+    import Privacy from "./Privacy";
+
     export default {
-        name: "Footer"
+        name: "Footer",
+
+        data () {
+            return {
+                needViewPrivacy: false
+            };
+        },
+
+        components: {
+            Privacy
+        },
+
+        methods: {
+            viewPrivacy () {
+                this.needViewPrivacy = true;
+            }
+        }
     }
 </script>
 
